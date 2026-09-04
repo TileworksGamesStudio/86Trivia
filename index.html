@@ -1,37 +1,36 @@
-html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="description" content="Bar Knowledge: An authentic, fast-paced bartender trivia and professional mixology judgement game." />
-  <meta name="theme-color" content="#18110E" />
-  <title>Bar Knowledge — The Bartender's Trivia Game</title>
+  <meta name="description" content="Bar Knowledge: An authentic mobile mixology, craft technique, and high-pressure service judgment game." />
+  <meta name="theme-color" content="#140d0a" />
+  <title>Bar Knowledge — The Bartender's Craft &amp; Service Game</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Ambient Bar Atmosphere Lighting Layer -->
+  <!-- Ambient Bar Lighting Overlay -->
   <div class="bar-ambient-glow" aria-hidden="true"></div>
 
-  <!-- Main App Shell -->
+  <!-- Main Mobile App Shell -->
   <div id="app" class="app-container">
     
-    <!-- Top Bar Navigation & Status -->
+    <!-- Top Bar Navigation & Career Stats -->
     <header class="bar-header" role="banner">
       <div class="header-left">
-        <button id="btn-brand" class="brand-btn" aria-label="Return to Bar Menu">
+        <button id="btn-brand" class="brand-btn" aria-label="Return to Bar Lobby">
           <svg class="brand-icon" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
             <path d="M7 2v2h1v4.586A4 4 0 0 0 9.172 11.4L11 13.228V20H8v2h8v-2h-3v-6.772l1.828-1.828A4 4 0 0 0 16 8.586V4h1V2H7zm3 2h4v4.586c0 .53-.21 1.04-.586 1.414L12 11.414l-1.414-1.414A2 2 0 0 1 10 8.586V4z"/>
           </svg>
           <div class="brand-titles">
             <span class="brand-name">BAR KNOWLEDGE</span>
-            <span class="brand-tag">Mixology & Judgement</span>
+            <span class="brand-tag">Craft &amp; Service Shift</span>
           </div>
         </button>
       </div>
 
-      <div class="header-stats" id="header-stats" aria-label="Player Shift Stats">
-        <div class="stat-pill" title="Current Shift Streak">
+      <div class="header-stats" id="header-stats" aria-label="Shift Statistics">
+        <div class="stat-pill" title="Current Service Streak">
           <span class="stat-icon" aria-hidden="true">🔥</span>
           <span id="streak-counter" class="stat-value">0</span>
           <span class="stat-lbl">Streak</span>
@@ -41,14 +40,14 @@ html
           <span id="score-counter" class="stat-value">0</span>
           <span class="stat-lbl">XP</span>
         </div>
-        <div class="stat-pill rank-pill" id="rank-badge" title="Bartender Certification Rank">
+        <div class="stat-pill rank-pill" id="rank-badge" title="Certification Rank">
           <span class="stat-icon" aria-hidden="true">★</span>
           <span id="rank-text" class="stat-value">Apprentice</span>
         </div>
       </div>
 
       <div class="header-actions">
-        <button id="btn-toggle-sound" class="icon-btn" aria-label="Toggle Sound Effects" title="Toggle Sound">
+        <button id="btn-toggle-sound" class="icon-btn" aria-label="Toggle Sound Effects" aria-pressed="true" title="Toggle Sound">
           <svg id="sound-icon-on" class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
             <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
@@ -59,7 +58,7 @@ html
             <line x1="17" y1="9" x2="23" y2="15"></line>
           </svg>
         </button>
-        <button id="btn-open-profile" class="icon-btn" aria-label="Bartender Profile & Statistics" title="Career Log">
+        <button id="btn-open-profile" class="icon-btn" aria-label="Open Bartender Career Log" title="Career Log">
           <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
             <circle cx="12" cy="7" r="4"></circle>
@@ -69,100 +68,88 @@ html
     </header>
 
     <!-- Main Dynamic Screen Content -->
-    <main id="main-stage" class="main-stage" role="main" aria-live="polite">
+    <main id="main-stage" class="main-stage" role="main">
 
       <!-- ================= SCREEN 1: BAR LOBBY ================= -->
-      <section id="screen-lobby" class="game-screen screen-active">
+      <section id="screen-lobby" class="game-screen screen-active" aria-labelledby="lobby-heading">
         <div class="hero-card">
-          <div class="hero-badge">SHIFT STATION READY</div>
-          <h1 class="hero-title">Step Behind the Stick</h1>
-          <p class="hero-subtitle">Test recipes, glass pairing, ice thermodynamics, sensory troubleshooting, and high-pressure service decisions.</p>
+          <div class="hero-badge">STATION CERTIFICATION READY</div>
+          <h1 id="lobby-heading" class="hero-title">Step Behind the Stick</h1>
+          <p class="hero-subtitle">Master classic specs, ice dilution physics, foam emulsion chemistry, sensory troubleshooting, and rush-hour ticket order management.</p>
         </div>
 
         <!-- Mode Grid -->
-        <div class="modes-grid">
+        <div class="modes-grid" role="region" aria-label="Available Shift Modes">
           <button class="mode-card primary-mode" data-mode="standard">
             <div class="mode-card-header">
               <span class="mode-tag">Standard Shift</span>
-              <span class="mode-meta">10 Tickets</span>
+              <span class="mode-meta">5 Tickets</span>
             </div>
-            <h2 class="mode-name">Standard Service</h2>
-            <p class="mode-desc">A balanced 10-ticket shift testing recipes, glassware, ice dilution, and service decisions.</p>
+            <h2 class="mode-name">Full Station Service</h2>
+            <p class="mode-desc">A complete 5-ticket operational run testing specs, dilution, emulsion, sensory troubleshooting, and service workflow.</p>
             <div class="mode-footer">
-              <span class="mode-action">Open Station →</span>
+              <span class="mode-action">Open Station &rarr;</span>
             </div>
           </button>
 
-          <button class="mode-card" data-mode="speed">
+          <button class="mode-card" data-mode="rush">
             <div class="mode-card-header">
-              <span class="mode-tag speed-tag">Rush Hour</span>
-              <span class="mode-meta">60 Seconds</span>
+              <span class="mode-tag rush-tag">Speed Call</span>
+              <span class="mode-meta">8s / Ticket</span>
             </div>
             <h2 class="mode-name">Friday Rush</h2>
-            <p class="mode-desc">Lightning-fast calls against a ticking clock. Streaks bank bonus seconds.</p>
+            <p class="mode-desc">Rapid-fire ticket calls against a compressed 8-second timer. Test intuition under real rush pressure.</p>
             <div class="mode-footer">
-              <span class="mode-action">Start Clock →</span>
+              <span class="mode-action">Start Clock &rarr;</span>
             </div>
           </button>
 
-          <button class="mode-card" data-mode="survival">
+          <button class="mode-card" data-mode="master">
             <div class="mode-card-header">
-              <span class="mode-tag survival-tag">Endless</span>
-              <span class="mode-meta">3 Strikes</span>
+              <span class="mode-tag master-tag">Master Exam</span>
+              <span class="mode-meta">1 Strike Out</span>
             </div>
-            <h2 class="mode-name">The Night Shift</h2>
-            <p class="mode-desc">Endless questions with escalating difficulty from Apprentice to Master Barman.</p>
+            <h2 class="mode-name">Station Exam</h2>
+            <p class="mode-desc">Zero room for error. A single off-spec ticket ends the shift immediately with an operational debrief.</p>
             <div class="mode-footer">
-              <span class="mode-action">Clock In →</span>
-            </div>
-          </button>
-
-          <button class="mode-card" data-mode="daily">
-            <div class="mode-card-header">
-              <span class="mode-tag daily-tag">Daily Exam</span>
-              <span class="mode-meta" id="daily-status-text">Ready</span>
-            </div>
-            <h2 class="mode-name">Daily Service Exam</h2>
-            <p class="mode-desc">A uniform, curated set of 10 questions refreshed daily. Compare your accuracy.</p>
-            <div class="mode-footer">
-              <span class="mode-action">Take Exam →</span>
+              <span class="mode-action">Take Exam &rarr;</span>
             </div>
           </button>
         </div>
 
         <!-- Utility Hub Navigation Cards -->
-        <div class="lobby-hubs">
+        <div class="lobby-hubs" role="region" aria-label="Reference Hubs">
           <button id="btn-nav-codex" class="hub-pill">
-            <span class="hub-icon">📖</span>
+            <span class="hub-icon" aria-hidden="true">📖</span>
             <div class="hub-text">
-              <span class="hub-title">Bar Codex & Recipe Book</span>
-              <span class="hub-sub" id="codex-unlocked-summary">0 / 0 Formulas Mastered</span>
+              <span class="hub-title">Bar Codex &amp; Recipe Specs</span>
+              <span class="hub-sub" id="codex-unlocked-summary">5 Curated Craft Formulas</span>
             </div>
-            <span class="hub-arrow">›</span>
+            <span class="hub-arrow" aria-hidden="true">&rsaquo;</span>
           </button>
 
           <button id="btn-nav-diagnosis" class="hub-pill">
-            <span class="hub-icon">🔍</span>
+            <span class="hub-icon" aria-hidden="true">🔍</span>
             <div class="hub-text">
-              <span class="hub-title">Troubleshooting Diagnostic Lab</span>
-              <span class="hub-sub">Sensory defects, dilution, acidity, and off-notes</span>
+              <span class="hub-title">Sensory &amp; Diagnostic Lab</span>
+              <span class="hub-sub">Troubleshoot pith bitterness, cloudy ice, and dilution errors</span>
             </div>
-            <span class="hub-arrow">›</span>
+            <span class="hub-arrow" aria-hidden="true">&rsaquo;</span>
           </button>
         </div>
       </section>
 
       <!-- ================= SCREEN 2: ACTIVE TRIVIA GAMEPLAY ================= -->
-      <section id="screen-game" class="game-screen is-hidden">
+      <section id="screen-game" class="game-screen is-hidden" aria-labelledby="ticket-tracker">
         
         <!-- Shift Progress Tracker Bar -->
-        <div class="progress-bar-container" aria-label="Shift Progress">
+        <div class="progress-bar-container" aria-label="Current Shift Progression">
           <div class="progress-info-row">
-            <span id="ticket-number" class="ticket-tracker">Ticket 1 of 10</span>
-            <div class="streak-multiplier-badge" id="multiplier-badge" aria-label="Multiplier">1.0x Flow</div>
-            <span id="timer-display" class="timer-display" aria-label="Shift Timer">15s</span>
+            <span id="ticket-tracker" class="ticket-tracker">Ticket 1 of 5</span>
+            <div class="streak-multiplier-badge" id="multiplier-badge">1.0x Flow</div>
+            <span id="timer-display" class="timer-display" aria-label="Remaining time">16s</span>
           </div>
-          <div class="progress-track" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+          <div class="progress-track" role="progressbar" id="progress-bar-track" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
             <div id="progress-fill" class="progress-fill"></div>
           </div>
         </div>
@@ -171,23 +158,29 @@ html
         <article class="order-ticket" id="order-ticket">
           <div class="ticket-header">
             <div class="ticket-meta">
-              <span id="question-category" class="category-pill">Classic Cocktail</span>
-              <span id="question-difficulty" class="difficulty-indicator">● Level 1</span>
+              <span id="question-category" class="category-pill">Classic Cocktails</span>
+              <span id="question-difficulty" class="difficulty-indicator">&bull; Level 1</span>
             </div>
-            <div class="ticket-id" id="ticket-stamp">TICKET #042</div>
+            <div class="ticket-id" id="ticket-stamp">TICKET #101</div>
           </div>
 
-          <h2 id="question-prompt" class="ticket-question">Loading cocktail ticket prompt...</h2>
+          <h2 id="question-prompt" class="ticket-question">Loading station ticket prompt...</h2>
 
-          <!-- Confidence Selection Bar (Metacognition & Risk/Reward) -->
-          <div class="confidence-bar" id="confidence-bar" aria-label="Confidence Selector">
+          <!-- Recipe Card Hint Box (Populated when lifeline used) -->
+          <div id="recipe-hint-box" class="recipe-hint-box is-hidden" role="note" aria-live="polite">
+            <span class="hint-badge">STATION HINT</span>
+            <p id="recipe-hint-text" class="hint-text"></p>
+          </div>
+
+          <!-- Confidence Selection Bar (Risk / Reward Metacognition) -->
+          <div class="confidence-bar" id="confidence-bar" aria-label="Answer Confidence Bonus">
             <span class="confidence-label">Confidence:</span>
-            <div class="confidence-options" role="radiogroup">
+            <div class="confidence-options" role="radiogroup" aria-label="Select Confidence Level">
               <button class="conf-btn active" data-conf="guess" role="radio" aria-checked="true">
                 <span class="conf-name">Guess</span>
                 <span class="conf-bonus">+100</span>
               </button>
-              <button class="conf-btn" data-conf="think" role="radio" aria-checked="false">
+              <button class="conf-btn" data-conf="solid" role="radio" aria-checked="false">
                 <span class="conf-name">Solid</span>
                 <span class="conf-bonus">+200</span>
               </button>
@@ -199,53 +192,51 @@ html
           </div>
 
           <!-- 4 Multiple Choice Answer Buttons -->
-          <div class="answers-grid" id="answers-grid" role="group" aria-label="Cocktail order answers">
-            <button class="ans-btn" data-index="0">
+          <div class="answers-grid" id="answers-grid" role="group" aria-label="Drink ticket options">
+            <button class="ans-btn" data-index="0" aria-label="Option A">
               <span class="ans-letter">A</span>
               <span class="ans-text">Option 1</span>
             </button>
-            <button class="ans-btn" data-index="1">
+            <button class="ans-btn" data-index="1" aria-label="Option B">
               <span class="ans-letter">B</span>
               <span class="ans-text">Option 2</span>
             </button>
-            <button class="ans-btn" data-index="2">
+            <button class="ans-btn" data-index="2" aria-label="Option C">
               <span class="ans-letter">C</span>
               <span class="ans-text">Option 3</span>
             </button>
-            <button class="ans-btn" data-index="3">
+            <button class="ans-btn" data-index="3" aria-label="Option D">
               <span class="ans-letter">D</span>
               <span class="ans-text">Option 4</span>
             </button>
           </div>
 
           <!-- Lifelines & Tools Tray -->
-          <div class="tools-tray" id="tools-tray">
-            <span class="tools-label">Bar Tools:</span>
+          <div class="tools-tray" id="tools-tray" aria-label="Bartender Station Tools">
+            <span class="tools-label">Tools:</span>
             <button id="btn-lifeline-spoon" class="tool-btn" title="Barspoon 50/50: Eliminate 2 incorrect answers">
-              <span class="tool-icon">🥄</span>
+              <span class="tool-icon" aria-hidden="true">🥄</span>
               <span class="tool-name">50/50 (<span id="spoon-count">1</span>)</span>
             </button>
-            <button id="btn-lifeline-note" class="tool-btn" title="Recipe Note: Reveal a professional hint">
-              <span class="tool-icon">📝</span>
+            <button id="btn-lifeline-note" class="tool-btn" title="Recipe Note: Reveal an authentic craft hint">
+              <span class="tool-icon" aria-hidden="true">📝</span>
               <span class="tool-name">Recipe Card (<span id="note-count">1</span>)</span>
             </button>
           </div>
         </article>
 
         <!-- Feedback & Educational Drawer (Appears after answer) -->
-        <section id="feedback-drawer" class="feedback-drawer is-hidden" aria-live="assertive">
+        <section id="feedback-drawer" class="feedback-drawer is-hidden" aria-live="polite">
           <div class="feedback-header">
             <div id="feedback-status" class="feedback-status correct">
-              <span id="feedback-icon" class="status-icon">✓</span>
+              <span id="feedback-icon" class="status-icon" aria-hidden="true">&check;</span>
               <span id="feedback-title" class="status-title">Spot On, Barkeep!</span>
             </div>
             <div id="feedback-points" class="feedback-points">+240 XP</div>
           </div>
 
           <div class="feedback-body">
-            <p id="feedback-principle" class="bartender-principle">
-              <strong>Bartender's Principle:</strong> Stirring chills and dilutes spirit-forward cocktails without adding cloudy aeration or micro-bubbles.
-            </p>
+            <p id="feedback-principle" class="bartender-principle"></p>
 
             <div id="feedback-detail-box" class="feedback-detail-box is-hidden">
               <span class="detail-label">Deep Craft Context:</span>
@@ -254,14 +245,14 @@ html
           </div>
 
           <div class="feedback-actions">
-            <button id="btn-toggle-deep" class="secondary-btn">Read Deep Note</button>
-            <button id="btn-next-question" class="primary-btn">Next Ticket (Space) →</button>
+            <button id="btn-toggle-deep" class="secondary-btn" type="button">Read Deep Context</button>
+            <button id="btn-next-question" class="primary-btn" type="button">Next Ticket &rarr;</button>
           </div>
         </section>
       </section>
 
       <!-- ================= SCREEN 3: SHIFT SUMMARY / RESULTS ================= -->
-      <section id="screen-results" class="game-screen is-hidden">
+      <section id="screen-results" class="game-screen is-hidden" aria-labelledby="results-headline">
         <div class="results-card">
           <div class="results-header">
             <div class="service-stamp" id="results-stamp">SHIFT PASSED</div>
@@ -269,102 +260,102 @@ html
             <p class="results-subtitle" id="results-sub">Here is your operational efficiency report.</p>
           </div>
 
-          <div class="results-metrics-grid">
+          <div class="results-metrics-grid" role="region" aria-label="Shift Metrics">
             <div class="metric-box">
-              <span class="metric-val" id="res-score">1,850</span>
-              <span class="metric-lbl">Total Shift XP</span>
+              <span class="metric-val" id="res-score">0</span>
+              <span class="metric-lbl">Shift XP</span>
             </div>
             <div class="metric-box">
-              <span class="metric-val" id="res-accuracy">90%</span>
+              <span class="metric-val" id="res-accuracy">0%</span>
               <span class="metric-lbl">Pour Accuracy</span>
             </div>
             <div class="metric-box">
-              <span class="metric-val" id="res-streak">8</span>
+              <span class="metric-val" id="res-streak">0</span>
               <span class="metric-lbl">Peak Streak</span>
             </div>
             <div class="metric-box">
-              <span class="metric-val" id="res-speed">2.4s</span>
-              <span class="metric-lbl">Avg Call Time</span>
+              <span class="metric-val" id="res-speed">0.0s</span>
+              <span class="metric-lbl">Avg Response</span>
             </div>
           </div>
 
           <!-- Rank Progress Bar -->
           <div class="rank-progress-block">
             <div class="rank-label-row">
-              <span class="rank-current-lbl">Rank: <strong id="res-rank-name">Bartender</strong></span>
-              <span class="rank-next-lbl" id="res-xp-to-next">350 XP to Senior Bartender</span>
+              <span class="rank-current-lbl">Rank: <strong id="res-rank-name">Apprentice</strong></span>
+              <span class="rank-next-lbl" id="res-xp-to-next">200 XP to Bartender</span>
             </div>
-            <div class="rank-track">
+            <div class="rank-track" role="progressbar" id="res-rank-bar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
               <div class="rank-bar-fill" id="res-rank-fill"></div>
             </div>
           </div>
 
           <!-- Category Performance Breakdown -->
           <div class="breakdown-box">
-            <h2 class="breakdown-title">Knowledge Breakdown</h2>
+            <h2 class="breakdown-title">Ticket Knowledge Breakdown</h2>
             <div class="breakdown-list" id="res-breakdown-list">
-              <!-- Dynamically populated categories -->
+              <!-- Populated dynamically -->
             </div>
           </div>
 
           <!-- Results Actions -->
           <div class="results-actions">
-            <button id="btn-play-again" class="primary-btn">Run Another Shift</button>
-            <button id="btn-results-codex" class="secondary-btn">Review Discovered Formulas</button>
-            <button id="btn-results-home" class="ghost-btn">Bar Lobby</button>
+            <button id="btn-play-again" class="primary-btn" type="button">Run Another Shift</button>
+            <button id="btn-results-codex" class="secondary-btn" type="button">Review Bar Codex</button>
+            <button id="btn-results-home" class="ghost-btn" type="button">Return to Lobby</button>
           </div>
         </div>
       </section>
 
       <!-- ================= SCREEN 4: CODEX & RECIPE VAULT ================= -->
-      <section id="screen-codex" class="game-screen is-hidden">
+      <section id="screen-codex" class="game-screen is-hidden" aria-labelledby="codex-title">
         <div class="subview-header">
-          <button class="back-link" id="btn-codex-back">← Back</button>
-          <h1 class="subview-title">Bar Codex & Recipes</h1>
-          <span class="subview-tag" id="codex-count-badge">30 / 30 Formulas</span>
+          <button class="back-link" id="btn-codex-back" type="button">&larr; Back to Lobby</button>
+          <h1 class="subview-title" id="codex-title">Bar Codex &amp; Specs</h1>
+          <span class="subview-tag" id="codex-count-badge">5 Formulas</span>
         </div>
 
         <!-- Filter Pill Tabs -->
-        <div class="codex-filters" role="tablist">
-          <button class="filter-tab is-active" data-cat="all">All Specs</button>
-          <button class="filter-tab" data-cat="Cocktails">Cocktails</button>
-          <button class="filter-tab" data-cat="Spirits">Spirits</button>
-          <button class="filter-tab" data-cat="Glassware">Glassware</button>
-          <button class="filter-tab" data-cat="Technique">Technique</button>
-          <button class="filter-tab" data-cat="Sensory">Troubleshooting</button>
+        <div class="codex-filters" role="tablist" aria-label="Filter Codex Categories">
+          <button class="filter-tab is-active" data-cat="all" role="tab" aria-selected="true">All Specs</button>
+          <button class="filter-tab" data-cat="Classic Cocktails" role="tab" aria-selected="false">Cocktails</button>
+          <button class="filter-tab" data-cat="Ice &amp; Thermodynamics" role="tab" aria-selected="false">Ice</button>
+          <button class="filter-tab" data-cat="Technique &amp; Texture" role="tab" aria-selected="false">Technique</button>
+          <button class="filter-tab" data-cat="Sensory &amp; Diagnosis" role="tab" aria-selected="false">Diagnosis</button>
+          <button class="filter-tab" data-cat="Service &amp; Speed" role="tab" aria-selected="false">Service</button>
         </div>
 
         <!-- Search Bar -->
         <div class="search-wrap">
-          <input type="search" id="codex-search-input" class="search-input" placeholder="Search drinks, spirits, glass types, or methods..." aria-label="Search Codex" />
+          <input type="search" id="codex-search-input" class="search-input" placeholder="Search drinks, techniques, or ingredients..." aria-label="Search Codex formulas" />
         </div>
 
         <!-- Codex Cards Container -->
-        <div class="codex-grid" id="codex-cards-grid">
-          <!-- Populated by JavaScript -->
+        <div class="codex-grid" id="codex-cards-grid" role="region" aria-label="Formula Spec Cards">
+          <!-- Populated by JavaScript from the unified 5-challenge dataset -->
         </div>
       </section>
 
       <!-- ================= SCREEN 5: BARTENDER PROFILE & STATS ================= -->
-      <section id="screen-profile" class="game-screen is-hidden">
+      <section id="screen-profile" class="game-screen is-hidden" aria-labelledby="profile-title">
         <div class="subview-header">
-          <button class="back-link" id="btn-profile-back">← Back</button>
-          <h1 class="subview-title">Bartender Career Log</h1>
-          <button id="btn-reset-data" class="text-danger-link" title="Clear Career Storage">Reset Data</button>
+          <button class="back-link" id="btn-profile-back" type="button">&larr; Back to Lobby</button>
+          <h1 class="subview-title" id="profile-title">Bartender Career Log</h1>
+          <button id="btn-reset-data" class="text-danger-link" type="button" title="Clear Career Storage">Reset Data</button>
         </div>
 
         <div class="profile-card">
           <div class="profile-badge-row">
-            <div class="big-rank-badge" id="prof-badge-icon">🍸</div>
+            <div class="big-rank-badge" id="prof-badge-icon" aria-hidden="true">🍸</div>
             <div class="profile-meta">
-              <h2 class="profile-title" id="prof-rank-name">Senior Bartender</h2>
-              <p class="profile-sub" id="prof-summary-sub">License #8491 • Station Certified</p>
+              <h2 class="profile-title" id="prof-rank-name">Apprentice</h2>
+              <p class="profile-sub" id="prof-summary-sub">Station Certified &bull; Shift Ready</p>
             </div>
           </div>
 
-          <div class="profile-stats-table">
+          <div class="profile-stats-table" role="region" aria-label="Career Totals">
             <div class="pstat-item">
-              <span class="pstat-label">Total Shifts Run</span>
+              <span class="pstat-label">Shifts Completed</span>
               <span class="pstat-val" id="prof-total-shifts">0</span>
             </div>
             <div class="pstat-item">
@@ -372,11 +363,11 @@ html
               <span class="pstat-val" id="prof-total-answers">0</span>
             </div>
             <div class="pstat-item">
-              <span class="pstat-label">Overall Accuracy</span>
+              <span class="pstat-label">Career Accuracy</span>
               <span class="pstat-val" id="prof-lifetime-acc">0%</span>
             </div>
             <div class="pstat-item">
-              <span class="pstat-label">Longest Perfect Streak</span>
+              <span class="pstat-label">Longest Perfect Flow</span>
               <span class="pstat-val" id="prof-best-streak">0</span>
             </div>
           </div>
@@ -385,7 +376,7 @@ html
         <!-- Station Weak Spot Diagnostic Area -->
         <div class="weakness-card">
           <h2 class="section-heading">Diagnostic Focus Areas</h2>
-          <p class="section-subtext">Topics where errors were recently registered behind the bar. Targeted on upcoming shifts.</p>
+          <p class="section-subtext">Topics where off-spec choices were recently recorded behind the bar.</p>
           <div id="weak-spots-list" class="weak-spots-list">
             <div class="empty-state-card">Station clean! No recurrent knowledge blindspots logged.</div>
           </div>
@@ -396,25 +387,25 @@ html
           <h2 class="section-heading">Station Ergonomics</h2>
           <div class="settings-row">
             <div>
-              <span class="setting-title">Extended Timers</span>
-              <p class="setting-sub">Increases response window to 30s for deliberate study.</p>
+              <span class="setting-title" id="lbl-relaxed-timer">Extended Timers</span>
+              <p class="setting-sub">Extends ticket window to 25s for deliberate craft study.</p>
             </div>
-            <input type="checkbox" id="check-relaxed-timer" class="toggle-switch" />
+            <input type="checkbox" id="check-relaxed-timer" class="toggle-switch" aria-labelledby="lbl-relaxed-timer" />
           </div>
           <div class="settings-row">
             <div>
-              <span class="setting-title">Sound Effects</span>
-              <p class="setting-sub">Shaker, ice clinks, and service bell chimes.</p>
+              <span class="setting-title" id="lbl-sound-toggle">Audio Effects</span>
+              <p class="setting-sub">Barware clinks, chime rings, and ticket alerts.</p>
             </div>
-            <input type="checkbox" id="check-sound-toggle" class="toggle-switch" checked />
+            <input type="checkbox" id="check-sound-toggle" class="toggle-switch" aria-labelledby="lbl-sound-toggle" checked />
           </div>
         </div>
       </section>
 
     </main>
 
-    <!-- Global Toast / Ticket Alert Overlay -->
-    <aside id="toast" class="toast is-hidden" role="alert" aria-live="polite"></aside>
+    <!-- Global Accessible Toast Alert -->
+    <aside id="toast" class="toast is-hidden" role="status" aria-live="polite"></aside>
 
   </div>
 
