@@ -1,413 +1,411 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="description" content="Bar Hangman - A mobile-first craft cocktail and bartender knowledge puzzle game.">
-  <meta name="theme-color" content="#14100E">
-  <title>Bar Hangman — The Bartender's Knowledge Game</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="Bar Knowledge: An authentic mobile mixology, craft technique, and high-pressure service judgment game." />
+  <meta name="theme-color" content="#140d0a" />
+  <title>Bar Knowledge — The Bartender's Craft &amp; Service Game</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Main Application Wrapper -->
-  <div class="app-wrapper">
+  <!-- Ambient Bar Lighting Overlay -->
+  <div class="bar-ambient-glow" aria-hidden="true"></div>
 
-    <!-- Screen 1: Main Menu Hub (Landing State) -->
-    <div id="screen-menu" class="app-screen">
-      <header class="menu-hero">
-        <div class="brand-crest-large" aria-hidden="true">
-          <svg viewBox="0 0 32 32" class="crest-svg" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
-            <path d="M7 6 h18 v2 l-7 9 v7 h4 v2 h-12 v-2 h4 v-7 l-7 -9 z"/>
-            <circle cx="16" cy="12" r="1.5" fill="currentColor"/>
+  <!-- Main Mobile App Shell -->
+  <div id="app" class="app-container">
+    
+    <!-- Top Bar Navigation & Career Stats -->
+    <header class="bar-header" role="banner">
+      <div class="header-left">
+        <button id="btn-brand" class="brand-btn" aria-label="Return to Bar Lobby">
+          <svg class="brand-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+            <path d="M7 2v2h1v4.586A4 4 0 0 0 9.172 11.4L11 13.228V20H8v2h8v-2h-3v-6.772l1.828-1.828A4 4 0 0 0 16 8.586V4h1V2H7zm3 2h4v4.586c0 .53-.21 1.04-.586 1.414L12 11.414l-1.414-1.414A2 2 0 0 1 10 8.586V4z"/>
           </svg>
+          <div class="brand-titles">
+            <span class="brand-name">BAR KNOWLEDGE</span>
+          </div>
+        </button>
+      </div>
+
+      <div class="header-stats" id="header-stats" aria-label="Shift Statistics">
+        <div class="stat-pill" title="Current Service Streak">
+          <span class="stat-icon" aria-hidden="true">🔥</span>
+          <span id="streak-counter" class="stat-value">0</span>
         </div>
-        <h1 class="menu-title">BAR HANGMAN</h1>
-        <p class="menu-subtitle">Craft Cocktail &amp; Station Bible</p>
-      </header>
-
-      <div class="menu-content">
-        <div class="menu-station-status" id="menu-station-status">
-          <span class="status-label">Current Station Rank</span>
-          <span class="status-val" id="menu-rank-title">Barback</span>
-          <span class="status-sub" id="menu-record-sub">Best Shift Score: 0</span>
+        <div class="stat-pill" title="Total Bartender XP">
+          <span class="stat-icon" aria-hidden="true">🍸</span>
+          <span id="score-counter" class="stat-value">0</span>
         </div>
-
-        <nav class="menu-mode-list" aria-label="Shift Mode Selection">
-          <button class="menu-btn primary-shift" data-mode="classic">
-            <span class="mb-title">Classic Shift</span>
-            <span class="mb-desc">Standard 5-ticket progressive station run</span>
-          </button>
-          <button class="menu-btn" data-mode="daily">
-            <span class="mb-title">Daily Spec</span>
-            <span class="mb-desc">Today's featured single recipe challenge</span>
-          </button>
-          <button class="menu-btn" data-mode="rush">
-            <span class="mb-title">Service Rush</span>
-            <span class="mb-desc">60-second high-pressure ticket sprint</span>
-          </button>
-          <button class="menu-btn" data-mode="practice">
-            <span class="mb-title">Mistake Review <span class="badge" id="menu-review-count">0</span></span>
-            <span class="mb-desc">Drill previously botched station tickets</span>
-          </button>
-        </nav>
-
-        <div class="menu-secondary-actions">
-          <button id="menu-btn-codex" class="btn-secondary btn-block">The Bartender's Codex</button>
-          <button id="menu-btn-stats" class="btn-secondary btn-block">Shift Career Records</button>
+        <div class="stat-pill rank-pill" id="rank-badge" title="Certification Rank">
+          <span class="stat-icon" aria-hidden="true">★</span>
+          <span id="rank-text" class="stat-value">Apprentice</span>
         </div>
       </div>
 
-      <footer class="menu-footer">
-        <a href="https://tileworksgamesstudio.github.io/86/" class="tileworks-home-btn" aria-label="Tileworks Games Studio Home">
-          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+      <div class="header-actions">
+        <button id="btn-toggle-sound" class="icon-btn" aria-label="Toggle Sound Effects" aria-pressed="true" title="Toggle Sound">
+          <svg id="sound-icon-on" class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
           </svg>
-          <span>Tileworks Games Studio Home</span>
-        </a>
-      </footer>
-    </div>
+          <svg id="sound-icon-off" class="icon-svg is-hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+        </button>
+        <button id="btn-open-profile" class="icon-btn" aria-label="Open Bartender Career Log" title="Career Log">
+          <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </button>
+      </div>
+    </header>
 
-    <!-- Screen 2: Active Shift Gameplay (Hidden by default) -->
-    <div id="screen-game" class="app-screen hidden">
-      <!-- Top Header -->
-      <header class="bar-header" role="banner">
-        <div class="header-content">
-          <div class="brand-compact" id="btn-return-menu" role="button" tabindex="0" aria-label="Return to Main Menu">
-            <div class="brand-crest" aria-hidden="true">
-              <svg viewBox="0 0 32 32" class="crest-svg" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round">
-                <path d="M7 6 h18 v2 l-7 9 v7 h4 v2 h-12 v-2 h4 v-7 l-7 -9 z"/>
-                <circle cx="16" cy="12" r="1.5" fill="currentColor"/>
-              </svg>
-            </div>
-            <div class="brand-text">
-              <span class="brand-title-sm">BAR HANGMAN</span>
-              <span class="brand-exit-hint">&larr; Main Menu</span>
-            </div>
-          </div>
+    <!-- Main Dynamic Screen Content -->
+    <main id="main-stage" class="main-stage" role="main">
 
-          <div class="header-actions">
-            <button id="btn-sound" class="icon-btn" aria-label="Toggle Sound Effects" title="Sound Effects">
-              <svg class="icon icon-sound-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
-                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
-              </svg>
-              <svg class="icon icon-sound-off hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <line x1="1" y1="1" x2="23" y2="23"/>
-                <path d="M11 5L6 9H2v6h4l5 4V5z"/>
-                <line x1="23" y1="9" x2="17" y2="15"/>
-                <line x1="17" y1="9" x2="23" y2="15"/>
-              </svg>
-            </button>
-            <button id="btn-stats" class="icon-btn" aria-label="Open Shift Career Stats" title="Shift Stats">
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M18 20V10M12 20V4M6 20v-6"/>
-              </svg>
-            </button>
-            <button id="btn-codex" class="icon-btn" aria-label="Open Bartender Codex" title="The Codex">
-              <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-                <path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20V2H6.5A2.5 2.5 0 0 0 4 4.5v15z"/>
-              </svg>
-            </button>
-          </div>
+      <!-- ================= SCREEN 1: BAR LOBBY ================= -->
+      <section id="screen-lobby" class="game-screen screen-active" aria-labelledby="lobby-heading">
+        <div class="hero-card">
+          <div class="hero-badge">STATION CERTIFICATION READY</div>
+          <h1 id="lobby-heading" class="hero-title">Step Behind the Stick</h1>
+          <p class="hero-subtitle">Master classic specs, ice dilution, foam chemistry, sensory troubleshooting, and high-pressure service tickets.</p>
         </div>
-      </header>
 
-      <!-- Main Game View -->
-      <main id="game-container" class="game-main" role="main">
-        <!-- Status Dashboard HUD -->
-        <section class="game-hud" aria-label="Shift Status Dashboard">
-          <div class="hud-item rank-item">
-            <span class="hud-label">Station Rank</span>
-            <span class="hud-value" id="hud-rank">Barback</span>
-          </div>
-          <div class="hud-item ticket-item">
-            <span class="hud-label">Ticket Progress</span>
-            <span class="hud-value" id="hud-progress">1 / 5</span>
-          </div>
-          <div class="hud-item streak-item">
-            <span class="hud-label">Shift Streak</span>
-            <span class="hud-value" id="hud-streak">0</span>
-          </div>
-          <div class="hud-item score-item">
-            <span class="hud-label">Shift Score</span>
-            <span class="hud-value" id="hud-score">0</span>
-          </div>
-          <div class="hud-item timer-item hidden" id="hud-timer-container">
-            <span class="hud-label">Rush Clock</span>
-            <span class="hud-value timer-text" id="hud-timer">60s</span>
-          </div>
-        </section>
+        <!-- Mode Grid -->
+        <div class="modes-grid" role="region" aria-label="Available Shift Modes">
+          <button class="mode-card primary-mode" data-mode="standard">
+            <div class="mode-card-header">
+              <span class="mode-tag">Standard Shift</span>
+              <span class="mode-meta">5 Tickets</span>
+            </div>
+            <h2 class="mode-name">Full Station Service</h2>
+            <p class="mode-desc">A complete 5-ticket operational run testing specs, dilution, emulsion, and service workflow.</p>
+          </button>
 
-        <!-- Cocktail Glass Station / Fault Indicator -->
-        <section class="cocktail-station" aria-label="Drink Quality and Strikes">
-          <div class="station-glass-wrapper" aria-hidden="true">
-            <svg class="station-glass-svg" viewBox="0 0 120 150">
-              <defs>
-                <linearGradient id="liquid-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stop-color="#E5AA38" />
-                  <stop offset="60%" stop-color="#C46029" />
-                  <stop offset="100%" stop-color="#8F2C1E" />
-                </linearGradient>
-                <linearGradient id="glass-glare" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35"/>
-                  <stop offset="45%" stop-color="#ffffff" stop-opacity="0.05"/>
-                  <stop offset="100%" stop-color="#ffffff" stop-opacity="0.2"/>
-                </linearGradient>
-                <clipPath id="glass-interior-clip">
-                  <path d="M 22 18 L 98 18 L 74 95 L 46 95 Z"/>
-                </clipPath>
-              </defs>
+          <button class="mode-card" data-mode="rush">
+            <div class="mode-card-header">
+              <span class="mode-tag rush-tag">Speed Call</span>
+              <span class="mode-meta">8s / Ticket</span>
+            </div>
+            <h2 class="mode-name">Friday Rush</h2>
+            <p class="mode-desc">Rapid-fire ticket calls against a compressed 8-second clock. Test intuition under real pressure.</p>
+          </button>
 
-              <path d="M 20 16 L 100 16 L 76 96 L 63 96 L 63 134 L 84 134 L 84 140 L 36 140 L 36 134 L 57 134 L 57 96 L 44 96 Z" 
-                    fill="none" stroke="rgba(213, 164, 71, 0.45)" stroke-width="2.5" stroke-linejoin="round"/>
-              <path d="M 24 20 L 96 20 L 74 92 L 46 92 Z" fill="url(#glass-glare)"/>
+          <button class="mode-card" data-mode="master">
+            <div class="mode-card-header">
+              <span class="mode-tag master-tag">Master Exam</span>
+              <span class="mode-meta">1 Strike Out</span>
+            </div>
+            <h2 class="mode-name">Station Exam</h2>
+            <p class="mode-desc">Zero room for error. A single off-spec ticket ends the shift immediately with an operational debrief.</p>
+          </button>
+        </div>
 
-              <g clip-path="url(#glass-interior-clip)">
-                <rect id="liquid-fill" x="20" y="20" width="80" height="75" fill="url(#liquid-grad)"/>
-                <line id="crack-1" class="glass-fault hidden" x1="30" y1="28" x2="48" y2="58" stroke="#D33F2B" stroke-width="2.5" stroke-linecap="round"/>
-                <line id="crack-2" class="glass-fault hidden" x1="88" y1="26" x2="68" y2="66" stroke="#D33F2B" stroke-width="2.5" stroke-linecap="round"/>
-                <line id="crack-3" class="glass-fault hidden" x1="44" y1="74" x2="72" y2="82" stroke="#D33F2B" stroke-width="2.5" stroke-linecap="round"/>
-              </g>
+        <!-- Utility Hub Navigation Cards -->
+        <div class="lobby-hubs" role="region" aria-label="Reference Hubs">
+          <button id="btn-nav-codex" class="hub-pill">
+            <span class="hub-icon" aria-hidden="true">📖</span>
+            <div class="hub-text">
+              <span class="hub-title">Bar Codex &amp; Recipe Specs</span>
+              <span class="hub-sub" id="codex-unlocked-summary">5 Curated Craft Formulas</span>
+            </div>
+            <span class="hub-arrow" aria-hidden="true">&rsaquo;</span>
+          </button>
 
-              <path class="garnish-lemon" d="M 94 10 C 96 4 104 2 110 4 C 117 7 116 14 113 18 C 110 22 102 24 96 18 Z" fill="#E5AA38"/>
+          <button id="btn-nav-diagnosis" class="hub-pill">
+            <span class="hub-icon" aria-hidden="true">🔍</span>
+            <div class="hub-text">
+              <span class="hub-title">Sensory &amp; Diagnostic Lab</span>
+              <span class="hub-sub">Troubleshoot pith bitterness, cloudy ice, and dilution errors</span>
+            </div>
+            <span class="hub-arrow" aria-hidden="true">&rsaquo;</span>
+          </button>
+        </div>
+
+        <!-- Required Studio Home Navigation Button at Bottom of Main Menu -->
+        <div class="lobby-footer-nav">
+          <a href="https://tileworksgamesstudio.github.io/86/" id="btn-studio-home" class="studio-home-btn" aria-label="Return to Tileworks Games Studio Hub">
+            <svg class="home-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
             </svg>
-          </div>
+            <span>Tileworks Games Studio Hub</span>
+          </a>
+        </div>
+      </section>
 
-          <div class="mistake-readout">
-            <div class="mistake-title-row">
-              <span class="station-ticket-tag" id="puzzle-category">COCKTAIL</span>
-              <span class="mistake-counter">Faults: <strong id="strikes-count">0</strong> / 6</span>
+      <!-- ================= SCREEN 2: ACTIVE TRIVIA GAMEPLAY ================= -->
+      <section id="screen-game" class="game-screen is-hidden" aria-labelledby="ticket-tracker">
+        
+        <!-- Shift Progress Tracker Bar -->
+        <div class="progress-bar-container" aria-label="Current Shift Progression">
+          <div class="progress-info-row">
+            <span id="ticket-tracker" class="ticket-tracker">Ticket 1 of 5</span>
+            <div class="streak-multiplier-badge" id="multiplier-badge">1.0x Flow</div>
+            <span id="timer-display" class="timer-display" aria-label="Remaining time">16s</span>
+          </div>
+          <div class="progress-track" role="progressbar" id="progress-bar-track" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+            <div id="progress-fill" class="progress-fill"></div>
+          </div>
+        </div>
+
+        <!-- Order Ticket (The Question Card) -->
+        <article class="order-ticket" id="order-ticket">
+          <div class="ticket-header">
+            <div class="ticket-meta">
+              <span id="question-category" class="category-pill">Classic Cocktails</span>
+              <span id="question-difficulty" class="difficulty-indicator">&bull; Level 1</span>
             </div>
-            <div class="strike-pips" id="strike-pips" role="status" aria-label="Mistake strikes: 0 of 6">
-              <span class="pip"></span>
-              <span class="pip"></span>
-              <span class="pip"></span>
-              <span class="pip"></span>
-              <span class="pip"></span>
-              <span class="pip"></span>
+            <div class="ticket-id" id="ticket-stamp">TICKET #101</div>
+          </div>
+
+          <h2 id="question-prompt" class="ticket-question">Loading station ticket prompt...</h2>
+
+          <!-- Recipe Card Hint Box (Populated when lifeline used) -->
+          <div id="recipe-hint-box" class="recipe-hint-box is-hidden" role="note" aria-live="polite">
+            <span class="hint-badge">STATION HINT</span>
+            <p id="recipe-hint-text" class="hint-text"></p>
+          </div>
+
+          <!-- Confidence Selection Bar (Risk / Reward Metacognition) -->
+          <div class="confidence-bar" id="confidence-bar" aria-label="Answer Confidence Bonus">
+            <span class="confidence-label">Confidence:</span>
+            <div class="confidence-options" role="radiogroup" aria-label="Select Confidence Level">
+              <button class="conf-btn active" data-conf="guess" role="radio" aria-checked="true">
+                <span class="conf-name">Guess</span>
+                <span class="conf-bonus">+100</span>
+              </button>
+              <button class="conf-btn" data-conf="solid" role="radio" aria-checked="false">
+                <span class="conf-name">Solid</span>
+                <span class="conf-bonus">+200</span>
+              </button>
+              <button class="conf-btn" data-conf="certain" role="radio" aria-checked="false">
+                <span class="conf-name">Certain</span>
+                <span class="conf-bonus">+350</span>
+              </button>
             </div>
           </div>
-        </section>
 
-        <!-- Tasting Clue Box -->
-        <section class="clue-container" aria-live="polite">
-          <div class="clue-header">
-            <span class="clue-badge" id="clue-level-badge">Station Clue (Level 1)</span>
-            <span class="clue-family-tag" id="clue-family">Aperitivo / Equal Parts</span>
-          </div>
-          <p class="clue-text" id="clue-text">Reviewing tasting notes...</p>
-
-          <div class="clue-actions">
-            <button id="btn-reveal-clue" class="btn-secondary btn-sm" title="Unlock deeper tasting notes (-20 pts)">
-              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <circle cx="12" cy="12" r="10"/>
-                <path d="M12 16v-4M12 8h.01"/>
-              </svg>
-              <span>Deeper Clue (<span id="hint-cost">20</span> pts)</span>
+          <!-- 4 Multiple Choice Answer Buttons -->
+          <div class="answers-grid" id="answers-grid" role="group" aria-label="Drink ticket options">
+            <button class="ans-btn" data-index="0" aria-label="Option A">
+              <span class="ans-letter">A</span>
+              <span class="ans-text">Option 1</span>
             </button>
-            <button id="btn-vowel-hint" class="btn-secondary btn-sm" title="Reveal an uncalled letter (-30 pts)">
-              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 1 1 7.072 0l-.548.547A3.374 3.374 0 0 0 14 18.469V19a2 2 0 1 1-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
-              </svg>
-              <span>Letter Hint (30 pts)</span>
+            <button class="ans-btn" data-index="1" aria-label="Option B">
+              <span class="ans-letter">B</span>
+              <span class="ans-text">Option 2</span>
+            </button>
+            <button class="ans-btn" data-index="2" aria-label="Option C">
+              <span class="ans-letter">C</span>
+              <span class="ans-text">Option 3</span>
+            </button>
+            <button class="ans-btn" data-index="3" aria-label="Option D">
+              <span class="ans-letter">D</span>
+              <span class="ans-text">Option 4</span>
             </button>
           </div>
-        </section>
 
-        <!-- Word Puzzle Slots -->
-        <section class="word-stage" aria-label="Puzzle Letter Slots">
-          <div class="slots-scroller">
-            <div id="word-slots" class="word-slots-container" role="region" aria-live="assertive"></div>
+          <!-- Lifelines & Tools Tray -->
+          <div class="tools-tray" id="tools-tray" aria-label="Bartender Station Tools">
+            <span class="tools-label">Tools:</span>
+            <button id="btn-lifeline-spoon" class="tool-btn" title="Barspoon 50/50: Eliminate 2 incorrect answers">
+              <span class="tool-icon" aria-hidden="true">🥄</span>
+              <span class="tool-name">50/50 (<span id="spoon-count">1</span>)</span>
+            </button>
+            <button id="btn-lifeline-note" class="tool-btn" title="Recipe Note: Reveal an authentic craft hint">
+              <span class="tool-icon" aria-hidden="true">📝</span>
+              <span class="tool-name">Recipe Card (<span id="note-count">1</span>)</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- Feedback & Educational Drawer (Appears after answer) -->
+        <section id="feedback-drawer" class="feedback-drawer is-hidden" aria-live="polite">
+          <div class="feedback-header">
+            <div id="feedback-status" class="feedback-status correct">
+              <span id="feedback-icon" class="status-icon" aria-hidden="true">&check;</span>
+              <span id="feedback-title" class="status-title">Spot On, Barkeep!</span>
+            </div>
+            <div id="feedback-points" class="feedback-points">+240 XP</div>
+          </div>
+
+          <div class="feedback-body">
+            <p id="feedback-principle" class="bartender-principle"></p>
+
+            <div id="feedback-detail-box" class="feedback-detail-box is-hidden">
+              <span class="detail-label">Deep Craft Context:</span>
+              <p id="feedback-detail-text" class="detail-text"></p>
+            </div>
+          </div>
+
+          <div class="feedback-actions">
+            <button id="btn-toggle-deep" class="secondary-btn" type="button">Read Deep Context</button>
+            <button id="btn-next-question" class="primary-btn" type="button">Next Ticket &rarr;</button>
           </div>
         </section>
+      </section>
 
-        <!-- Virtual Keyboard -->
-        <section class="keyboard-stage" aria-label="Touch Keyboard">
-          <div id="virtual-keyboard" class="virtual-keyboard"></div>
-        </section>
-
-        <!-- Quick Call Full Spec (Bold Guess) -->
-        <section class="bold-guess-bar">
-          <button id="btn-solve-open" class="btn-text-action" aria-expanded="false" aria-controls="bold-guess-panel">
-            Quick-Call Full Spec (High Risk / +150 Pts) &rarr;
-          </button>
-          <div id="bold-guess-panel" class="bold-guess-panel hidden">
-            <label for="bold-guess-input" class="sr-only">Type complete cocktail or term name</label>
-            <input type="text" id="bold-guess-input" placeholder="Type exact name..." autocomplete="off" autocapitalize="characters" spellcheck="false">
-            <button id="btn-submit-bold" class="btn-primary btn-sm">Call It</button>
-            <button id="btn-cancel-bold" class="btn-secondary btn-sm">Cancel</button>
-          </div>
-        </section>
-      </main>
-    </div>
-
-    <!-- Ticket Solved / Voided Knowledge Modal -->
-    <div id="knowledge-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-drink-title">
-      <div class="modal-card">
-        <div class="modal-badge-banner" id="modal-result-status">TICKET SERVED CLEAN</div>
-
-        <header class="modal-header">
-          <h2 class="modal-drink-name" id="modal-drink-title">NEGRONI</h2>
-          <div class="modal-meta-row">
-            <span class="modal-pill" id="modal-meta-family">Aperitivo / Equal Parts</span>
-            <span class="modal-pill" id="modal-meta-glass">Double Rocks Glass</span>
-          </div>
-        </header>
-
-        <div class="modal-body-scroll">
-          <div class="spec-formula-card">
-            <h3 class="spec-label">Classic Reference Spec</h3>
-            <p class="spec-formula" id="modal-spec-formula">1 oz London Dry Gin &bull; 1 oz Campari &bull; 1 oz Sweet Vermouth</p>
+      <!-- ================= SCREEN 3: SHIFT SUMMARY / RESULTS ================= -->
+      <section id="screen-results" class="game-screen is-hidden" aria-labelledby="results-headline">
+        <div class="results-card">
+          <div class="results-header">
+            <div class="service-stamp" id="results-stamp">SHIFT PASSED</div>
+            <h1 class="results-title" id="results-headline">Shift Debrief</h1>
+            <p class="results-subtitle" id="results-sub">Here is your operational efficiency report.</p>
           </div>
 
-          <div class="knowledge-block">
-            <h3 class="block-label">Professional Context</h3>
-            <p class="block-content" id="modal-why-matters">Equal-parts balance benchmark.</p>
+          <div class="results-metrics-grid" role="region" aria-label="Shift Metrics">
+            <div class="metric-box">
+              <span class="metric-val" id="res-score">0</span>
+              <span class="metric-lbl">Shift XP</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-val" id="res-accuracy">0%</span>
+              <span class="metric-lbl">Accuracy</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-val" id="res-streak">0</span>
+              <span class="metric-lbl">Peak Streak</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-val" id="res-speed">0.0s</span>
+              <span class="metric-lbl">Avg Response</span>
+            </div>
           </div>
 
-          <div class="knowledge-block" id="modal-block-tip">
-            <h3 class="block-label">Station Technique Tip</h3>
-            <p class="block-content" id="modal-bartender-tip">Stir over clean ice; never shake vermouth.</p>
+          <!-- Rank Progress Bar -->
+          <div class="rank-progress-block">
+            <div class="rank-label-row">
+              <span class="rank-current-lbl">Rank: <strong id="res-rank-name">Apprentice</strong></span>
+              <span class="rank-next-lbl" id="res-xp-to-next">200 XP to Bartender</span>
+            </div>
+            <div class="rank-track" role="progressbar" id="res-rank-bar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+              <div class="rank-bar-fill" id="res-rank-fill"></div>
+            </div>
           </div>
 
-          <div class="knowledge-block history-block">
-            <h3 class="block-label">Historical Fact</h3>
-            <p class="block-content" id="modal-history-note">Originates in Florence circa 1919.</p>
+          <!-- Category Performance Breakdown -->
+          <div class="breakdown-box">
+            <h2 class="breakdown-title">Ticket Knowledge Breakdown</h2>
+            <div class="breakdown-list" id="res-breakdown-list">
+              <!-- Populated dynamically -->
+            </div>
           </div>
 
-          <div class="solve-metrics">
-            <div class="metric"><span class="m-val" id="metric-round-score">+120</span><span class="m-lbl">Points</span></div>
-            <div class="metric"><span class="m-val" id="metric-accuracy">100%</span><span class="m-lbl">Accuracy</span></div>
-            <div class="metric"><span class="m-val" id="metric-shift-time">12s</span><span class="m-lbl">Time</span></div>
+          <!-- Results Actions -->
+          <div class="results-actions">
+            <button id="btn-play-again" class="primary-btn" type="button">Run Another Shift</button>
+            <button id="btn-results-codex" class="secondary-btn" type="button">Review Bar Codex</button>
+            <button id="btn-results-home" class="ghost-btn" type="button">Return to Lobby</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SCREEN 4: CODEX & RECIPE VAULT ================= -->
+      <section id="screen-codex" class="game-screen is-hidden" aria-labelledby="codex-title">
+        <div class="subview-header">
+          <button class="back-link" id="btn-codex-back" type="button">&larr; Back to Lobby</button>
+          <h1 class="subview-title" id="codex-title">Bar Codex &amp; Specs</h1>
+          <span class="subview-tag" id="codex-count-badge">5 Formulas</span>
+        </div>
+
+        <!-- Filter Pill Tabs -->
+        <div class="codex-filters" role="tablist" aria-label="Filter Codex Categories">
+          <button class="filter-tab is-active" data-cat="all" role="tab" aria-selected="true">All Specs</button>
+          <button class="filter-tab" data-cat="Classic Cocktails" role="tab" aria-selected="false">Cocktails</button>
+          <button class="filter-tab" data-cat="Ice &amp; Thermodynamics" role="tab" aria-selected="false">Ice</button>
+          <button class="filter-tab" data-cat="Technique &amp; Texture" role="tab" aria-selected="false">Technique</button>
+          <button class="filter-tab" data-cat="Sensory &amp; Diagnosis" role="tab" aria-selected="false">Diagnosis</button>
+          <button class="filter-tab" data-cat="Service &amp; Speed" role="tab" aria-selected="false">Service</button>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-wrap">
+          <input type="search" id="codex-search-input" class="search-input" placeholder="Search drinks, techniques, or ingredients..." aria-label="Search Codex formulas" />
+        </div>
+
+        <!-- Codex Cards Container -->
+        <div class="codex-grid" id="codex-cards-grid" role="region" aria-label="Formula Spec Cards">
+          <!-- Populated by JavaScript from the unified 5-challenge dataset -->
+        </div>
+      </section>
+
+      <!-- ================= SCREEN 5: BARTENDER PROFILE & STATS ================= -->
+      <section id="screen-profile" class="game-screen is-hidden" aria-labelledby="profile-title">
+        <div class="subview-header">
+          <button class="back-link" id="btn-profile-back" type="button">&larr; Back to Lobby</button>
+          <h1 class="subview-title" id="profile-title">Career Log</h1>
+          <button id="btn-reset-data" class="text-danger-link" type="button" title="Clear Career Storage">Reset Data</button>
+        </div>
+
+        <div class="profile-card">
+          <div class="profile-badge-row">
+            <div class="big-rank-badge" id="prof-badge-icon" aria-hidden="true">🍸</div>
+            <div class="profile-meta">
+              <h2 class="profile-title" id="prof-rank-name">Apprentice</h2>
+              <p class="profile-sub" id="prof-summary-sub">Station Certified &bull; Shift Ready</p>
+            </div>
+          </div>
+
+          <div class="profile-stats-table" role="region" aria-label="Career Totals">
+            <div class="pstat-item">
+              <span class="pstat-label">Shifts Completed</span>
+              <span class="pstat-val" id="prof-total-shifts">0</span>
+            </div>
+            <div class="pstat-item">
+              <span class="pstat-label">Tickets Answered</span>
+              <span class="pstat-val" id="prof-total-answers">0</span>
+            </div>
+            <div class="pstat-item">
+              <span class="pstat-label">Career Accuracy</span>
+              <span class="pstat-val" id="prof-lifetime-acc">0%</span>
+            </div>
+            <div class="pstat-item">
+              <span class="pstat-label">Longest Flow</span>
+              <span class="pstat-val" id="prof-best-streak">0</span>
+            </div>
           </div>
         </div>
 
-        <footer class="modal-footer">
-          <button id="btn-next-puzzle" class="btn-primary btn-block">Next Ticket &rarr;</button>
-        </footer>
-      </div>
-    </div>
-
-    <!-- Shift Complete Summary Modal -->
-    <div id="shift-summary-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="summary-title">
-      <div class="modal-card">
-        <div class="modal-badge-banner" id="summary-banner">SHIFT COMPLETE</div>
-
-        <header class="modal-header text-center">
-          <h2 class="modal-drink-name" id="summary-title">5-Ticket Shift Concluded</h2>
-          <p class="modal-sub" id="summary-sub">All station drink orders have been processed.</p>
-        </header>
-
-        <div class="modal-body-scroll">
-          <div class="summary-stats-grid">
-            <div class="stat-box">
-              <span class="stat-number" id="sum-score">0</span>
-              <span class="stat-desc">Final Shift Score</span>
-            </div>
-            <div class="stat-box">
-              <span class="stat-number" id="sum-solved">5 / 5</span>
-              <span class="stat-desc">Tickets Served Clean</span>
-            </div>
-            <div class="stat-box">
-              <span class="stat-number" id="sum-rank">Bartender</span>
-              <span class="stat-desc">Station Rank</span>
-            </div>
-            <div class="stat-box">
-              <span class="stat-number" id="sum-streak">0</span>
-              <span class="stat-desc">Max Shift Streak</span>
-            </div>
+        <!-- Station Weak Spot Diagnostic Area -->
+        <div class="weakness-card">
+          <h2 class="section-heading">Diagnostic Focus Areas</h2>
+          <p class="section-subtext">Topics where off-spec choices were recently recorded behind the bar.</p>
+          <div id="weak-spots-list" class="weak-spots-list">
+            <div class="empty-state-card">Station clean! No recurrent knowledge blindspots logged.</div>
           </div>
-
-          <div class="summary-breakdown" id="summary-breakdown-list"></div>
         </div>
 
-        <footer class="modal-footer modal-footer-dual">
-          <button id="btn-restart-shift" class="btn-primary btn-block">Begin New Shift</button>
-          <button id="btn-return-menu-from-sum" class="btn-secondary btn-block">Return to Main Menu</button>
-        </footer>
-      </div>
-    </div>
-
-    <!-- Career Stats Modal -->
-    <div id="stats-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="stats-modal-title">
-      <div class="modal-card">
-        <header class="modal-header">
-          <h2 class="modal-drink-name" id="stats-modal-title">Shift Performance</h2>
-          <p class="modal-sub">Career Station Log &amp; Records</p>
-        </header>
-
-        <div class="modal-body-scroll">
-          <div class="stats-grid">
-            <div class="stat-box">
-              <span class="stat-number" id="st-total-played">0</span>
-              <span class="stat-desc">Tickets Handled</span>
+        <!-- Station Settings -->
+        <div class="settings-card">
+          <h2 class="section-heading">Station Ergonomics</h2>
+          <div class="settings-row">
+            <div>
+              <span class="setting-title" id="lbl-relaxed-timer">Extended Timers</span>
+              <p class="setting-sub">Extends ticket window to 25s for deliberate craft study.</p>
             </div>
-            <div class="stat-box">
-              <span class="stat-number" id="st-total-won">0</span>
-              <span class="stat-desc">Clean Solves</span>
-            </div>
-            <div class="stat-box">
-              <span class="stat-number" id="st-high-streak">0</span>
-              <span class="stat-desc">Best Streak</span>
-            </div>
-            <div class="stat-box">
-              <span class="stat-number" id="st-high-score">0</span>
-              <span class="stat-desc">Career High Score</span>
-            </div>
+            <input type="checkbox" id="check-relaxed-timer" class="toggle-switch" aria-labelledby="lbl-relaxed-timer" />
           </div>
-
-          <div class="tier-progression">
-            <h3 class="spec-label">Professional Station Rank</h3>
-            <div class="tier-bar-bg" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-              <div class="tier-bar-fill" id="tier-bar-progress"></div>
+          <div class="settings-row">
+            <div>
+              <span class="setting-title" id="lbl-sound-toggle">Audio Effects</span>
+              <p class="setting-sub">Barware clinks, chime rings, and ticket alerts.</p>
             </div>
-            <p class="tier-status-text" id="tier-next-prompt">Earn clean tickets to rank up.</p>
+            <input type="checkbox" id="check-sound-toggle" class="toggle-switch" aria-labelledby="lbl-sound-toggle" checked />
           </div>
-
-          <div class="category-mastery-list" id="category-mastery-list"></div>
         </div>
+      </section>
 
-        <footer class="modal-footer">
-          <button id="btn-close-stats" class="btn-secondary btn-block">Close Records</button>
-        </footer>
-      </div>
-    </div>
+    </main>
 
-    <!-- The Bartender Codex Modal -->
-    <div id="codex-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="codex-modal-title">
-      <div class="modal-card modal-large">
-        <header class="modal-header">
-          <h2 class="modal-drink-name" id="codex-modal-title">The Bartender's Codex</h2>
-          <p class="modal-sub">Unlocked Specs, Equipment, &amp; Beverage Principles</p>
-        </header>
+    <!-- Global Accessible Toast Alert -->
+    <aside id="toast" class="toast is-hidden" role="status" aria-live="polite"></aside>
 
-        <div class="codex-filter-bar">
-          <input type="text" id="codex-search" class="codex-search-input" placeholder="Filter specs, tools, spirits..." autocomplete="off">
-          <select id="codex-filter-category" class="codex-select" aria-label="Filter Codex Category">
-            <option value="ALL">All Categories</option>
-            <option value="COCKTAIL">Cocktails</option>
-            <option value="TOOL">Tools</option>
-            <option value="INGREDIENT">Ingredients</option>
-            <option value="SERVICE">Service</option>
-          </select>
-        </div>
-
-        <div class="modal-body-scroll" id="codex-list-container"></div>
-
-        <footer class="modal-footer">
-          <button id="btn-close-codex" class="btn-secondary btn-block">Close Codex</button>
-        </footer>
-      </div>
-    </div>
-
-    <!-- Action Toast Notification -->
-    <div id="toast-message" class="toast-popup hidden" role="alert" aria-live="assertive"></div>
   </div>
 
   <script src="script.js"></script>

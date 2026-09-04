@@ -1,1132 +1,1013 @@
-/* script.js */
 /**
- * BAR HANGMAN — Master Production Engine
- * Complete 5-Example Playthrough & Professional Bartender Knowledge System.
- * Self-contained static web application with robust localStorage persistence & main menu hub.
+ * BAR KNOWLEDGE: THE BARTENDER'S CRAFT & SERVICE GAME
+ * Clean Vanilla ES6 Front-end Architecture
+ * Synthesized Web Audio Sound Engine (Zero external asset dependencies)
+ * Fully persistent schema with versioning and defensive validation.
  */
 
-'use strict';
+(function () {
+  "use strict";
 
-/* ==========================================================================
-   1. CONTENT DATA ARCHITECTURE (EXACTLY 5 PLAYABLE EXAMPLES)
-   ========================================================================== */
-const PLAYABLE_CHALLENGES = [
-  {
-    id: "negroni",
-    name: "NEGRONI",
-    category: "COCKTAIL",
-    family: "Aperitivo / Equal Parts",
-    glass: "Double Rocks Glass",
-    spec: "1 oz London Dry Gin • 1 oz Campari • 1 oz Sweet Vermouth",
-    clueLevel1: "Bitter-sweet Italian aperitivo traditionally built in equal thirds.",
-    clueLevel2: "Stirred over a large ice rock and garnished with an expressed orange peel.",
-    clueLevel3: "Originates in Florence (circa 1919) when Count Camillo fortified his Americano with gin.",
-    whyItMatters: "Mastering equal-parts balance is the fundamental benchmark for Italian bitter cocktail mechanics.",
-    tip: "Always stir, never shake; shaking aerates and clouds delicate vermouth.",
-    history: "Created at Caffè Casoni in Florence, Italy, by bartender Fosco Scarselli."
-  },
-  {
-    id: "jigger",
-    name: "JIGGER",
-    category: "TOOL",
-    family: "Station Measure",
-    glass: "Barware Equipment",
-    spec: "Japanese-style dual cone (1 oz / 2 oz) with interior precision etched calibration",
-    clueLevel1: "Essential hourglass-shaped metal bar tool used for accurate volume measurement.",
-    clueLevel2: "Consistency in ratio balance separates craft cocktail bars from careless free-pouring.",
-    clueLevel3: "Named historically from the small measure of spirits distributed on 19th-century naval vessels.",
-    whyItMatters: "Precision guarantees consistent recipe execution, palate balance, and inventory control.",
-    tip: "Pour to the very brim meniscus, not 2mm below, to honor intended recipe proportions.",
-    history: "Patented in America in the late 19th century as multi-chambered measuring metalware."
-  },
-  {
-    id: "chartreuse",
-    name: "CHARTREUSE",
-    category: "INGREDIENT",
-    family: "Herbal Liqueur",
-    glass: "Modifier / Elixir",
-    spec: "Green (55% ABV, 130 botanicals) & Yellow (43% ABV, sweeter honey and saffron profile)",
-    clueLevel1: "Pungent French herbal liqueur crafted by Carthusian monks since 1737.",
-    clueLevel2: "Crucial modifier in modern classics like the Last Word, Bijou, and Champs-Élysées.",
-    clueLevel3: "Naturally colored green from chlorophyll; recipe is known to only two monks at any time.",
-    whyItMatters: "High alcohol herbal depth that cuts through bold base spirits and rich citrus alike.",
-    tip: "Due to high proof and intense herbal pungency, 0.75 oz is generally the maximum needed in a build.",
-    history: "Given as an ancient manuscript elixir of long life to the monks of Vauvert in 1605."
-  },
-  {
-    id: "daiquiri",
-    name: "DAIQUIRI",
-    category: "COCKTAIL",
-    family: "Classic Sour",
-    glass: "Chilled Coupe Glass",
-    spec: "2 oz White Rum • 0.75 oz Fresh Lime Juice • 0.75 oz Rich Demerara Syrup (2:1)",
-    clueLevel1: "The canonical 3-ingredient rum sour that tests any bartender's technique.",
-    clueLevel2: "Shaken vigorously with dense ice to achieve tiny reflective ice flecks across the surface.",
-    clueLevel3: "Named after an iron mining port in southeastern Cuba near Santiago.",
-    whyItMatters: "Bartenders evaluate a colleague's technique and dilution control by ordering a Daiquiri.",
-    tip: "A hard, fast 10-second shake emulsifies lime oils without over-diluting the rum.",
-    history: "Recorded in Cuba circa 1898 by mining engineer Jennings Cox and popularized at El Floridita."
-  },
-  {
-    id: "mise-en-place",
-    name: "MISE EN PLACE",
-    category: "SERVICE",
-    family: "Station Management",
-    glass: "Professional Principle",
-    spec: "Every bottle, tool, garnish, and towel positioned in its designated pocket before service begins",
-    clueLevel1: "Culinary French discipline translated to the bar station: 'everything in its place'.",
-    clueLevel2: "Clean bar towels, stocked speed rails, fresh-cut garnishes, and clear ice wells.",
-    clueLevel3: "Without it, peak rush hours collapse into bottleneck delays and spilled drinks.",
-    whyItMatters: "Speed and muscle memory originate from clean, predictable station geometry.",
-    tip: "Always return bottles to the exact rail slot so you never have to look down while pouring.",
-    history: "Pioneered by Auguste Escoffier and standardized across fine beverage hospitality."
+  /* ==========================================================================
+     1. IN-SCRIPT CONTENT DATABASE: EXACTLY 5 PLAYABLE CHALLENGE EXAMPLES
+     ========================================================================== */
+  const CHALLENGES = [
+    {
+      id: "ticket-01-specs",
+      title: "The Classic Negroni Spec",
+      category: "Classic Cocktails",
+      difficulty: 1,
+      question: "A guest orders an authentic classic Negroni. What is the canonical historic specification ratio for this aperitivo benchmark?",
+      answers: [
+        "Equal parts: 1:1:1 London Dry Gin, Campari, and Sweet Red Vermouth",
+        "2:1:1 Bourbon, Campari, and Dry White Vermouth",
+        "3:1 Gin and Sweet Vermouth with an Aperol rinse",
+        "2:1:0.5 Gin, Campari, and Triple Sec"
+      ],
+      correctIndex: 0,
+      principle: "The Negroni is the defining archetype of the equal-parts trio: botanical spirit, bitter aperitivo, and fortified aromatized wine.",
+      deepContext: "Born circa 1919 at Caffè Casoni in Florence when Count Camillo Negroni asked bartender Fosco Scarselli to fortify his Americano by substituting gin for soda water.",
+      spec: "1.0 oz London Dry Gin • 1.0 oz Campari • 1.0 oz Sweet Red Vermouth • Orange Peel Expressed",
+      hint: "Recall the defining equal-parts triad of botanical gin, Italian bitter aperitivo, and sweet fortified wine."
+    },
+    {
+      id: "ticket-02-thermo",
+      title: "Directional Clear Ice Thermodynamics",
+      category: "Ice & Thermodynamics",
+      difficulty: 2,
+      question: "Why does a professional craft bar serve an Old Fashioned over a dense directional clear ice cube rather than standard cloudy freezer-tray ice?",
+      answers: [
+        "Clear ice has zero trapped air micro-bubbles, dramatically lowering contact surface area and slowing meltwater dilution",
+        "Freezer-tray ice contains chemical sodium ions that break down whiskey ethanol on contact",
+        "Clear ice lowers drink temperature below -10°C instantly while cloudy ice warms the spirit",
+        "Directional ice chemically binds and removes astringent barrel wood tannins from high-proof bourbon"
+      ],
+      correctIndex: 0,
+      principle: "Trapped air bubbles and micro-fissures in cloudy ice exponentially increase total liquid contact area and induce thermal fractures, causing premature dilution runaway.",
+      deepContext: "Directional freezing forces dissolved gases and mineral impurities downward into a sacrificial layer. A crystal-pure 2-inch clear cube melts up to 5x slower than cloudy cubes of equivalent weight.",
+      spec: "Directional freezing in insulated baths • Dense crystal cubic lattice • Sub-zero temper prior to pour",
+      hint: "Focus on how trapped gas micro-bubbles alter physical contact surface area and heat transfer."
+    },
+    {
+      id: "ticket-03-technique",
+      title: "The Chemistry of the Dry Shake",
+      category: "Technique & Texture",
+      difficulty: 2,
+      question: "What is the structural and thermodynamic purpose of performing a 'Dry Shake' before adding ice to an egg white sour?",
+      answers: [
+        "It whips and emulsifies albumin protein chains at room temperature before cold ice constricts bubble expansion",
+        "It sterilizes potential egg bacteria through contact with unchilled spirit alcohol",
+        "It reduces total liquid volume by 15% through rapid shaker headspace evaporation",
+        "It prevents fresh citrus acid from curdling dairy fats in fortified liqueurs"
+      ],
+      correctIndex: 0,
+      principle: "Albumin proteins unravel and form a resilient microfoam matrix much more readily before cold temperatures stiffen the intermolecular bonds.",
+      deepContext: "Ice cubes inhibit rapid protein unraveling. Emulsifying room-temperature albumin with citrus acid first creates a dense, velvety meringue head that persists to the final sip.",
+      spec: "Dry shake ingredients + albumin 10s (no ice) • Add dense ice and shake 8s • Fine strain into chilled coupe",
+      hint: "Consider how cold ice cubes impact the physical stretching and foaming of egg albumin proteins."
+    },
+    {
+      id: "ticket-04-sensory",
+      title: "Diagnosing Harsh Citrus Bitterness",
+      category: "Sensory & Diagnosis",
+      difficulty: 3,
+      question: "A guest reports their fresh lime Daiquiri is unpleasantly harsh, astringent, and puckering despite exact jigger measurements. What is the root diagnostic cause?",
+      answers: [
+        "Lime juice was mechanically over-pressed, crushing bitter albedo pith oils directly into the juice",
+        "The rum had an alcohol by volume of 40% instead of navy strength 57%",
+        "The cocktail was double-strained through a fine wire mesh, removing citrus pulp",
+        "The bartender used rich 2:1 Demerara cane syrup instead of standard 1:1 simple"
+      ],
+      correctIndex: 0,
+      principle: "Over-pressing citrus fruit hulls extracts limonin and acrid essential oils from the spongy white albedo pith, turning crisp acidity into harsh astringency.",
+      deepContext: "Professional citrus prep gently bursts the juice vesicles without tearing into the white inner pith. Furthermore, lime juice enzymatically oxidizes after 8-10 hours, creating bitter off-notes.",
+      spec: "Hand press fruit with 75% stroke depth • Never over-squeeze inner white pith • Fresh daily press",
+      hint: "Look at mechanical juicing pressure and the bitter compounds residing in white peel pith."
+    },
+    {
+      id: "ticket-05-service",
+      title: "Rush Hour Ticket Choreography",
+      category: "Service & Speed",
+      difficulty: 3,
+      question: "During a high-volume rush, you receive one ticket: 1 Ramos Gin Fizz, 1 Draft Stout, 2 Old Fashioneds, and 1 Gin & Tonic. What is the most efficient professional sequence?",
+      answers: [
+        "Start Ramos Gin Fizz shake/rest first, build and stir the Old Fashioneds, pour highball and draft stout last before call",
+        "Pour the draft stout first to settle, build the Gin & Tonic, stir Old Fashioneds, and do the Ramos last",
+        "Execute drinks strictly in the top-to-bottom line order printed on the ticket",
+        "Make the Gin & Tonic and draft stout first so the server has immediate drinks to deliver"
+      ],
+      correctIndex: 0,
+      principle: "Station choreography requires initiating long-emulsion or rest steps first, batching stirred cocktails, and pouring carbonated drinks immediately before tray dispatch to protect foam and fizz.",
+      deepContext: "Draft beer heads deflate within 90 seconds and tonic effervescence quickly dissipates. Starting the Ramos Gin Fizz protein structure allows the head to set while stirring the spirit-forward drinks.",
+      spec: "Station Sequencing Protocol: [1] Long Emulsion/Rest -> [2] Stirred/Built -> [3] Carbonated/Draft to Tray",
+      hint: "Think about which drinks degrade fastest (effervescence and draft head) versus which drink requires a resting period."
+    }
+  ];
+
+  /* ==========================================================================
+     2. DATA VALIDATION SUBSYSTEM (DEFENSIVE RUNTIME CHECK)
+     ========================================================================== */
+  function validateChallenges(dataset) {
+    if (!Array.isArray(dataset) || dataset.length !== 5) {
+      console.error("BarKnowledge: Expected exactly 5 playable challenges, found", dataset ? dataset.length : 0);
+      return false;
+    }
+    const seenIds = new Set();
+    for (let i = 0; i < dataset.length; i++) {
+      const item = dataset[i];
+      if (!item.id || typeof item.id !== "string" || seenIds.has(item.id)) return false;
+      seenIds.add(item.id);
+      if (!item.question || typeof item.question !== "string") return false;
+      if (!Array.isArray(item.answers) || item.answers.length !== 4) return false;
+      if (typeof item.correctIndex !== "number" || item.correctIndex < 0 || item.correctIndex > 3) return false;
+      if (!item.principle || !item.spec || !item.hint) return false;
+    }
+    return true;
   }
-];
 
-/* ==========================================================================
-   2. SYNTHESIZED WEB AUDIO ENGINE
-   ========================================================================== */
-class BartenderSoundEngine {
-  constructor() {
-    this.ctx = null;
-    this.enabled = true;
-  }
+  /* ==========================================================================
+     3. AUDIO SYNTHESIS SYSTEM (WEB AUDIO API - SELF-CONTAINED)
+     ========================================================================== */
+  class BarAudioSystem {
+    constructor() {
+      this.ctx = null;
+      this.enabled = true;
+    }
 
-  init() {
-    if (!this.ctx) {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (AudioCtx) {
+    init() {
+      if (!this.ctx && (window.AudioContext || window.webkitAudioContext)) {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
         this.ctx = new AudioCtx();
       }
+      if (this.ctx && this.ctx.state === "suspended") {
+        this.ctx.resume();
+      }
     }
-    if (this.ctx && this.ctx.state === 'suspended') {
-      this.ctx.resume();
-    }
-  }
 
-  playLetterTap() {
-    if (!this.enabled) return;
-    this.init();
-    if (!this.ctx) return;
-    try {
+    playClink() {
+      if (!this.enabled) return;
+      this.init();
+      if (!this.ctx) return;
+
       const now = this.ctx.currentTime;
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(160, now);
-      osc.frequency.exponentialRampToValueAtTime(45, now + 0.05);
-      gain.gain.setValueAtTime(0.14, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-      osc.start(now);
-      osc.stop(now + 0.05);
-    } catch (e) {}
-  }
 
-  playCorrectChime() {
-    if (!this.enabled) return;
-    this.init();
-    if (!this.ctx) return;
-    try {
-      const now = this.ctx.currentTime;
-      [523.25, 659.25, 1046.50].forEach((freq, idx) => {
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, now + idx * 0.04);
-        gain.gain.setValueAtTime(0.1, now + idx * 0.04);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.04 + 0.28);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start(now + idx * 0.04);
-        osc.stop(now + idx * 0.04 + 0.29);
-      });
-    } catch (e) {}
-  }
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(1760, now);
+      osc.frequency.exponentialRampToValueAtTime(880, now + 0.3);
 
-  playWrongKnock() {
-    if (!this.enabled) return;
-    this.init();
-    if (!this.ctx) return;
-    try {
-      const now = this.ctx.currentTime;
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-      osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(90, now);
-      osc.frequency.linearRampToValueAtTime(35, now + 0.1);
       gain.gain.setValueAtTime(0.18, now);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+
       osc.connect(gain);
       gain.connect(this.ctx.destination);
+
       osc.start(now);
-      osc.stop(now + 0.1);
-    } catch (e) {}
-  }
+      osc.stop(now + 0.3);
+    }
 
-  playSolveFanfare() {
-    if (!this.enabled) return;
-    this.init();
-    if (!this.ctx) return;
-    try {
+    playSuccessChime() {
+      if (!this.enabled) return;
+      this.init();
+      if (!this.ctx) return;
+
       const now = this.ctx.currentTime;
-      const chord = [392.00, 523.25, 659.25, 783.99, 1046.50];
-      chord.forEach((freq, idx) => {
+      const notes = [523.25, 659.25, 783.99, 1046.5];
+
+      notes.forEach((freq, idx) => {
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, now + idx * 0.05);
-        gain.gain.setValueAtTime(0.12, now + idx * 0.05);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.05 + 0.55);
+        const startTime = now + idx * 0.045;
+
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freq, startTime);
+
+        gain.gain.setValueAtTime(0.15, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.4);
+
         osc.connect(gain);
         gain.connect(this.ctx.destination);
-        osc.start(now + idx * 0.05);
-        osc.stop(now + idx * 0.05 + 0.56);
+
+        osc.start(startTime);
+        osc.stop(startTime + 0.4);
       });
-    } catch (e) {}
-  }
+    }
 
-  playGlassBreak() {
-    if (!this.enabled) return;
-    this.init();
-    if (!this.ctx) return;
-    try {
+    playThud() {
+      if (!this.enabled) return;
+      this.init();
+      if (!this.ctx) return;
+
       const now = this.ctx.currentTime;
-      for (let i = 0; i < 3; i++) {
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'square';
-        osc.frequency.setValueAtTime(500 + i * 180, now + i * 0.04);
-        gain.gain.setValueAtTime(0.12, now + i * 0.04);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.04 + 0.07);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start(now + i * 0.04);
-        osc.stop(now + i * 0.04 + 0.08);
-      }
-    } catch (e) {}
-  }
-}
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
 
-const audio = new BartenderSoundEngine();
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(130, now);
+      osc.frequency.exponentialRampToValueAtTime(45, now + 0.25);
 
-/* ==========================================================================
-   3. GAME STATE MODEL & LOCALSTORAGE PERSISTENCE
-   ========================================================================== */
-class BartenderGameState {
-  constructor() {
-    this.storageKey = 'bar_hangman_save_v3';
-    this.savedData = this.loadPersistentData();
+      gain.gain.setValueAtTime(0.22, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
 
-    // Transient runtime state
-    this.currentMode = 'classic';
-    this.currentPuzzleIndex = 0;
-    this.activePuzzle = null;
-    this.guessedLetters = new Set();
-    this.mistakes = 0;
-    this.maxMistakes = 6;
-    this.score = 0;
-    this.streak = 0;
-    this.roundStartTime = 0;
-    this.timerSeconds = 60;
-    this.timerInterval = null;
-    this.clueLevel = 1;
-    this.isInputLocked = false;
-    this.shiftHistory = [];
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.25);
+    }
+
+    playTick() {
+      if (!this.enabled) return;
+      this.init();
+      if (!this.ctx) return;
+
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(900, now);
+
+      gain.gain.setValueAtTime(0.035, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.04);
+    }
   }
 
-  loadPersistentData() {
-    const defaultData = {
-      version: 1,
-      soundEnabled: true,
-      highScore: 0,
-      bestStreak: 0,
-      totalPlayed: 0,
-      totalWon: 0,
-      unlockedCodexIds: ["negroni"],
-      mistakeBank: [],
-      categoryMastery: {
-        COCKTAIL: 0,
-        TOOL: 0,
-        INGREDIENT: 0,
-        SERVICE: 0
+  /* ==========================================================================
+     4. BARTENDER RANKING LEVELS
+     ========================================================================== */
+  const RANKS = [
+    { name: "Barback", minXp: 0, badge: "🌱" },
+    { name: "Apprentice", minXp: 250, badge: "🥄" },
+    { name: "Bartender", minXp: 700, badge: "🍸" },
+    { name: "Senior Bartender", minXp: 1400, badge: "★" },
+    { name: "Head Mixologist", minXp: 2400, badge: "👑" },
+    { name: "Master of Cocktails", minXp: 3800, badge: "✨" }
+  ];
+
+  /* ==========================================================================
+     5. PERSISTENT STORAGE CONTROLLER (ROBUST SCHEMA WITH VERSIONING)
+     ========================================================================== */
+  const STORAGE_KEY = "BAR_KNOWLEDGE_CAREER_V3";
+
+  class StorageManager {
+    static load() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return this.getDefaults();
+        const parsed = JSON.parse(raw);
+        if (!parsed || typeof parsed !== "object") return this.getDefaults();
+        return Object.assign(this.getDefaults(), parsed);
+      } catch (e) {
+        return this.getDefaults();
       }
-    };
+    }
 
-    try {
-      const raw = localStorage.getItem(this.storageKey);
-      if (!raw) return defaultData;
-      const parsed = JSON.parse(raw);
+    static save(data) {
+      try {
+        data.version = 3;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      } catch (e) {
+        // Fallback gracefully if storage is restricted
+      }
+    }
 
+    static getDefaults() {
       return {
-        version: 1,
-        soundEnabled: typeof parsed.soundEnabled === 'boolean' ? parsed.soundEnabled : defaultData.soundEnabled,
-        highScore: typeof parsed.highScore === 'number' ? parsed.highScore : defaultData.highScore,
-        bestStreak: typeof parsed.bestStreak === 'number' ? parsed.bestStreak : defaultData.bestStreak,
-        totalPlayed: typeof parsed.totalPlayed === 'number' ? parsed.totalPlayed : defaultData.totalPlayed,
-        totalWon: typeof parsed.totalWon === 'number' ? parsed.totalWon : defaultData.totalWon,
-        unlockedCodexIds: Array.isArray(parsed.unlockedCodexIds) ? parsed.unlockedCodexIds : defaultData.unlockedCodexIds,
-        mistakeBank: Array.isArray(parsed.mistakeBank) ? parsed.mistakeBank : defaultData.mistakeBank,
-        categoryMastery: (parsed.categoryMastery && typeof parsed.categoryMastery === 'object') 
-          ? { ...defaultData.categoryMastery, ...parsed.categoryMastery } 
-          : defaultData.categoryMastery
+        version: 3,
+        totalXp: 0,
+        bestStreak: 0,
+        shiftsCompleted: 0,
+        ticketsAnswered: 0,
+        ticketsCorrect: 0,
+        weakCategories: {},
+        soundEnabled: true,
+        relaxedTimer: false
       };
-    } catch (e) {
-      console.warn("Storage recovery warning, resetting to safe state:", e);
-      return defaultData;
     }
   }
 
-  savePersistentData() {
-    try {
-      localStorage.setItem(this.storageKey, JSON.stringify(this.savedData));
-    } catch (e) {
-      console.warn("Could not save to storage:", e);
+  /* ==========================================================================
+     6. MAIN GAME ENGINE
+     ========================================================================== */
+  class BarGameEngine {
+    constructor() {
+      this.isContentValid = validateChallenges(CHALLENGES);
+      this.challenges = [...CHALLENGES];
+
+      this.audio = new BarAudioSystem();
+      this.profile = StorageManager.load();
+      this.audio.enabled = !!this.profile.soundEnabled;
+
+      // Active Shift State
+      this.activeMode = "standard";
+      this.currentTicketIndex = 0;
+      this.shiftScore = 0;
+      this.shiftCorrect = 0;
+      this.shiftStreak = 0;
+      this.shiftPeakStreak = 0;
+      this.shiftStartTime = 0;
+      this.ticketStartTime = 0;
+      this.responseTimes = [];
+      this.categoryPerformance = {};
+
+      // Ticket Level State
+      this.currentConfidence = "guess";
+      this.hasAnswered = false;
+      this.timerInterval = null;
+      this.timeRemaining = 16;
+      this.lifelineSpoons = 1;
+      this.lifelineNotes = 1;
+
+      this.cacheElements();
+      this.bindEvents();
+      this.renderProfile();
+      this.updateHeaderUI();
+      this.renderCodex();
     }
-  }
 
-  getRankTitle() {
-    const wins = this.savedData.totalWon;
-    if (wins < 2) return "Barback";
-    if (wins < 5) return "Apprentice";
-    if (wins < 10) return "Bartender";
-    if (wins < 20) return "Senior Bartender";
-    return "Master Mixologist";
-  }
+    cacheElements() {
+      this.screens = {
+        lobby: document.getElementById("screen-lobby"),
+        game: document.getElementById("screen-game"),
+        results: document.getElementById("screen-results"),
+        codex: document.getElementById("screen-codex"),
+        profile: document.getElementById("screen-profile")
+      };
 
-  recordSolve(clean, earnedPoints) {
-    this.savedData.totalPlayed++;
-    this.savedData.totalWon++;
-    this.streak++;
-    if (this.streak > this.savedData.bestStreak) {
-      this.savedData.bestStreak = this.streak;
+      this.streakCounter = document.getElementById("streak-counter");
+      this.scoreCounter = document.getElementById("score-counter");
+      this.rankText = document.getElementById("rank-text");
+      this.soundIconOn = document.getElementById("sound-icon-on");
+      this.soundIconOff = document.getElementById("sound-icon-off");
+      this.btnToggleSound = document.getElementById("btn-toggle-sound");
+
+      this.ticketTracker = document.getElementById("ticket-tracker");
+      this.multiplierBadge = document.getElementById("multiplier-badge");
+      this.timerDisplay = document.getElementById("timer-display");
+      this.progressFill = document.getElementById("progress-fill");
+      this.categoryPill = document.getElementById("question-category");
+      this.difficultyIndicator = document.getElementById("question-difficulty");
+      this.ticketStamp = document.getElementById("ticket-stamp");
+      this.questionPrompt = document.getElementById("question-prompt");
+      this.confButtons = document.querySelectorAll(".conf-btn");
+      this.ansButtons = document.querySelectorAll(".ans-btn");
+      this.recipeHintBox = document.getElementById("recipe-hint-box");
+      this.recipeHintText = document.getElementById("recipe-hint-text");
+
+      this.btnLifelineSpoon = document.getElementById("btn-lifeline-spoon");
+      this.btnLifelineNote = document.getElementById("btn-lifeline-note");
+      this.spoonCount = document.getElementById("spoon-count");
+      this.noteCount = document.getElementById("note-count");
+
+      this.feedbackDrawer = document.getElementById("feedback-drawer");
+      this.feedbackStatus = document.getElementById("feedback-status");
+      this.feedbackIcon = document.getElementById("feedback-icon");
+      this.feedbackTitle = document.getElementById("feedback-title");
+      this.feedbackPoints = document.getElementById("feedback-points");
+      this.feedbackPrinciple = document.getElementById("feedback-principle");
+      this.feedbackDetailBox = document.getElementById("feedback-detail-box");
+      this.feedbackDetailText = document.getElementById("feedback-detail-text");
+      this.btnToggleDeep = document.getElementById("btn-toggle-deep");
+      this.btnNextQuestion = document.getElementById("btn-next-question");
+
+      this.resultsStamp = document.getElementById("results-stamp");
+      this.resultsHeadline = document.getElementById("results-headline");
+      this.resultsSub = document.getElementById("results-sub");
+      this.resScore = document.getElementById("res-score");
+      this.resAccuracy = document.getElementById("res-accuracy");
+      this.resStreak = document.getElementById("res-streak");
+      this.resSpeed = document.getElementById("res-speed");
+      this.resRankName = document.getElementById("res-rank-name");
+      this.resRankFill = document.getElementById("res-rank-fill");
+      this.resXpToNext = document.getElementById("res-xp-to-next");
+      this.resBreakdownList = document.getElementById("res-breakdown-list");
+
+      this.codexCountBadge = document.getElementById("codex-count-badge");
+      this.codexCardsGrid = document.getElementById("codex-cards-grid");
+      this.codexSearchInput = document.getElementById("codex-search-input");
+      this.codexFilters = document.querySelectorAll(".filter-tab");
+
+      this.profBadgeIcon = document.getElementById("prof-badge-icon");
+      this.profRankName = document.getElementById("prof-rank-name");
+      this.profTotalShifts = document.getElementById("prof-total-shifts");
+      this.profTotalAnswers = document.getElementById("prof-total-answers");
+      this.profLifetimeAcc = document.getElementById("prof-lifetime-acc");
+      this.profBestStreak = document.getElementById("prof-best-streak");
+      this.weakSpotsList = document.getElementById("weak-spots-list");
+      this.checkRelaxedTimer = document.getElementById("check-relaxed-timer");
+      this.checkSoundToggle = document.getElementById("check-sound-toggle");
+      this.toastEl = document.getElementById("toast");
     }
-    if (this.score > this.savedData.highScore) {
-      this.savedData.highScore = this.score;
-      this.savedData.bestStreak = Math.max(this.savedData.bestStreak, this.streak);
-    }
 
-    if (this.activePuzzle) {
-      if (!this.savedData.unlockedCodexIds.includes(this.activePuzzle.id)) {
-        this.savedData.unlockedCodexIds.push(this.activePuzzle.id);
-      }
-      const cat = this.activePuzzle.category;
-      if (this.savedData.categoryMastery[cat] !== undefined) {
-        this.savedData.categoryMastery[cat]++;
-      }
-      this.savedData.mistakeBank = this.savedData.mistakeBank.filter(id => id !== this.activePuzzle.id);
+    bindEvents() {
+      document.getElementById("btn-brand").addEventListener("click", () => this.showScreen("lobby"));
+      document.getElementById("btn-open-profile").addEventListener("click", () => {
+        this.renderProfile();
+        this.showScreen("profile");
+      });
+      document.getElementById("btn-nav-codex").addEventListener("click", () => this.showScreen("codex"));
+      document.getElementById("btn-nav-diagnosis").addEventListener("click", () => {
+        this.showScreen("codex");
+        this.filterCodex("Sensory & Diagnosis");
+      });
+      document.getElementById("btn-codex-back").addEventListener("click", () => this.showScreen("lobby"));
+      document.getElementById("btn-profile-back").addEventListener("click", () => this.showScreen("lobby"));
+      document.getElementById("btn-results-home").addEventListener("click", () => this.showScreen("lobby"));
+      document.getElementById("btn-results-codex").addEventListener("click", () => this.showScreen("codex"));
 
-      this.shiftHistory.push({
-        id: this.activePuzzle.id,
-        name: this.activePuzzle.name,
-        won: true,
-        clean: clean,
-        points: earnedPoints
+      this.btnToggleSound.addEventListener("click", () => this.toggleSound());
+
+      document.querySelectorAll(".mode-card").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const mode = btn.getAttribute("data-mode");
+          this.startShift(mode);
+        });
+      });
+
+      this.ansButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const idx = parseInt(btn.getAttribute("data-index"), 10);
+          this.handleAnswerSelection(idx);
+        });
+      });
+
+      this.confButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          if (this.hasAnswered) return;
+          this.confButtons.forEach((b) => {
+            b.classList.remove("active");
+            b.setAttribute("aria-checked", "false");
+          });
+          btn.classList.add("active");
+          btn.setAttribute("aria-checked", "true");
+          this.currentConfidence = btn.getAttribute("data-conf");
+          this.audio.playTick();
+        });
+      });
+
+      this.btnLifelineSpoon.addEventListener("click", () => this.useLifelineSpoon());
+      this.btnLifelineNote.addEventListener("click", () => this.useLifelineNote());
+
+      this.btnNextQuestion.addEventListener("click", () => this.advanceToNextTicket());
+      this.btnToggleDeep.addEventListener("click", () => {
+        this.feedbackDetailBox.classList.toggle("is-hidden");
+        this.btnToggleDeep.textContent = this.feedbackDetailBox.classList.contains("is-hidden")
+          ? "Read Deep Context"
+          : "Hide Context";
+      });
+
+      document.getElementById("btn-play-again").addEventListener("click", () => this.startShift(this.activeMode));
+
+      this.codexFilters.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          this.codexFilters.forEach((t) => {
+            t.classList.remove("is-active");
+            t.setAttribute("aria-selected", "false");
+          });
+          tab.classList.add("is-active");
+          tab.setAttribute("aria-selected", "true");
+          this.filterCodex(tab.getAttribute("data-cat"));
+        });
+      });
+
+      this.codexSearchInput.addEventListener("input", (e) => {
+        this.searchCodex(e.target.value);
+      });
+
+      this.checkRelaxedTimer.addEventListener("change", (e) => {
+        this.profile.relaxedTimer = e.target.checked;
+        StorageManager.save(this.profile);
+      });
+
+      this.checkSoundToggle.addEventListener("change", (e) => {
+        this.profile.soundEnabled = e.target.checked;
+        this.audio.enabled = e.target.checked;
+        this.updateSoundIcons();
+        StorageManager.save(this.profile);
+      });
+
+      document.getElementById("btn-reset-data").addEventListener("click", () => {
+        if (window.confirm("Reset all bartender certification records, XP, and shift statistics?")) {
+          localStorage.removeItem(STORAGE_KEY);
+          this.profile = StorageManager.getDefaults();
+          this.audio.enabled = true;
+          this.renderProfile();
+          this.updateHeaderUI();
+          this.renderCodex();
+          this.showScreen("lobby");
+          this.showToast("Career log wiped. Station reset.");
+        }
+      });
+
+      window.addEventListener("keydown", (e) => {
+        if (this.screens.game.classList.contains("is-hidden")) return;
+
+        if (!this.hasAnswered) {
+          if (e.key === "1") this.handleAnswerSelection(0);
+          else if (e.key === "2") this.handleAnswerSelection(1);
+          else if (e.key === "3") this.handleAnswerSelection(2);
+          else if (e.key === "4") this.handleAnswerSelection(3);
+        } else {
+          if (e.key === "Enter" || e.key === " ") {
+            if (e.target.tagName !== "BUTTON") {
+              e.preventDefault();
+              this.advanceToNextTicket();
+            }
+          }
+        }
       });
     }
 
-    this.savePersistentData();
-  }
-
-  recordLoss() {
-    this.savedData.totalPlayed++;
-    this.streak = 0;
-
-    if (this.activePuzzle) {
-      if (!this.savedData.mistakeBank.includes(this.activePuzzle.id)) {
-        this.savedData.mistakeBank.push(this.activePuzzle.id);
-      }
-      this.shiftHistory.push({
-        id: this.activePuzzle.id,
-        name: this.activePuzzle.name,
-        won: false,
-        clean: false,
-        points: 0
+    showScreen(screenName) {
+      clearInterval(this.timerInterval);
+      Object.keys(this.screens).forEach((key) => {
+        if (key === screenName) {
+          this.screens[key].classList.remove("is-hidden");
+          this.screens[key].classList.add("screen-active");
+        } else {
+          this.screens[key].classList.add("is-hidden");
+          this.screens[key].classList.remove("screen-active");
+        }
       });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    this.savePersistentData();
-  }
-
-  resetShift() {
-    this.currentPuzzleIndex = 0;
-    this.score = 0;
-    this.streak = 0;
-    this.shiftHistory = [];
-  }
-}
-
-const state = new BartenderGameState();
-
-/* ==========================================================================
-   4. UI CONTROLLER & VIEW MANAGEMENT
-   ========================================================================== */
-class BartenderUIController {
-  constructor() {
-    // Screens
-    this.screenMenu = document.getElementById('screen-menu');
-    this.screenGame = document.getElementById('screen-game');
-
-    // Menu Elements
-    this.menuRankTitle = document.getElementById('menu-rank-title');
-    this.menuRecordSub = document.getElementById('menu-record-sub');
-    this.menuReviewCount = document.getElementById('menu-review-count');
-    this.menuBtnCodex = document.getElementById('menu-btn-codex');
-    this.menuBtnStats = document.getElementById('menu-btn-stats');
-
-    // Game Return
-    this.btnReturnMenu = document.getElementById('btn-return-menu');
-
-    // HUD Elements
-    this.hudRank = document.getElementById('hud-rank');
-    this.hudProgress = document.getElementById('hud-progress');
-    this.hudStreak = document.getElementById('hud-streak');
-    this.hudScore = document.getElementById('hud-score');
-    this.hudTimerContainer = document.getElementById('hud-timer-container');
-    this.hudTimer = document.getElementById('hud-timer');
-
-    // Glass Station
-    this.strikesCount = document.getElementById('strikes-count');
-    this.strikePips = document.getElementById('strike-pips');
-    this.liquidFill = document.getElementById('liquid-fill');
-    this.cracks = [
-      document.getElementById('crack-1'),
-      document.getElementById('crack-2'),
-      document.getElementById('crack-3')
-    ];
-    this.puzzleCategory = document.getElementById('puzzle-category');
-
-    // Clue Card
-    this.clueLevelBadge = document.getElementById('clue-level-badge');
-    this.clueFamily = document.getElementById('clue-family');
-    this.clueText = document.getElementById('clue-text');
-    this.btnRevealClue = document.getElementById('btn-reveal-clue');
-    this.btnVowelHint = document.getElementById('btn-vowel-hint');
-
-    // Word Slots & Keyboard
-    this.wordSlotsContainer = document.getElementById('word-slots');
-    this.keyboardContainer = document.getElementById('virtual-keyboard');
-
-    // Bold Guess
-    this.btnSolveOpen = document.getElementById('btn-solve-open');
-    this.boldGuessPanel = document.getElementById('bold-guess-panel');
-    this.boldGuessInput = document.getElementById('bold-guess-input');
-    this.btnSubmitBold = document.getElementById('btn-submit-bold');
-    this.btnCancelBold = document.getElementById('btn-cancel-bold');
-
-    // Knowledge Modal
-    this.knowledgeModal = document.getElementById('knowledge-modal');
-    this.modalStatus = document.getElementById('modal-result-status');
-    this.modalTitle = document.getElementById('modal-drink-title');
-    this.modalFamily = document.getElementById('modal-meta-family');
-    this.modalGlass = document.getElementById('modal-meta-glass');
-    this.modalSpecFormula = document.getElementById('modal-spec-formula');
-    this.modalWhyMatters = document.getElementById('modal-why-matters');
-    this.modalBartenderTip = document.getElementById('modal-bartender-tip');
-    this.modalHistoryNote = document.getElementById('modal-history-note');
-    this.metricRoundScore = document.getElementById('metric-round-score');
-    this.metricAccuracy = document.getElementById('metric-accuracy');
-    this.metricShiftTime = document.getElementById('metric-shift-time');
-    this.btnNextPuzzle = document.getElementById('btn-next-puzzle');
-
-    // Shift Summary Modal
-    this.summaryModal = document.getElementById('shift-summary-modal');
-    this.sumScore = document.getElementById('sum-score');
-    this.sumSolved = document.getElementById('sum-solved');
-    this.sumRank = document.getElementById('sum-rank');
-    this.sumStreak = document.getElementById('sum-streak');
-    this.summaryBreakdownList = document.getElementById('summary-breakdown-list');
-    this.btnRestartShift = document.getElementById('btn-restart-shift');
-    this.btnReturnMenuFromSum = document.getElementById('btn-return-menu-from-sum');
-
-    // Stats Modal
-    this.statsModal = document.getElementById('stats-modal');
-    this.btnStats = document.getElementById('btn-stats');
-    this.btnCloseStats = document.getElementById('btn-close-stats');
-    this.stPlayed = document.getElementById('st-total-played');
-    this.stWon = document.getElementById('st-total-won');
-    this.stStreak = document.getElementById('st-high-streak');
-    this.stScore = document.getElementById('st-high-score');
-    this.tierProgress = document.getElementById('tier-bar-progress');
-    this.tierPrompt = document.getElementById('tier-next-prompt');
-    this.catMasteryList = document.getElementById('category-mastery-list');
-
-    // Codex Modal
-    this.codexModal = document.getElementById('codex-modal');
-    this.btnCodex = document.getElementById('btn-codex');
-    this.btnCloseCodex = document.getElementById('btn-close-codex');
-    this.codexSearch = document.getElementById('codex-search');
-    this.codexFilterCat = document.getElementById('codex-filter-category');
-    this.codexListContainer = document.getElementById('codex-list-container');
-
-    // Sound Controls
-    this.btnSound = document.getElementById('btn-sound');
-    this.soundIconOn = document.querySelector('.icon-sound-on');
-    this.soundIconOff = document.querySelector('.icon-sound-off');
-
-    // Toast
-    this.toast = document.getElementById('toast-message');
-    this.toastTimer = null;
-
-    this.initKeyboard();
-    this.bindEvents();
-    this.syncSoundUI();
-    this.updateMenuHub();
-  }
-
-  showScreen(screenName) {
-    if (screenName === 'menu') {
-      this.screenMenu.classList.remove('hidden');
-      this.screenGame.classList.add('hidden');
-      this.updateMenuHub();
-    } else {
-      this.screenMenu.classList.add('hidden');
-      this.screenGame.classList.remove('hidden');
+    toggleSound() {
+      this.profile.soundEnabled = !this.profile.soundEnabled;
+      this.audio.enabled = this.profile.soundEnabled;
+      this.checkSoundToggle.checked = this.profile.soundEnabled;
+      this.updateSoundIcons();
+      StorageManager.save(this.profile);
+      if (this.profile.soundEnabled) this.audio.playClink();
     }
-  }
 
-  updateMenuHub() {
-    this.menuRankTitle.textContent = state.getRankTitle();
-    this.menuRecordSub.textContent = `Best Shift Score: ${state.savedData.highScore}`;
-    this.menuReviewCount.textContent = state.savedData.mistakeBank.length;
-  }
-
-  syncSoundUI() {
-    audio.enabled = state.savedData.soundEnabled;
-    if (audio.enabled) {
-      this.soundIconOn.classList.remove('hidden');
-      this.soundIconOff.classList.add('hidden');
-    } else {
-      this.soundIconOn.classList.add('hidden');
-      this.soundIconOff.classList.remove('hidden');
-    }
-  }
-
-  bindEvents() {
-    // Menu Mode Buttons
-    document.querySelectorAll('.menu-mode-list .menu-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const mode = btn.dataset.mode;
-        gameEngine.switchMode(mode);
-        this.showScreen('game');
-      });
-    });
-
-    // Menu secondary buttons
-    this.menuBtnCodex.addEventListener('click', () => this.openCodexModal());
-    this.menuBtnStats.addEventListener('click', () => this.openStatsModal());
-
-    // Return to menu
-    this.btnReturnMenu.addEventListener('click', () => {
-      gameEngine.stopTimer();
-      this.showScreen('menu');
-    });
-
-    // Sound toggle
-    this.btnSound.addEventListener('click', () => {
-      audio.enabled = !audio.enabled;
-      state.savedData.soundEnabled = audio.enabled;
-      state.savePersistentData();
-      this.syncSoundUI();
-      if (audio.enabled) {
-        this.showToast("Sound On");
-        audio.playLetterTap();
+    updateSoundIcons() {
+      if (this.profile.soundEnabled) {
+        this.soundIconOn.classList.remove("is-hidden");
+        this.soundIconOff.classList.add("is-hidden");
+        this.btnToggleSound.setAttribute("aria-pressed", "true");
       } else {
-        this.showToast("Sound Muted");
+        this.soundIconOn.classList.add("is-hidden");
+        this.soundIconOff.classList.remove("is-hidden");
+        this.btnToggleSound.setAttribute("aria-pressed", "false");
       }
-    });
+    }
 
-    // Stats modal
-    this.btnStats.addEventListener('click', () => this.openStatsModal());
-    this.btnCloseStats.addEventListener('click', () => this.statsModal.classList.add('hidden'));
+    showToast(message) {
+      this.toastEl.textContent = message;
+      this.toastEl.classList.remove("is-hidden");
+      setTimeout(() => {
+        this.toastEl.classList.add("is-hidden");
+      }, 2400);
+    }
 
-    // Codex modal
-    this.btnCodex.addEventListener('click', () => this.openCodexModal());
-    this.btnCloseCodex.addEventListener('click', () => this.codexModal.classList.add('hidden'));
-    this.codexSearch.addEventListener('input', () => this.renderCodexList());
-    this.codexFilterCat.addEventListener('change', () => this.renderCodexList());
+    /* ==========================================================================
+       7. SHIFT GAMEPLAY FLOW (5 PLAYTHROUGH TICKETS)
+       ========================================================================== */
+    startShift(mode = "standard") {
+      this.audio.init();
+      this.activeMode = mode;
+      this.currentTicketIndex = 0;
+      this.shiftScore = 0;
+      this.shiftCorrect = 0;
+      this.shiftStreak = 0;
+      this.shiftPeakStreak = 0;
+      this.responseTimes = [];
+      this.categoryPerformance = {};
+      this.shiftStartTime = Date.now();
 
-    // In-game assists
-    this.btnRevealClue.addEventListener('click', () => gameEngine.revealDeeperClue());
-    this.btnVowelHint.addEventListener('click', () => gameEngine.useLetterHint());
+      this.lifelineSpoons = 1;
+      this.lifelineNotes = 1;
+      this.spoonCount.textContent = "1";
+      this.noteCount.textContent = "1";
+      this.btnLifelineSpoon.disabled = false;
+      this.btnLifelineNote.disabled = false;
 
-    // Next puzzle or Shift Complete button
-    this.btnNextPuzzle.addEventListener('click', () => {
-      this.knowledgeModal.classList.add('hidden');
-      gameEngine.advanceAfterModal();
-    });
+      this.showScreen("game");
+      this.loadTicket(0);
+    }
 
-    // Shift summary buttons
-    this.btnRestartShift.addEventListener('click', () => {
-      this.summaryModal.classList.add('hidden');
-      gameEngine.restartFullShift();
-    });
+    loadTicket(index) {
+      clearInterval(this.timerInterval);
+      this.hasAnswered = false;
+      this.ticketStartTime = Date.now();
 
-    this.btnReturnMenuFromSum.addEventListener('click', () => {
-      this.summaryModal.classList.add('hidden');
-      this.showScreen('menu');
-    });
-
-    // Bold Guess Panel
-    this.btnSolveOpen.addEventListener('click', () => {
-      const isHidden = this.boldGuessPanel.classList.contains('hidden');
-      if (isHidden) {
-        this.boldGuessPanel.classList.remove('hidden');
-        this.btnSolveOpen.setAttribute('aria-expanded', 'true');
-        this.boldGuessInput.focus();
-      } else {
-        this.boldGuessPanel.classList.add('hidden');
-        this.btnSolveOpen.setAttribute('aria-expanded', 'false');
-      }
-    });
-
-    this.btnCancelBold.addEventListener('click', () => {
-      this.boldGuessPanel.classList.add('hidden');
-      this.btnSolveOpen.setAttribute('aria-expanded', 'false');
-      this.boldGuessInput.value = '';
-    });
-
-    this.btnSubmitBold.addEventListener('click', () => {
-      gameEngine.submitBoldGuess(this.boldGuessInput.value.trim());
-      this.boldGuessInput.value = '';
-      this.boldGuessPanel.classList.add('hidden');
-      this.btnSolveOpen.setAttribute('aria-expanded', 'false');
-    });
-
-    this.boldGuessInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        gameEngine.submitBoldGuess(this.boldGuessInput.value.trim());
-        this.boldGuessInput.value = '';
-        this.boldGuessPanel.classList.add('hidden');
-        this.btnSolveOpen.setAttribute('aria-expanded', 'false');
-      }
-    });
-
-    // Physical Keyboard Input
-    window.addEventListener('keydown', (e) => {
-      if (this.screenGame.classList.contains('hidden')) return;
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
-      if (e.key === 'Escape') {
-        this.statsModal.classList.add('hidden');
-        this.codexModal.classList.add('hidden');
+      const ticket = this.challenges[index];
+      if (!ticket) {
+        this.finishShift();
         return;
       }
-      const char = e.key.toUpperCase();
-      if (/^[A-Z]$/.test(char)) {
-        gameEngine.handleGuess(char);
+
+      if (!this.categoryPerformance[ticket.category]) {
+        this.categoryPerformance[ticket.category] = { correct: 0, total: 0 };
       }
-    });
+      this.categoryPerformance[ticket.category].total++;
 
-    // Close modals on overlay backdrop tap
-    [this.knowledgeModal, this.statsModal, this.codexModal, this.summaryModal].forEach(modal => {
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal && modal !== this.knowledgeModal && modal !== this.summaryModal) {
-          modal.classList.add('hidden');
-        }
+      this.ticketTracker.textContent = `Ticket ${index + 1} of 5`;
+      this.categoryPill.textContent = ticket.category;
+      this.difficultyIndicator.textContent = `• Level ${ticket.difficulty}`;
+      this.ticketStamp.textContent = `TICKET #${101 + index}`;
+      this.questionPrompt.textContent = ticket.question;
+
+      const progressPercent = ((index) / 5) * 100;
+      this.progressFill.style.width = `${Math.max(10, progressPercent)}%`;
+
+      this.recipeHintBox.classList.add("is-hidden");
+      this.recipeHintText.textContent = "";
+
+      this.updateStreakBadge();
+
+      this.ansButtons.forEach((btn, i) => {
+        btn.classList.remove("is-correct", "is-incorrect", "is-dimmed");
+        btn.disabled = false;
+        btn.querySelector(".ans-text").textContent = ticket.answers[i] || "";
       });
-    });
-  }
 
-  initKeyboard() {
-    const layout = [
-      ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
-      ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
-      ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
-    ];
-
-    this.keyboardContainer.innerHTML = '';
-    layout.forEach(row => {
-      const rowDiv = document.createElement('div');
-      rowDiv.className = 'kb-row';
-      row.forEach(letter => {
-        const btn = document.createElement('button');
-        btn.className = 'key-btn';
-        btn.dataset.letter = letter;
-        btn.textContent = letter;
-        btn.setAttribute('aria-label', `Call letter ${letter}`);
-        btn.addEventListener('click', () => {
-          gameEngine.handleGuess(letter);
-        });
-        rowDiv.appendChild(btn);
-      });
-      this.keyboardContainer.appendChild(rowDiv);
-    });
-  }
-
-  resetKeyboard() {
-    const keys = this.keyboardContainer.querySelectorAll('.key-btn');
-    keys.forEach(k => {
-      k.className = 'key-btn';
-      k.removeAttribute('disabled');
-    });
-  }
-
-  markKey(letter, isCorrect) {
-    const btn = this.keyboardContainer.querySelector(`button[data-letter="${letter}"]`);
-    if (btn) {
-      btn.classList.remove('correct', 'wrong');
-      btn.classList.add(isCorrect ? 'correct' : 'wrong');
-      btn.setAttribute('disabled', 'true');
-    }
-  }
-
-  renderWordSlots(puzzle, guessedLetters) {
-    this.wordSlotsContainer.innerHTML = '';
-    const words = puzzle.name.split(' ');
-
-    words.forEach(word => {
-      const wordGroup = document.createElement('div');
-      wordGroup.className = 'word-group';
-
-      for (let i = 0; i < word.length; i++) {
-        const char = word[i];
-        const slot = document.createElement('div');
-        slot.className = 'letter-slot';
-
-        if (/[A-Z]/.test(char)) {
-          if (guessedLetters.has(char)) {
-            slot.textContent = char;
-            slot.classList.add('revealed');
-          } else {
-            slot.textContent = '';
-          }
+      this.confButtons.forEach((b) => {
+        if (b.getAttribute("data-conf") === this.currentConfidence) {
+          b.classList.add("active");
+          b.setAttribute("aria-checked", "true");
         } else {
-          slot.textContent = char;
-          slot.classList.add('special-char');
+          b.classList.remove("active");
+          b.setAttribute("aria-checked", "false");
         }
-        wordGroup.appendChild(slot);
-      }
-      this.wordSlotsContainer.appendChild(wordGroup);
-    });
-  }
+      });
 
-  updateHUD() {
-    this.hudRank.textContent = state.getRankTitle();
-    this.hudProgress.textContent = `${state.currentPuzzleIndex + 1} / ${gameEngine.activePool.length}`;
-    this.hudStreak.textContent = state.streak;
-    this.hudScore.textContent = state.score;
+      this.feedbackDrawer.classList.add("is-hidden");
+      this.feedbackDetailBox.classList.add("is-hidden");
+      this.btnToggleDeep.textContent = "Read Deep Context";
 
-    if (state.currentMode === 'rush') {
-      this.hudTimerContainer.classList.remove('hidden');
-      this.hudTimer.textContent = `${state.timerSeconds}s`;
-    } else {
-      this.hudTimerContainer.classList.add('hidden');
+      this.btnLifelineSpoon.disabled = this.lifelineSpoons <= 0;
+      this.btnLifelineNote.disabled = this.lifelineNotes <= 0;
+
+      let seconds = 16;
+      if (this.activeMode === "rush") seconds = 8;
+      else if (this.profile.relaxedTimer) seconds = 25;
+
+      this.timeRemaining = seconds;
+      this.timerDisplay.textContent = `${this.timeRemaining}s`;
+      this.timerDisplay.style.color = "var(--warm-gold-bright)";
+
+      this.timerInterval = setInterval(() => {
+        this.timeRemaining--;
+        this.timerDisplay.textContent = `${this.timeRemaining}s`;
+
+        if (this.timeRemaining <= 3 && this.timeRemaining > 0) {
+          this.audio.playTick();
+          this.timerDisplay.style.color = "var(--color-danger-border)";
+        } else {
+          this.timerDisplay.style.color = "var(--warm-gold-bright)";
+        }
+
+        if (this.timeRemaining <= 0) {
+          clearInterval(this.timerInterval);
+          this.handleAnswerSelection(-1);
+        }
+      }, 1000);
     }
-  }
 
-  updateMistakes(mistakes, maxMistakes) {
-    this.strikesCount.textContent = mistakes;
-    const pips = this.strikePips.querySelectorAll('.pip');
-    pips.forEach((pip, idx) => {
-      if (idx < mistakes) {
-        pip.classList.add('active-strike');
+    updateStreakBadge() {
+      let multiplier = 1.0;
+      if (this.shiftStreak >= 2) multiplier = 1.5;
+      if (this.shiftStreak >= 4) multiplier = 2.0;
+
+      this.multiplierBadge.textContent = `${multiplier.toFixed(1)}x Flow`;
+      this.streakCounter.textContent = this.shiftStreak;
+    }
+
+    handleAnswerSelection(selectedIndex) {
+      if (this.hasAnswered) return;
+      this.hasAnswered = true;
+      clearInterval(this.timerInterval);
+
+      const responseDuration = (Date.now() - this.ticketStartTime) / 1000;
+      this.responseTimes.push(responseDuration);
+
+      const ticket = this.challenges[this.currentTicketIndex];
+      const isCorrect = selectedIndex === ticket.correctIndex;
+
+      this.ansButtons.forEach((btn) => (btn.disabled = true));
+
+      let baseBonus = 100;
+      if (this.currentConfidence === "solid") baseBonus = 200;
+      if (this.currentConfidence === "certain") baseBonus = 350;
+
+      let flowMultiplier = 1.0;
+      if (this.shiftStreak >= 2) flowMultiplier = 1.5;
+      if (this.shiftStreak >= 4) flowMultiplier = 2.0;
+
+      const speedBonus = isCorrect && responseDuration < 4.0 ? 50 : 0;
+
+      if (isCorrect) {
+        this.audio.playSuccessChime();
+        this.shiftCorrect++;
+        this.shiftStreak++;
+        if (this.shiftStreak > this.shiftPeakStreak) {
+          this.shiftPeakStreak = this.shiftStreak;
+        }
+
+        const earnedPoints = Math.round(baseBonus * flowMultiplier) + speedBonus;
+        this.shiftScore += earnedPoints;
+        this.profile.totalXp += earnedPoints;
+        this.categoryPerformance[ticket.category].correct++;
+
+        this.ansButtons[selectedIndex].classList.add("is-correct");
+
+        this.feedbackStatus.className = "feedback-status correct";
+        this.feedbackIcon.textContent = "✓";
+        this.feedbackTitle.textContent = "Spot On, Barkeep!";
+        this.feedbackPoints.textContent = `+${earnedPoints} XP`;
+
+        if (this.profile.weakCategories[ticket.category]) {
+          this.profile.weakCategories[ticket.category]--;
+          if (this.profile.weakCategories[ticket.category] <= 0) {
+            delete this.profile.weakCategories[ticket.category];
+          }
+        }
       } else {
-        pip.classList.remove('active-strike');
-      }
-    });
-    this.strikePips.setAttribute('aria-label', `Mistake strikes: ${mistakes} of ${maxMistakes}`);
+        this.audio.playThud();
+        this.shiftStreak = 0;
 
-    const percentLeft = Math.max(0, 1 - (mistakes / maxMistakes));
-    const liquidY = 20 + (75 * (1 - percentLeft));
-    const liquidH = 75 * percentLeft;
-    this.liquidFill.setAttribute('y', liquidY);
-    this.liquidFill.setAttribute('height', liquidH);
+        if (this.currentConfidence === "certain") {
+          this.shiftScore = Math.max(0, this.shiftScore - 100);
+        }
 
-    this.cracks[0].classList.toggle('hidden', mistakes < 2);
-    this.cracks[1].classList.toggle('hidden', mistakes < 4);
-    this.cracks[2].classList.toggle('hidden', mistakes < 6);
-  }
+        if (selectedIndex >= 0) {
+          this.ansButtons[selectedIndex].classList.add("is-incorrect");
+        }
+        this.ansButtons[ticket.correctIndex].classList.add("is-correct");
 
-  setClue(puzzle, level) {
-    this.puzzleCategory.textContent = puzzle.category;
-    this.clueFamily.textContent = puzzle.family;
-    this.clueLevelBadge.textContent = `Station Clue (Level ${level})`;
+        this.feedbackStatus.className = "feedback-status incorrect";
+        this.feedbackIcon.textContent = "✗";
+        this.feedbackTitle.textContent = selectedIndex === -1 ? "Service Timeout!" : "Order Off-Spec";
+        this.feedbackPoints.textContent = "+0 XP";
 
-    if (level === 1) {
-      this.clueText.textContent = puzzle.clueLevel1;
-    } else if (level === 2) {
-      this.clueText.textContent = `${puzzle.clueLevel1} ${puzzle.clueLevel2}`;
-    } else {
-      this.clueText.textContent = `${puzzle.clueLevel1} ${puzzle.clueLevel2} ${puzzle.clueLevel3}`;
-    }
-  }
+        if (!this.profile.weakCategories[ticket.category]) {
+          this.profile.weakCategories[ticket.category] = 0;
+        }
+        this.profile.weakCategories[ticket.category]++;
 
-  showToast(msg) {
-    this.toast.textContent = msg;
-    this.toast.classList.remove('hidden');
-    clearTimeout(this.toastTimer);
-    this.toastTimer = setTimeout(() => {
-      this.toast.classList.add('hidden');
-    }, 2100);
-  }
-
-  showKnowledgeModal(isWin, puzzle, earnedPoints, accuracy, solveDuration, isLastTicket) {
-    this.modalStatus.textContent = isWin ? "TICKET SERVED CLEAN" : "DRINK VOIDED / STATION SPILL";
-    this.modalStatus.className = isWin ? "modal-badge-banner" : "modal-badge-banner failed";
-    this.modalTitle.textContent = puzzle.name;
-    this.modalFamily.textContent = puzzle.family;
-    this.modalGlass.textContent = puzzle.glass;
-    this.modalSpecFormula.textContent = puzzle.spec;
-    this.modalWhyMatters.textContent = puzzle.whyItMatters;
-    this.modalBartenderTip.textContent = puzzle.tip;
-    this.modalHistoryNote.textContent = puzzle.history;
-
-    this.metricRoundScore.textContent = isWin ? `+${earnedPoints}` : `0`;
-    this.metricAccuracy.textContent = `${accuracy}%`;
-    this.metricShiftTime.textContent = `${solveDuration}s`;
-
-    this.btnNextPuzzle.textContent = isLastTicket ? "Complete Shift & Review \u2192" : "Next Ticket \u2192";
-    this.knowledgeModal.classList.remove('hidden');
-  }
-
-  showShiftSummary() {
-    this.sumScore.textContent = state.score;
-    const cleanWins = state.shiftHistory.filter(h => h.won).length;
-    this.sumSolved.textContent = `${cleanWins} / ${state.shiftHistory.length}`;
-    this.sumRank.textContent = state.getRankTitle();
-    this.sumStreak.textContent = state.savedData.bestStreak;
-
-    this.summaryBreakdownList.innerHTML = '';
-    state.shiftHistory.forEach((ticket, idx) => {
-      const row = document.createElement('div');
-      row.className = `summary-ticket-row ${ticket.won ? 'clean' : 'voided'}`;
-      row.innerHTML = `
-        <span><strong>#${idx + 1}</strong> ${ticket.name}</span>
-        <span>${ticket.won ? `+${ticket.points} pts` : 'Voided (0 pts)'}</span>
-      `;
-      this.summaryBreakdownList.appendChild(row);
-    });
-
-    this.summaryModal.classList.remove('hidden');
-  }
-
-  openStatsModal() {
-    this.stPlayed.textContent = state.savedData.totalPlayed;
-    this.stWon.textContent = state.savedData.totalWon;
-    this.stStreak.textContent = state.savedData.bestStreak;
-    this.stScore.textContent = state.savedData.highScore;
-
-    const wins = state.savedData.totalWon;
-    let nextTierGoal = 2;
-    if (wins >= 2) nextTierGoal = 5;
-    if (wins >= 5) nextTierGoal = 10;
-    if (wins >= 10) nextTierGoal = 20;
-
-    const pct = Math.min(100, Math.round((wins / nextTierGoal) * 100));
-    this.tierProgress.style.width = `${pct}%`;
-    const remaining = Math.max(0, nextTierGoal - wins);
-    this.tierPrompt.textContent = remaining === 0 
-      ? "Top Station Rank Achieved!" 
-      : `${remaining} clean tickets until next promotion.`;
-
-    this.catMasteryList.innerHTML = '';
-    Object.entries(state.savedData.categoryMastery).forEach(([cat, count]) => {
-      const row = document.createElement('div');
-      row.className = 'cat-mastery-row';
-      row.innerHTML = `<span>${cat}</span> <strong>${count} Mastered</strong>`;
-      this.catMasteryList.appendChild(row);
-    });
-
-    this.statsModal.classList.remove('hidden');
-  }
-
-  openCodexModal() {
-    this.codexModal.classList.remove('hidden');
-    this.renderCodexList();
-  }
-
-  renderCodexList() {
-    const query = this.codexSearch.value.toUpperCase();
-    const filterCat = this.codexFilterCat.value;
-    this.codexListContainer.innerHTML = '';
-
-    const list = PLAYABLE_CHALLENGES.filter(item => {
-      const matchesSearch = item.name.includes(query) || item.family.toUpperCase().includes(query);
-      const matchesCat = (filterCat === 'ALL' || item.category === filterCat);
-      return matchesSearch && matchesCat;
-    });
-
-    if (list.length === 0) {
-      this.codexListContainer.innerHTML = `<p style="text-align:center; color:#A89B87; padding:15px;">No recipes match the active filter.</p>`;
-      return;
-    }
-
-    list.forEach(entry => {
-      const isUnlocked = state.savedData.unlockedCodexIds.includes(entry.id);
-      const card = document.createElement('div');
-      card.className = `codex-item-card ${isUnlocked ? '' : 'locked'}`;
-
-      if (isUnlocked) {
-        card.innerHTML = `
-          <div class="codex-item-header">
-            <h4 class="codex-item-name">${entry.name}</h4>
-            <span class="codex-item-cat">${entry.category}</span>
-          </div>
-          <p class="codex-item-detail"><strong>Spec:</strong> ${entry.spec}</p>
-          <p class="codex-item-detail"><strong>Glass:</strong> ${entry.glass}</p>
-          <p class="codex-item-detail" style="font-style:italic; margin-top:2px;">"${entry.tip}"</p>
-        `;
-      } else {
-        card.innerHTML = `
-          <div class="codex-item-header">
-            <h4 class="codex-item-name">${entry.name.replace(/[A-Z]/g, '•')}</h4>
-            <span class="codex-item-cat">${entry.category}</span>
-          </div>
-          <p class="codex-item-detail"><em>Complete this ticket during a shift to log ingredients and station notes.</em></p>
-        `;
-      }
-      this.codexListContainer.appendChild(card);
-    });
-  }
-}
-
-/* ==========================================================================
-   5. CORE GAMEPLAY ENGINE
-   ========================================================================== */
-class BartenderGameEngine {
-  constructor() {
-    this.ui = null;
-    this.activePool = [];
-  }
-
-  init() {
-    this.ui = new BartenderUIController();
-  }
-
-  switchMode(mode) {
-    state.currentMode = mode;
-    this.stopTimer();
-    state.resetShift();
-
-    if (mode === 'classic') {
-      this.activePool = [...PLAYABLE_CHALLENGES];
-    } else if (mode === 'daily') {
-      const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
-      const dailyIndex = dayOfYear % PLAYABLE_CHALLENGES.length;
-      this.activePool = [PLAYABLE_CHALLENGES[dailyIndex]];
-      this.ui.showToast("Daily Spec Ticket Prepared");
-    } else if (mode === 'rush') {
-      this.activePool = [...PLAYABLE_CHALLENGES];
-      state.timerSeconds = 60;
-      this.startTimer();
-      this.ui.showToast("Service Rush: 60-Second Shift!");
-    } else if (mode === 'practice') {
-      if (state.savedData.mistakeBank.length === 0) {
-        this.ui.showToast("No missed tickets on file. Practicing standard specs.");
-        this.activePool = [...PLAYABLE_CHALLENGES];
-      } else {
-        this.activePool = PLAYABLE_CHALLENGES.filter(item => state.savedData.mistakeBank.includes(item.id));
-        this.ui.showToast(`Reviewing ${this.activePool.length} missed drink tickets`);
-      }
-    }
-
-    state.currentPuzzleIndex = 0;
-    this.loadPuzzle(this.activePool[0]);
-  }
-
-  startTimer() {
-    this.stopTimer();
-    state.timerInterval = setInterval(() => {
-      state.timerSeconds--;
-      this.ui.updateHUD();
-      if (state.timerSeconds <= 0) {
-        this.stopTimer();
-        this.handleGameOver(false);
-      }
-    }, 1000);
-  }
-
-  stopTimer() {
-    if (state.timerInterval) {
-      clearInterval(state.timerInterval);
-      state.timerInterval = null;
-    }
-  }
-
-  loadPuzzle(puzzle) {
-    if (!puzzle) return;
-    state.activePuzzle = puzzle;
-    state.guessedLetters = new Set();
-    state.mistakes = 0;
-    state.clueLevel = 1;
-    state.isInputLocked = false;
-    state.roundStartTime = Date.now();
-
-    this.ui.resetKeyboard();
-    this.ui.updateMistakes(state.mistakes, state.maxMistakes);
-    this.ui.setClue(state.activePuzzle, state.clueLevel);
-    this.ui.renderWordSlots(state.activePuzzle, state.guessedLetters);
-    this.ui.updateHUD();
-  }
-
-  advanceAfterModal() {
-    const nextIdx = state.currentPuzzleIndex + 1;
-    if (nextIdx >= this.activePool.length) {
-      this.stopTimer();
-      this.ui.showShiftSummary();
-    } else {
-      state.currentPuzzleIndex = nextIdx;
-      this.loadPuzzle(this.activePool[state.currentPuzzleIndex]);
-    }
-  }
-
-  restartFullShift() {
-    this.switchMode(state.currentMode);
-  }
-
-  handleGuess(letter) {
-    if (state.isInputLocked || !state.activePuzzle || state.mistakes >= state.maxMistakes) return;
-    if (state.guessedLetters.has(letter)) return;
-
-    state.guessedLetters.add(letter);
-    const target = state.activePuzzle.name;
-
-    if (target.includes(letter)) {
-      audio.playCorrectChime();
-      this.ui.markKey(letter, true);
-      this.ui.renderWordSlots(state.activePuzzle, state.guessedLetters);
-      this.checkWinCondition();
-    } else {
-      audio.playWrongKnock();
-      state.mistakes++;
-      this.ui.markKey(letter, false);
-      this.ui.updateMistakes(state.mistakes, state.maxMistakes);
-
-      if (state.mistakes >= state.maxMistakes) {
-        audio.playGlassBreak();
-        this.handleGameOver(false);
-      }
-    }
-  }
-
-  checkWinCondition() {
-    const target = state.activePuzzle.name;
-    let isComplete = true;
-
-    for (let i = 0; i < target.length; i++) {
-      const char = target[i];
-      if (/[A-Z]/.test(char) && !state.guessedLetters.has(char)) {
-        isComplete = false;
-        break;
-      }
-    }
-
-    if (isComplete) {
-      audio.playSolveFanfare();
-      this.handleGameOver(true);
-    }
-  }
-
-  revealDeeperClue() {
-    if (state.clueLevel >= 3) {
-      this.ui.showToast("All station tasting clues unlocked!");
-      return;
-    }
-    if (state.score < 20) {
-      this.ui.showToast("Need 20 shift points for deeper clue");
-      return;
-    }
-    state.score = Math.max(0, state.score - 20);
-    state.clueLevel++;
-    audio.playLetterTap();
-    this.ui.setClue(state.activePuzzle, state.clueLevel);
-    this.ui.updateHUD();
-    this.ui.showToast("Deeper Tasting Notes Revealed (-20 pts)");
-  }
-
-  useLetterHint() {
-    if (state.isInputLocked || !state.activePuzzle) return;
-
-    if (state.score < 30) {
-      this.ui.showToast("Need 30 shift points for a letter hint");
-      return;
-    }
-
-    const unrevealedLetters = [];
-    const target = state.activePuzzle.name;
-    for (let i = 0; i < target.length; i++) {
-      const char = target[i];
-      if (/[A-Z]/.test(char) && !state.guessedLetters.has(char)) {
-        if (!unrevealedLetters.includes(char)) {
-          unrevealedLetters.push(char);
+        if (this.activeMode === "master") {
+          setTimeout(() => {
+            this.showToast("Exam Terminated: Zero-tolerance off-spec ticket.");
+            this.finishShift();
+          }, 1400);
+          return;
         }
       }
+
+      this.profile.ticketsAnswered++;
+      if (isCorrect) this.profile.ticketsCorrect++;
+      if (this.shiftPeakStreak > this.profile.bestStreak) {
+        this.profile.bestStreak = this.shiftPeakStreak;
+      }
+
+      this.updateStreakBadge();
+      this.updateHeaderUI();
+
+      this.feedbackPrinciple.innerHTML = `<strong>Bartender's Principle:</strong> ${ticket.principle}`;
+      this.feedbackDetailText.textContent = ticket.deepContext;
+      this.feedbackDrawer.classList.remove("is-hidden");
+
+      StorageManager.save(this.profile);
     }
 
-    if (unrevealedLetters.length === 0) return;
-
-    state.score = Math.max(0, state.score - 30);
-    const pick = unrevealedLetters[Math.floor(Math.random() * unrevealedLetters.length)];
-    this.ui.showToast(`Lead Bartender Hints: "${pick}" (-30 pts)`);
-    this.handleGuess(pick);
-    this.ui.updateHUD();
-  }
-
-  submitBoldGuess(fullGuess) {
-    if (state.isInputLocked || !fullGuess || !state.activePuzzle) return;
-
-    const normalizedGuess = fullGuess.toUpperCase().replace(/[^A-Z]/g, '');
-    const normalizedTarget = state.activePuzzle.name.toUpperCase().replace(/[^A-Z]/g, '');
-
-    if (normalizedGuess === normalizedTarget) {
-      audio.playSolveFanfare();
-      for (let i = 0; i < state.activePuzzle.name.length; i++) {
-        const c = state.activePuzzle.name[i];
-        if (/[A-Z]/.test(c)) state.guessedLetters.add(c);
+    advanceToNextTicket() {
+      this.currentTicketIndex++;
+      if (this.currentTicketIndex >= this.challenges.length) {
+        this.finishShift();
+      } else {
+        this.loadTicket(this.currentTicketIndex);
       }
-      this.ui.renderWordSlots(state.activePuzzle, state.guessedLetters);
-      this.ui.showToast("FLAWLESS QUICK-CALL! +150 BONUS");
-      this.handleGameOver(true, true);
-    } else {
-      audio.playGlassBreak();
-      state.mistakes = Math.min(state.maxMistakes, state.mistakes + 2);
-      this.ui.updateMistakes(state.mistakes, state.maxMistakes);
-      this.ui.showToast("Wrong Call! Station Penalty (+2 Faults)");
-      if (state.mistakes >= state.maxMistakes) {
-        this.handleGameOver(false);
+    }
+
+    /* ==========================================================================
+       8. LIFELINE SYSTEMS
+       ========================================================================== */
+    useLifelineSpoon() {
+      if (this.hasAnswered || this.lifelineSpoons <= 0) return;
+      this.lifelineSpoons--;
+      this.spoonCount.textContent = "0";
+      this.btnLifelineSpoon.disabled = true;
+      this.audio.playClink();
+
+      const ticket = this.challenges[this.currentTicketIndex];
+      const incorrectIndices = [0, 1, 2, 3].filter((i) => i !== ticket.correctIndex);
+      const shuffled = incorrectIndices.sort(() => Math.random() - 0.5).slice(0, 2);
+
+      shuffled.forEach((idx) => {
+        this.ansButtons[idx].classList.add("is-dimmed");
+        this.ansButtons[idx].disabled = true;
+      });
+
+      this.showToast("Barspoon 50/50: 2 off-spec options removed.");
+    }
+
+    useLifelineNote() {
+      if (this.hasAnswered || this.lifelineNotes <= 0) return;
+      this.lifelineNotes--;
+      this.noteCount.textContent = "0";
+      this.btnLifelineNote.disabled = true;
+      this.audio.playTick();
+
+      const ticket = this.challenges[this.currentTicketIndex];
+      this.recipeHintText.textContent = ticket.hint;
+      this.recipeHintBox.classList.remove("is-hidden");
+    }
+
+    /* ==========================================================================
+       9. SHIFT SUMMARY & RESULTS
+       ========================================================================== */
+    finishShift() {
+      clearInterval(this.timerInterval);
+      this.profile.shiftsCompleted++;
+      StorageManager.save(this.profile);
+
+      const effectiveTotal = Math.min(5, Math.max(this.currentTicketIndex, this.shiftCorrect));
+      const accuracy = effectiveTotal > 0 ? Math.round((this.shiftCorrect / effectiveTotal) * 100) : 0;
+
+      const avgSpeed = this.responseTimes.length > 0
+        ? (this.responseTimes.reduce((a, b) => a + b, 0) / this.responseTimes.length).toFixed(1)
+        : "0.0";
+
+      if (accuracy >= 80) {
+        this.resultsStamp.textContent = "SERVICE EXCELLENCE";
+        this.resultsHeadline.textContent = "Clean Ticket Board!";
+        this.resultsSub.textContent = "Flawless craft knowledge and pristine dilution control.";
+      } else if (accuracy >= 60) {
+        this.resultsStamp.textContent = "SHIFT PASSED";
+        this.resultsHeadline.textContent = "Solid Station Service";
+        this.resultsSub.textContent = "Station completed with good pacing. Review off-spec tickets below.";
+      } else {
+        this.resultsStamp.textContent = "RE-TRAINING REQUIRED";
+        this.resultsHeadline.textContent = "Tough Shift Behind the Bar";
+        this.resultsSub.textContent = "Multiple tickets sent back. Study the Bar Codex formulas to sharpen specs.";
+      }
+
+      this.resScore.textContent = this.shiftScore.toLocaleString();
+      this.resAccuracy.textContent = `${accuracy}%`;
+      this.resStreak.textContent = this.shiftPeakStreak;
+      this.resSpeed.textContent = `${avgSpeed}s`;
+
+      const rankInfo = this.getRankInfo(this.profile.totalXp);
+      const nextRank = RANKS[rankInfo.index + 1];
+
+      this.resRankName.textContent = rankInfo.name;
+      if (nextRank) {
+        const xpInLevel = this.profile.totalXp - rankInfo.minXp;
+        const xpNeeded = nextRank.minXp - rankInfo.minXp;
+        const pct = Math.min(100, Math.round((xpInLevel / xpNeeded) * 100));
+        this.resRankFill.style.width = `${pct}%`;
+        this.resXpToNext.textContent = `${nextRank.minXp - this.profile.totalXp} XP to ${nextRank.name}`;
+      } else {
+        this.resRankFill.style.width = "100%";
+        this.resXpToNext.textContent = "Highest Certification Achieved";
+      }
+
+      this.resBreakdownList.innerHTML = "";
+      Object.keys(this.categoryPerformance).forEach((cat) => {
+        const data = this.categoryPerformance[cat];
+        const row = document.createElement("div");
+        row.className = "breakdown-row";
+        const catPct = data.total > 0 ? Math.round((data.correct / data.total) * 100) : 0;
+        row.innerHTML = `
+          <span class="breakdown-cat">${cat}</span>
+          <span class="breakdown-stat">${data.correct} / ${data.total} (${catPct}%)</span>
+        `;
+        this.resBreakdownList.appendChild(row);
+      });
+
+      this.renderProfile();
+      this.updateHeaderUI();
+      this.showScreen("results");
+    }
+
+    getRankInfo(xp) {
+      let activeIndex = 0;
+      for (let i = 0; i < RANKS.length; i++) {
+        if (xp >= RANKS[i].minXp) {
+          activeIndex = i;
+        }
+      }
+      return { ...RANKS[activeIndex], index: activeIndex };
+    }
+
+    updateHeaderUI() {
+      const rank = this.getRankInfo(this.profile.totalXp);
+      this.scoreCounter.textContent = this.profile.totalXp.toLocaleString();
+      this.rankText.textContent = rank.name;
+      this.updateSoundIcons();
+    }
+
+    /* ==========================================================================
+       10. CODEX & RECIPE VAULT
+       ========================================================================== */
+    renderCodex(filterCat = "all", searchQuery = "") {
+      this.codexCardsGrid.innerHTML = "";
+
+      const filtered = this.challenges.filter((item) => {
+        const matchesCategory = filterCat === "all" || item.category === filterCat;
+        const q = searchQuery.toLowerCase().trim();
+        const matchesQuery = !q ||
+          item.title.toLowerCase().includes(q) ||
+          item.spec.toLowerCase().includes(q) ||
+          item.principle.toLowerCase().includes(q);
+        return matchesCategory && matchesQuery;
+      });
+
+      this.codexCountBadge.textContent = `${filtered.length} of ${this.challenges.length} Formulas`;
+
+      filtered.forEach((item) => {
+        const card = document.createElement("article");
+        card.className = "codex-card";
+        card.innerHTML = `
+          <div class="codex-card-top">
+            <h2 class="codex-card-title">${item.title}</h2>
+            <span class="codex-card-cat">${item.category}</span>
+          </div>
+          <div class="codex-recipe-spec">${item.spec}</div>
+          <p class="codex-principle"><strong>Principle:</strong> ${item.principle}</p>
+          <p class="codex-notes">${item.deepContext}</p>
+        `;
+        this.codexCardsGrid.appendChild(card);
+      });
+
+      document.getElementById("codex-unlocked-summary").textContent = 
+        `${this.challenges.length} Curated Craft Formulas`;
+    }
+
+    filterCodex(category) {
+      this.codexFilters.forEach((tab) => {
+        if (tab.getAttribute("data-cat") === category) {
+          tab.classList.add("is-active");
+          tab.setAttribute("aria-selected", "true");
+        } else {
+          tab.classList.remove("is-active");
+          tab.setAttribute("aria-selected", "false");
+        }
+      });
+      this.renderCodex(category, this.codexSearchInput.value);
+    }
+
+    searchCodex(query) {
+      const activeTab = document.querySelector(".filter-tab.is-active");
+      const cat = activeTab ? activeTab.getAttribute("data-cat") : "all";
+      this.renderCodex(cat, query);
+    }
+
+    /* ==========================================================================
+       11. BARTENDER PROFILE & CAREER DIAGNOSTICS
+       ========================================================================== */
+    renderProfile() {
+      const rank = this.getRankInfo(this.profile.totalXp);
+      this.profBadgeIcon.textContent = rank.badge;
+      this.profRankName.textContent = rank.name;
+
+      this.profTotalShifts.textContent = this.profile.shiftsCompleted;
+      this.profTotalAnswers.textContent = this.profile.ticketsAnswered;
+
+      const accuracy = this.profile.ticketsAnswered > 0
+        ? Math.round((this.profile.ticketsCorrect / this.profile.ticketsAnswered) * 100)
+        : 0;
+      this.profLifetimeAcc.textContent = `${accuracy}%`;
+      this.profBestStreak.textContent = this.profile.bestStreak;
+
+      this.checkRelaxedTimer.checked = !!this.profile.relaxedTimer;
+      this.checkSoundToggle.checked = !!this.profile.soundEnabled;
+
+      this.weakSpotsList.innerHTML = "";
+      const weakKeys = Object.keys(this.profile.weakCategories).filter(
+        (k) => this.profile.weakCategories[k] > 0
+      );
+
+      if (weakKeys.length === 0) {
+        this.weakSpotsList.innerHTML = `
+          <div class="empty-state-card">Station clean! No recurrent knowledge blindspots logged.</div>
+        `;
+      } else {
+        weakKeys.forEach((cat) => {
+          const item = document.createElement("div");
+          item.className = "weak-item";
+          item.innerHTML = `
+            <span>${cat}</span>
+            <span style="color: var(--burnt-orange-bright); font-weight: bold;">${this.profile.weakCategories[cat]} Off-Spec</span>
+          `;
+          this.weakSpotsList.appendChild(item);
+        });
       }
     }
   }
 
-  handleGameOver(isWin, isBold = false) {
-    state.isInputLocked = true;
-    const durationSec = Math.max(1, Math.round((Date.now() - state.roundStartTime) / 1000));
-    let roundPoints = 0;
-    let accuracyPct = 100;
-
-    if (isWin) {
-      const cleanBonus = state.mistakes === 0 ? 50 : 0;
-      const speedBonus = Math.max(0, 30 - durationSec);
-      roundPoints = 100 + cleanBonus + speedBonus + (isBold ? 150 : 0);
-      state.score += roundPoints;
-
-      const totalLetters = state.guessedLetters.size;
-      accuracyPct = totalLetters > 0 
-        ? Math.round(((totalLetters - state.mistakes) / totalLetters) * 100)
-        : 100;
-
-      state.recordSolve(state.mistakes === 0, roundPoints);
-    } else {
-      state.recordLoss();
-      for (let i = 0; i < state.activePuzzle.name.length; i++) {
-        const c = state.activePuzzle.name[i];
-        if (/[A-Z]/.test(c)) state.guessedLetters.add(c);
-      }
-      this.ui.renderWordSlots(state.activePuzzle, state.guessedLetters);
-    }
-
-    this.ui.updateHUD();
-    const isLastTicket = (state.currentPuzzleIndex + 1) >= this.activePool.length;
-
-    setTimeout(() => {
-      this.ui.showKnowledgeModal(isWin, state.activePuzzle, roundPoints, accuracyPct, durationSec, isLastTicket);
-    }, 550);
-  }
-}
-
-// Global bootstrap
-const gameEngine = new BartenderGameEngine();
-window.addEventListener('DOMContentLoaded', () => {
-  gameEngine.init();
-});
+  // Safe DOM Initialization
+  document.addEventListener("DOMContentLoaded", () => {
+    window.barGame = new BarGameEngine();
+  });
+})();
