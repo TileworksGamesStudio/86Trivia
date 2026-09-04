@@ -1,1257 +1,1389 @@
 javascript
 /**
  * BAR KNOWLEDGE: THE BARTENDER'S TRIVIA GAME
- * Complete Production Logic Engine
- * Zero external frameworks, pure browser-native APIs.
+ * Front-end Game Engine & Mixology Knowledge Core
+ * Architecture: Clean Vanilla ES6, Web Audio API Sound Synthesizer, 
+ * Adaptive Difficulty Weighting & Persistent Local Storage.
  */
 
 (function () {
-  'use strict';
+  "use strict";
 
   /* ==========================================================================
-     1. AUTHENTIC BARTENDER KNOWLEDGE BASE
-     40+ deep, verified tickets spanning:
-     - Classic Specs
-     - Dilution & Ice Thermodynamics
-     - Sensory Diagnosis & Troubleshooting
-     - Glassware & Thermal Capacity
-     - Spirits & Fortified Wines
-     - History & Speakeasy Culture
-     - Service & Station Workflow
+     1. SOUND SYNTHESIZER (WEB AUDIO API - ZERO ASSET DEPENDENCIES)
      ========================================================================== */
-
-  const QUESTION_BANK = [
-    {
-      id: 'spec-negroni',
-      category: 'Classic Specs',
-      difficulty: 'FOUNDATION',
-      prompt: 'A guest orders a standard classic Negroni. Which specification defines the internationally accepted canonical equal-parts ratio?',
-      answers: [
-        '1 oz London Dry Gin, 1 oz Campari, 1 oz Sweet Red Vermouth',
-        '2 oz London Dry Gin, 1 oz Campari, 0.5 oz Sweet Vermouth',
-        '1.5 oz Bourbon, 1 oz Campari, 1 oz Sweet Vermouth',
-        '1 oz Gin, 1 oz Aperol, 1 oz Dry White Vermouth'
-      ],
-      correctIndex: 0,
-      explanation: 'The classic Negroni, originating in Florence c. 1919 for Count Camillo Negroni, is built on a 1:1:1 ratio of Gin, Campari, and Sweet Vermouth.',
-      proTip: 'Always stir with dense cubes and express fresh orange peel oils across the surface to cut through the heavy bitter-sweet botanicals.'
-    },
-    {
-      id: 'trouble-sour-flabby',
-      category: 'Sensory Diagnosis',
-      difficulty: 'INTERMEDIATE',
-      prompt: 'A freshly shaken Whiskey Sour tastes heavy, flat, and "flabby" on the palate despite using accurate 2 oz bourbon, 0.75 oz fresh lemon, and 0.75 oz 1:1 simple syrup. What is the most probable diagnosis?',
-      answers: [
-        'Insufficient shaking resulting in under-dilution and lack of critical aeration',
-        'The bourbon proof was too high for the citrus balance',
-        'The drink was strained into a warm glass with no ice',
-        'Using 1:1 simple syrup instead of 2:1 rich simple syrup'
-      ],
-      correctIndex: 0,
-      explanation: 'Cocktails containing citrus and sugar require vigorous aeration and approximately 20-25% water dilution to integrate acidity and soften viscosity. Insufficient shaking leaves the drink syrupy, heavy, and perceptually flat ("flabby").',
-      proTip: 'A hard shake introduces thousands of microscopic air bubbles which brighten citrus perception and give texture, especially when egg white or aquafaba is present.'
-    },
-    {
-      id: 'tech-stir-vs-shake',
-      category: 'Technique',
-      difficulty: 'FOUNDATION',
-      prompt: 'Why is a classic Manhattan or Martini stirred rather than shaken behind a professional craft bar?',
-      answers: [
-        'To chill and dilute while preserving crystal clarity and a velvety, bubble-free mouthfeel',
-        'Because shaking bruises the gin botanicals and damages alcohol molecules',
-        'Because vermouth decomposes when agitated violently',
-        'To prevent the cocktail from reaching freezing temperatures'
-      ],
-      correctIndex: 0,
-      explanation: 'Spirit-forward cocktails with no fruit juices, dairy, or egg are stirred to ensure silky mouthfeel and visual clarity. "Bruising gin" is a historical myth; shaking simply forces clouding aeration and rapid over-dilution into drinks that demand silkiness.',
-      proTip: 'Target 30 to 45 revolutions in the mixing glass with dense ice to hit approximately -1°C to 0°C and 18-22% dilution.'
-    },
-    {
-      id: 'glass-coupe-thermal',
-      category: 'Glassware',
-      difficulty: 'INTERMEDIATE',
-      prompt: 'What is the primary operational and sensory purpose of serving cocktails "up" in stemmed glassware (Coupe or Nick & Nora) rather than a tumbler?',
-      answers: [
-        'The stem prevents the guest’s hand heat from warming the un-iced cocktail',
-        'To accommodate decorative powdered rims more easily',
-        'To force the guest to drink the cocktail faster before carbonation escapes',
-        'To permit wider ice spears to float horizontally'
-      ],
-      correctIndex: 0,
-      explanation: 'Drinks served "up" have no ice to maintain chilling in the glass. The stem isolates the bowl from conductive thermal transfer from the customer’s fingers and palms.',
-      proTip: 'Always pre-chill your coupes in a service freezer or pack them with crushed ice and soda water while building the drink in the tin.'
-    },
-    {
-      id: 'sensory-corpse-reviver-diag',
-      category: 'Sensory Diagnosis',
-      difficulty: 'ADVANCED',
-      prompt: 'A Corpse Reviver #2 is returned: "It tastes like licorice floor cleaner." Upon reviewing the ticket, the bartender added 0.25 oz absinthe directly into the shaker. What was the correct standard technique?',
-      answers: [
-        'Absinthe should only rinse the chilled glass (or be applied via atomizer) to impart aroma without overpowering the delicate citrus balance',
-        'Absinthe must only be added after double-straining onto crushed ice',
-        'Absinthe should be dry shaken first with the gin to neutralize anethole oils',
-        'Pastis should have been substituted at equal volume'
-      ],
-      correctIndex: 0,
-      explanation: 'In the Corpse Reviver #2 (equal parts Gin, Cointreau, Lillet Blanc, Lemon), absinthe is an aromatic accent. Incorporating 0.25 oz directly swamps the palate. An absinthe rinse or mist provides aromatic top-notes without obliterating the delicate Lillet structure.',
-      proTip: 'Discard the excess rinse into a dump sink or jigger before pouring the cocktail into the glass.'
-    },
-    {
-      id: 'spec-margarita-curacao',
-      category: 'Classic Specs',
-      difficulty: 'FOUNDATION',
-      prompt: 'What distinguishes a traditional classic 1930s-1940s Daisy-style Margarita from a modern Tommy’s Margarita?',
-      answers: [
-        'Tommy’s omits orange liqueur (triple sec) entirely, sweetening solely with agave nectar',
-        'Tommy’s adds fresh egg white and orange flower water',
-        'Traditional Margaritas use blended Scotch instead of Tequila',
-        'Traditional Margaritas are never served with salt on the rim'
-      ],
-      correctIndex: 0,
-      explanation: 'Julio Bermejo created Tommy’s Margarita in San Francisco during the 1990s, highlighting 100% agave tequila by removing triple sec and substituting agave nectar, resulting in a cleaner, more agave-focused sour.',
-      proTip: 'When salting rims, salt only half the circumference of the glass. Never salt the interior where crystals fall into the drink and over-salinate the wash.'
-    },
-    {
-      id: 'ice-clear-vs-cloudy',
-      category: 'Technique',
-      difficulty: 'ADVANCED',
-      prompt: 'Why do premium cocktail programs invest in directional-freezing clear ice blocks over commercial hollow machine ice cubes for Old Fashioneds?',
-      answers: [
-        'Clear ice is free of trapped oxygen and minerals, providing a much lower surface-area-to-mass ratio that chills with minimal initial melt wash',
-        'Clear ice contains lower alcohol absorption ratings than white ice',
-        'Clear ice chemically reacts with bitters to lower perception of wood tannins',
-        'Clear ice lowers the liquid temperature below -10°C in under five seconds'
-      ],
-      correctIndex: 0,
-      explanation: 'Directional freezing pushes dissolved gasses and minerals away, leaving dense, pure water ice. A single 2-inch clear cube melts significantly slower than multiple small cloudy cubes, maintaining ideal temperature without waterlogging high-proof spirits.',
-      proTip: 'Always temper a clear ice cube at room temperature for 1-2 minutes until clear of frost before pouring room-temperature spirits over it, preventing immediate violent cracking.'
-    },
-    {
-      id: 'spirits-vermouth-storage',
-      category: 'Spirits & Wine',
-      difficulty: 'FOUNDATION',
-      prompt: 'A customer complains that their Martini tastes like cardboard, vinegar, and stewed prunes. What backbar error causes this common defect?',
-      answers: [
-        'The vermouth was stored uncapped at warm room temperature for months and oxidized',
-        'The gin was distilled using winter wheat instead of malted barley',
-        'The olives were stored in brine with low lactic acid concentration',
-        'The mixing glass was rinsed with hot tap water before chilling'
-      ],
-      correctIndex: 0,
-      explanation: 'Vermouth is a fortified wine, not a high-proof distilled spirit. Once opened, exposure to oxygen and heat degrades delicate aromatics into vinegar, cardboard, and oxidation off-notes. Vermouth should always be refrigerated and pumped or gassed after opening.',
-      proTip: 'Date every opened bottle of dry and sweet vermouth behind your bar. Discard or use for culinary syrup after 30 to 45 days refrigerated.'
-    },
-    {
-      id: 'history-old-fashioned-slug',
-      category: 'History',
-      difficulty: 'INTERMEDIATE',
-      prompt: 'What was the original 1806 definition of a "Cock-tail" published in The Balance and Columbian Repository?',
-      answers: [
-        'A stimulating liquor composed of spirits of any kind, sugar, water, and bitters',
-        'A mixture of imported West Indian rum, citrus juice, and nutmeg',
-        'Champagne blended with cognac and aromatic citrus peel',
-        'A morning punch composed of ale, cider, and brandy'
-      ],
-      correctIndex: 0,
-      explanation: 'The seminal 1806 definition defines the fundamental ancestral template of what would later be christened the "Old Fashioned" cocktail: spirit, sugar, water, and bitters.',
-      proTip: 'Notice that water is an essential original ingredient—represented today by the deliberate melting and dilution from stirring with ice.'
-    },
-    {
-      id: 'sensory-egg-white-dry-shake',
-      category: 'Technique',
-      difficulty: 'INTERMEDIATE',
-      prompt: 'What is the biochemical reason for performing a "dry shake" (or reverse dry shake) when preparing a Ramos Gin Fizz or Pisco Sour?',
-      answers: [
-        'To emulsify egg white proteins and build stable foam without premature dilution from ice',
-        'To sterilize bacteria in the egg white via ambient air temperature',
-        'To prevent citrus acids from curdling dairy fats',
-        'To evaporate volatile higher alcohols before serving'
-      ],
-      correctIndex: 0,
-      explanation: 'Egg white proteins (albumin) unfold and entrap air bubbles under mechanical shear. Shaking without ice first allows the proteins to bond and form stable foam without being chilled, which would harden fats and restrict foam volume.',
-      proTip: 'Reverse dry shake (shaking with ice first to chill and dilute, straining out ice, then shaking violently empty) yields an exceptionally tight, meringue-like foam.'
-    },
-    {
-      id: 'service-ticket-priority',
-      category: 'Service & Operations',
-      difficulty: 'ADVANCED',
-      prompt: 'A four-drink service ticket arrives: 1 Dry Gin Martini (Up), 1 Ramos Gin Fizz, 1 Draught Pilsner, 1 Boulevardier on a rock. What is the correct preparation sequence?',
-      answers: [
-        'Start Ramos Gin Fizz (fizz build takes time), stir Boulevardier and Martini, pour draught beer last right before pickup',
-        'Pour draught beer first, shake Ramos, stir drinks, leave on service well',
-        'Build and stir the Martini first so it sits on the bar counter longest',
-        'Stir Boulevardier, pour beer, shake Ramos, shake Martini'
-      ],
-      correctIndex: 0,
-      explanation: 'Beer head degrades and warms fastest; it must be poured last. The Ramos Gin Fizz requires intensive shaking and resting in the glass. Stemmed drinks without ice (Martini) warm rapidly if left standing.',
-      proTip: 'Mise en place rule: Never let a drink without ice wait for a drink with ice, and never let draft beer wait for shaken cocktails.'
-    },
-    {
-      id: 'spec-daiquiri-ratio',
-      category: 'Classic Specs',
-      difficulty: 'FOUNDATION',
-      prompt: 'What is the classic craft bartender specification ratio for an authentic Hemingway or standard Cuban Daiquiri?',
-      answers: [
-        '2 oz Light Rum, 0.75 oz Fresh Lime Juice, 0.75 oz Simple Syrup (or 2:0.75:0.75)',
-        '1 oz Rum, 2 oz Lime Juice, 2 oz Sugar Syrup',
-        '2 oz Dark Jamaican Rum, 1 oz Grenadine, 1 oz Lime Juice',
-        '1.5 oz Spiced Rum, 0.5 oz Pineapple Juice, 0.5 oz Triple Sec'
-      ],
-      correctIndex: 0,
-      explanation: 'The Daiquiri is the supreme benchmark of craft bartending execution: 2 oz white rum, 3/4 oz freshly squeezed lime juice, and 3/4 oz simple syrup (or rich simple adapted to taste).',
-      proTip: 'If your limes are late-season and less acidic, adjust syrup down or use an acid-adjusted citrus solution to keep the finish crisp.'
-    },
-    {
-      id: 'spirits-bourbon-legal',
-      category: 'Spirits & Wine',
-      difficulty: 'INTERMEDIATE',
-      prompt: 'Under US Title 27 Federal Standards of Identity, which criteria is legally mandatory for a whiskey to be labeled "Straight Bourbon Whiskey"?',
-      answers: [
-        'Distilled from minimum 51% corn, aged in new charred oak containers for at least 2 years, with zero color additives',
-        'Produced exclusively within the state boundaries of Kentucky and aged in French Limousin oak',
-        'Distilled to no more than 190 proof and aged in used sherry casks for 3 years',
-        'Contains at least 80% corn and aged in uncharred American white oak'
-      ],
-      correctIndex: 0,
-      explanation: 'Bourbon must contain minimum 51% corn, enter the barrel at no higher than 125 proof, and age in new charred oak. "Straight" requires minimum 2 years of aging with no added flavoring or coloring.',
-      proTip: 'Bourbon can legally be produced in ANY US state, not solely Kentucky, though Kentucky produces approximately 95% of world supply.'
-    },
-    {
-      id: 'sensory-over-dilution',
-      category: 'Sensory Diagnosis',
-      difficulty: 'FOUNDATION',
-      prompt: 'A guest sends back a Sazerac: "It tastes watery and completely hollow in the mid-palate." What error during preparation caused this flaw?',
-      answers: [
-        'Stirring with small, melting "wet ice" for too long before straining into the chilled glass',
-        'Using 100-proof Rye whiskey instead of 80-proof bourbon',
-        'Rinsing the glass with Herbsaint or Absinthe before pouring',
-        'Expressing the lemon peel over the drink without dropping it in'
-      ],
-      correctIndex: 0,
-      explanation: 'Wet ice (ice that has been sitting in ambient air with water coating the cubes) melts immediately on contact, flooding the cocktail with excess melt water before adequate temperature drop occurs.',
-      proTip: 'Always burn off melt water from your ice well and draw fresh dry cubes from the machine or freezer for stirring spirit-forward drinks.'
-    },
-    {
-      id: 'history-sazerac-origin',
-      category: 'History',
-      difficulty: 'ADVANCED',
-      prompt: 'Why did the New Orleans Sazerac cocktail historically transition from its original Cognac base to American Rye Whiskey in the late 19th century?',
-      answers: [
-        'The Phylloxera epidemic devastated French vineyards, crippling Cognac supply to the Port of New Orleans',
-        'Rye whiskey was mandated by Louisiana state law following the Civil War',
-        'Antoine Peychaud refused to allow his bitters to be paired with grape spirits',
-        'Cognac proved too sweet for the newly invented carbonated water siphons'
-      ],
-      correctIndex: 0,
-      explanation: 'In the 1870s, the Phylloxera aphid wiped out European viticulture. Cognac imports dried up, prompting New Orleans bar owners to substitute local, robust American Maryland/Pennsylvania rye whiskeys.',
-      proTip: 'A modern "split-base" Sazerac (1 oz Rye, 1 oz Cognac) delivers both the spicy backbone of rye and the rich dried-fruit depth of the original drink.'
-    },
-    {
-      id: 'garnish-flamed-citrus',
-      category: 'Technique',
-      difficulty: 'INTERMEDIATE',
-      prompt: 'What is the precise sensory objective of expressing and flaming an orange peel over a Metropolitan or Cosmopolitan?',
-      answers: [
-        'To caramelize the expressed essential oils (limonene), reducing sharpness and depositing a warm smoky citrus aroma on top',
-        'To burn off alcohol vapors rising from the surface of the drink',
-        'To heat the top layer of the cocktail so the guest experiences alternating hot and cold sips',
-        'To chemically oxidize the cranberry tannins in the cocktail'
-      ],
-      correctIndex: 0,
-      explanation: 'Flaming an orange peel passes the fine mist of expressed volatile peel oils through a match flame. This scorches and caramelizes the essential oils, yielding aromatic warmth rather than bright raw citrus punch.',
-      proTip: 'Warm the peel gently over the flame for three seconds first to mobilize the oils before giving it a sharp, deliberate fold.'
-    },
-    {
-      id: 'spirits-mezcal-tequila',
-      category: 'Spirits & Wine',
-      difficulty: 'INTERMEDIATE',
-      prompt: 'What primary production stage is responsible for the characteristic smoky, earthy profile found in artisanal Mezcals compared to standard Tequilas?',
-      answers: [
-        'Mezcal agave piñas are roasted in underground earthen conical pits lined with volcanic stone and wood coals',
-        'Mezcal is aged in charred peat whiskey barrels from Scotland',
-        'Liquid smoke extract is legally permitted in artisanal Mezcal Norma Oficial Mexicana',
-        'Mezcal must be distilled three times over open mesquite wood fires'
-      ],
-      correctIndex: 0,
-      explanation: 'Artisanal Mezcal relies on underground stone pits where piñas cook over wood embers for days. Tequila typically cooks agave piñas using steam in above-ground brick ovens (hornos) or autoclaves, preserving fresh vegetative sweetness without smoke.',
-      proTip: 'Mezcal can be made from over 30 varieties of agave (Espadín, Tobalá, Arroqueño), whereas 100% Tequila can only legally be distilled from Blue Agave (Agave Tequilana Weber).'
-    },
-    {
-      id: 'ops-carbonation-retention',
-      category: 'Service & Operations',
-      difficulty: 'INTERMEDIATE',
-      prompt: 'When building a highball cocktail (like a Gin & Tonic or Paloma), which technique preserves the highest dissolved CO2 level and carbonation fizz?',
-      answers: [
-        'Pouring cold soda slowly down a spiraled barspoon into an ice-packed glass, then giving a single gentle lift rather than aggressive stirring',
-        'Stirring the highball vigorously for 15 seconds to ensure spirits blend with the tonic',
-        'Pouring room temperature tonic over crushed pebble ice',
-        'Adding citrus juice after pouring the carbonated soda to lock the bubbles in'
-      ],
-      correctIndex: 0,
-      explanation: 'Rough nucleation surfaces, warmth, and turbulent agitation liberate dissolved CO2 instantaneously. Cold glassware, dense cubes, chilled soda poured gently, and a single vertical spoon lift keep carbonation crisp.',
-      proTip: 'Never shake a cocktail and then dump tonic into the shaker tin. Build directly in the pre-chilled tall Collins glass.'
-    },
-    {
-      id: 'spec-aviation-maraschino',
-      category: 'Classic Specs',
-      difficulty: 'INTERMEDIATE',
-      prompt: 'In Hugo Ensslin’s 1916 Aviation cocktail, which ingredient gives the drink its distinctive pale sky-blue/violet hue?',
-      answers: [
-        'Crème de Violette (or Crème Yvette)',
-        'Blue Curaçao',
-        'Parfait d’Amour',
-        'Butterfly Pea Flower infused London Dry Gin'
-      ],
-      correctIndex: 0,
-      explanation: 'The classic Aviation contains Gin, Maraschino liqueur, Lemon Juice, and Crème de Violette. During the mid-century cocktail dark ages, Violette became unavailable, leading to versions omitting it until the craft revival.',
-      proTip: 'Be very frugal with Crème de Violette: 0.25 oz or even a barspoon is plenty; too much turns the cocktail into a soap-tasting purple mess.'
-    },
-    {
-      id: 'sensory-acid-adjustment',
-      category: 'Sensory Diagnosis',
-      difficulty: 'ADVANCED',
-      prompt: 'A cocktail creator wants to use fresh orange juice in a Sour-style cocktail without throwing off the classic 0.75 oz acid-sugar volume balance. What modern mixology technique resolves this?',
-      answers: [
-        'Acid adjusting the orange juice with powdered citric and malic acid to match lemon or lime acidity (approx. 6% titratable acidity)',
-        'Boiling the orange juice to concentrate its fructose content',
-        'Adding 0.5 oz of 80-proof grain alcohol to raise the juice’s ABV',
-        'Passing the juice through activated charcoal filters to remove sweetness'
-      ],
-      correctIndex: 0,
-      explanation: 'Orange juice has pleasant aromatics but only ~1% acidity, requiring large volumes that over-dilute drinks. By adding citric and malic acids to match lime juice (6%), you can use orange juice in standard sour proportions.',
-      proTip: 'Citric acid provides immediate sharp bite, while malic acid (found in green apples) gives lingering mouthwatering acidity.'
-    }
-  ];
-
-  /* ==========================================================================
-     2. CODEX RECIPE DATABASE (The Bartender's Reference)
-     ========================================================================== */
-  const CODEX_DATA = [
-    {
-      id: 'negroni',
-      name: 'Negroni',
-      type: 'spirit-forward',
-      glass: 'Rocks / Old Fashioned',
-      method: 'Stirred over dense ice',
-      garnish: 'Expressed Orange Peel',
-      specs: '1.0 oz Gin • 1.0 oz Campari • 1.0 oz Sweet Vermouth',
-      notes: 'Created in Florence 1919. Perfect 1:1:1 balance of juniper, bitter gentian root, and sweet herbal wine.'
-    },
-    {
-      id: 'martini',
-      name: 'Classic Dry Martini',
-      type: 'spirit-forward',
-      glass: 'Nick & Nora or Coupe',
-      method: 'Stirred 35-45 rotations to ~ -1°C',
-      garnish: 'Lemon Twist or Castelvetrano Olive',
-      specs: '2.25 oz London Dry Gin • 0.75 oz Dry French Vermouth • 1 dash Orange Bitters',
-      notes: 'Preserve absolute silkiness. Never shake. Keep glassware frozen at -18°C.'
-    },
-    {
-      id: 'daiquiri',
-      name: 'Classic Cuban Daiquiri',
-      type: 'sour',
-      glass: 'Coupe',
-      method: 'Shaken hard with cubed ice; double strained',
-      garnish: 'Dehydrated Lime wheel (optional)',
-      specs: '2.0 oz Light Rum • 0.75 oz Fresh Lime Juice • 0.75 oz Simple Syrup (1:1)',
-      notes: 'The acid-balance benchmark. Aeration should create a delicate ice-crystal mist over the wash.'
-    },
-    {
-      id: 'old-fashioned',
-      name: 'Whiskey Old Fashioned',
-      type: 'spirit-forward',
-      glass: 'Double Old Fashioned',
-      method: 'Built in glass or mixing glass; poured over single clear cube',
-      garnish: 'Expressed Orange Peel & Luxardo Cherry',
-      specs: '2.0 oz Rye or Bourbon • 1 barspoon Rich Demerara Syrup (2:1) • 2 dashes Angostura • 1 dash Orange Bitters',
-      notes: 'Do not muddle maraschino cherries or orange slices into the bottom. Keep it focused and dignified.'
-    },
-    {
-      id: 'whiskey-sour',
-      name: 'Boston Whiskey Sour',
-      type: 'sour',
-      glass: 'Coupe or Rocks',
-      method: 'Reverse dry shake with egg white; double strain',
-      garnish: 'Angostura drops drawn through foam',
-      specs: '2.0 oz Bourbon • 0.75 oz Fresh Lemon Juice • 0.75 oz Simple Syrup • 0.5 oz Egg White (or Aquafaba)',
-      notes: 'Aromatic drops of Angostura bitters over foam neutralize wet-egg aroma while providing contrast.'
-    },
-    {
-      id: 'highball',
-      name: 'Japanese Style Whisky Highball',
-      type: 'highball',
-      glass: 'Pre-chilled Collins / Highball',
-      method: 'Built with spear ice; poured down barspoon; single fold lift',
-      garnish: 'Lemon peel twist expressed over rim',
-      specs: '2.0 oz Blended Japanese Whisky • 5.0 oz Ice-Cold Soda Water',
-      notes: 'Maximum carbonation and extreme chilling. Glass, spirit, and soda should all be kept freezing.'
-    },
-    {
-      id: 'corpse-reviver-2',
-      name: 'Corpse Reviver #2',
-      type: 'sour',
-      glass: 'Chilled Coupe',
-      method: 'Shaken hard; absinthe rinsed glass',
-      garnish: 'Expressed Lemon twist (discarded)',
-      specs: '0.75 oz Gin • 0.75 oz Cointreau • 0.75 oz Lillet Blanc • 0.75 oz Lemon Juice • Absinthe Rinse',
-      notes: 'Classic Savoy 1930 morning reviver. The absinthe must remain an aromatic ghost, never a dominant volume.'
-    },
-    {
-      id: 'sazerac',
-      name: 'New Orleans Sazerac',
-      type: 'spirit-forward',
-      glass: 'Chilled Old Fashioned (No Ice)',
-      method: 'Stirred with ice; strained into absinthe-rinsed glass',
-      garnish: 'Expressed Lemon peel discarded',
-      specs: '1.5 oz Rye Whiskey • 0.5 oz Cognac • 1 Sugar Cube • 3 dashes Peychaud’s Bitters • 1 dash Angostura • Absinthe Rinse',
-      notes: 'Historically served without ice in the drinking glass. The temperature comes entirely from the mixing glass stir.'
-    }
-  ];
-
-  /* ==========================================================================
-     3. CAREER RANK SYSTEM (Authentic Progression)
-     ========================================================================== */
-  const RANKS = [
-    { title: 'Barback', minXp: 0, lore: 'Mastering station mise en place, clean ice wells, and basic syrup preparations.' },
-    { title: 'Apprentice Bartender', minXp: 300, lore: 'Confidently builds classic sours and remembers canonical 3-ingredient specs.' },
-    { title: 'Craft Bartender', minXp: 800, lore: 'Understands thermal transfer, dilution curves, and correct glassware pairing.' },
-    { title: 'Senior Bartender', minXp: 1600, lore: 'Manages high-volume ticket ordering and diagnoses off-flavors instantly.' },
-    { title: 'Head Mixologist', minXp: 3000, lore: 'Understands acid modification, clear ice physics, and historical lineages.' },
-    { title: 'Master of the Craft', minXp: 5000, lore: 'Peerless intuition. Zero hesitation under pressure behind any world bar.' }
-  ];
-
-  /* ==========================================================================
-     4. AUDIO ENGINE (Synthesized via Vanilla Web Audio API)
-     Zero external audio files required. Completely resilient.
-     ========================================================================== */
-  class BarAudioEngine {
+  class BarAudioSystem {
     constructor() {
       this.ctx = null;
       this.enabled = true;
     }
 
     init() {
-      if (!this.ctx) {
+      if (!this.ctx && (window.AudioContext || window.webkitAudioContext)) {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (AudioCtx) {
-          this.ctx = new AudioCtx();
-        }
+        this.ctx = new AudioCtx();
       }
-      if (this.ctx && this.ctx.state === 'suspended') {
+      if (this.ctx && this.ctx.state === "suspended") {
         this.ctx.resume();
       }
     }
 
-    playClick() {
-      if (!this.enabled || !this.ctx) return;
-      try {
+    playClink() {
+      if (!this.enabled) return;
+      this.init();
+      if (!this.ctx) return;
+
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(1760, now); // A6 (crystal glass chime)
+      osc.frequency.exponentialRampToValueAtTime(880, now + 0.35);
+
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.35);
+    }
+
+    playSuccessChime() {
+      if (!this.enabled) return;
+      this.init();
+      if (!this.ctx) return;
+
+      const now = this.ctx.currentTime;
+      const freqs = [523.25, 659.25, 783.99, 1046.5]; // C Major chord shimmer
+
+      freqs.forEach((freq, idx) => {
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(800, this.ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(300, this.ctx.currentTime + 0.04);
-        gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.04);
+        const noteTime = now + idx * 0.05;
+
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freq, noteTime);
+
+        gain.gain.setValueAtTime(0.18, noteTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, noteTime + 0.45);
+
         osc.connect(gain);
         gain.connect(this.ctx.destination);
-        osc.start();
-        osc.stop(this.ctx.currentTime + 0.04);
-      } catch (e) {
-        // Audio error resilient fail
-      }
-    }
 
-    playCorrect() {
-      if (!this.enabled || !this.ctx) return;
-      try {
-        const now = this.ctx.currentTime;
-        const freqs = [523.25, 659.25, 783.99, 1046.50]; // C Major arpeggio crystal clink
-        freqs.forEach((freq, idx) => {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, now + (idx * 0.04));
-          gain.gain.setValueAtTime(0.06, now + (idx * 0.04));
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + (idx * 0.04) + 0.35);
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start(now + (idx * 0.04));
-          osc.stop(now + (idx * 0.04) + 0.35);
-        });
-      } catch (e) {}
-    }
-
-    playIncorrect() {
-      if (!this.enabled || !this.ctx) return;
-      try {
-        const now = this.ctx.currentTime;
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(160, now);
-        osc.frequency.exponentialRampToValueAtTime(90, now + 0.18);
-        gain.gain.setValueAtTime(0.12, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start();
-        osc.stop(now + 0.18);
-      } catch (e) {}
-    }
-
-    playStreak() {
-      if (!this.enabled || !this.ctx) return;
-      try {
-        const now = this.ctx.currentTime;
-        const freqs = [587.33, 880, 1174.66]; // Fanfare D5 chord
-        freqs.forEach((freq, idx) => {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, now + (idx * 0.05));
-          gain.gain.setValueAtTime(0.08, now + (idx * 0.05));
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + (idx * 0.05) + 0.45);
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start(now + (idx * 0.05));
-          osc.stop(now + (idx * 0.05) + 0.45);
-        });
-      } catch (e) {}
-    }
-  }
-
-  /* ==========================================================================
-     5. STORAGE & STATE CONTROLLER
-     ========================================================================== */
-  const STORAGE_KEY = 'bar_knowledge_master_v1';
-
-  function loadProfile() {
-    const fallback = {
-      xp: 0,
-      shiftsCompleted: 0,
-      ticketsAnswered: 0,
-      ticketsCorrect: 0,
-      maxStreak: 0,
-      categoryStats: {},
-      weaknesses: {}, // { categoryName: count }
-      lastDaily: null,
-      settings: {
-        sound: true,
-        reducedMotion: false,
-        highContrast: false
-      }
-    };
-    try {
-      const data = localStorage.getItem(STORAGE_KEY);
-      return data ? Object.assign(fallback, JSON.parse(data)) : fallback;
-    } catch (e) {
-      return fallback;
-    }
-  }
-
-  function saveProfile(profile) {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
-    } catch (e) {}
-  }
-
-  /* ==========================================================================
-     6. MAIN APPLICATION LOGIC
-     ========================================================================== */
-  const audio = new BarAudioEngine();
-  let userProfile = loadProfile();
-
-  // Active Session State
-  let session = {
-    mode: 'classic', // 'classic', 'rush', 'sensory', 'daily'
-    tickets: [],
-    currentIndex: 0,
-    score: 0,
-    streak: 0,
-    roundStreakMax: 0,
-    correctCount: 0,
-    timerInterval: null,
-    timeRemaining: 60,
-    awaitingAdvance: false,
-    answeredHistory: []
-  };
-
-  // DOM Cache
-  const views = {
-    home: document.getElementById('view-home'),
-    game: document.getElementById('view-game'),
-    results: document.getElementById('view-results'),
-    codex: document.getElementById('view-codex'),
-    profile: document.getElementById('view-profile'),
-    settings: document.getElementById('view-settings')
-  };
-
-  const UI = {
-    headerRank: document.getElementById('header-rank'),
-    headerXp: document.getElementById('header-xp'),
-    audioToggle: document.getElementById('btn-audio-toggle'),
-    audioIcon: document.getElementById('audio-icon'),
-
-    // Gameplay UI
-    ticketProgress: document.getElementById('ticket-progress'),
-    ticketCategory: document.getElementById('ticket-category'),
-    ticketStreak: document.getElementById('ticket-streak'),
-    streakContainer: document.getElementById('streak-container'),
-    ticketScore: document.getElementById('ticket-score'),
-    timerDisplay: document.getElementById('timer-display'),
-    timerSeconds: document.getElementById('timer-seconds'),
-    progressFill: document.getElementById('round-progress-fill'),
-    difficultyBadge: document.getElementById('ticket-difficulty'),
-    ticketSpecId: document.getElementById('ticket-spec-id'),
-    ticketPrompt: document.getElementById('ticket-prompt'),
-    confidenceBar: document.getElementById('confidence-bar'),
-    answerGrid: document.getElementById('answer-grid'),
-    feedbackDrawer: document.getElementById('feedback-drawer'),
-    feedbackBanner: document.getElementById('feedback-banner'),
-    feedbackIcon: document.getElementById('feedback-icon'),
-    feedbackTitle: document.getElementById('feedback-title'),
-    feedbackExplanation: document.getElementById('feedback-explanation'),
-    feedbackProTip: document.getElementById('feedback-pro-tip'),
-    btnNextTicket: document.getElementById('btn-next-ticket'),
-    btnAbandon: document.getElementById('btn-abandon-shift'),
-
-    // Results UI
-    resHeadline: document.getElementById('results-headline'),
-    resScore: document.getElementById('res-score'),
-    resAccuracy: document.getElementById('res-accuracy'),
-    resStreak: document.getElementById('res-streak'),
-    resXp: document.getElementById('res-xp'),
-    resRankName: document.getElementById('res-rank-name'),
-    resRankDesc: document.getElementById('res-rank-desc'),
-    resRankFill: document.getElementById('res-rank-progress-fill'),
-    resXpCurr: document.getElementById('res-xp-curr'),
-    resXpNext: document.getElementById('res-xp-next'),
-    mistakesList: document.getElementById('mistakes-list'),
-    btnReplay: document.getElementById('btn-replay-shift'),
-    btnResultsHome: document.getElementById('btn-results-to-home'),
-
-    // Codex UI
-    codexContainer: document.getElementById('codex-cards-container'),
-    codexSearch: document.getElementById('codex-search'),
-    codexFilterContainer: document.getElementById('codex-filters'),
-    codexCounter: document.getElementById('codex-counter'),
-
-    // Profile UI
-    profRankTitle: document.getElementById('prof-rank-title'),
-    profRankLore: document.getElementById('prof-rank-lore'),
-    profShifts: document.getElementById('prof-stat-shifts'),
-    profQuestions: document.getElementById('prof-stat-questions'),
-    profAccuracy: document.getElementById('prof-stat-accuracy'),
-    profMaxStreak: document.getElementById('prof-stat-maxstreak'),
-    categoryMasteryList: document.getElementById('category-mastery-list'),
-    weaknessList: document.getElementById('profile-weakness-list'),
-    weaknessBadge: document.getElementById('weakness-count-badge'),
-
-    // Settings UI
-    setSound: document.getElementById('set-sound'),
-    setMotion: document.getElementById('set-motion'),
-    setContrast: document.getElementById('set-contrast'),
-    btnReset: document.getElementById('btn-reset-data')
-  };
-
-  // Helper: Get Rank Object from XP
-  function getRank(xp) {
-    let current = RANKS[0];
-    for (let i = 0; i < RANKS.length; i++) {
-      if (xp >= RANKS[i].minXp) {
-        current = RANKS[i];
-      }
-    }
-    const nextRank = RANKS[RANKS.indexOf(current) + 1] || null;
-    return { current, nextRank };
-  }
-
-  // Update Global Header
-  function refreshHeader() {
-    const { current } = getRank(userProfile.xp);
-    UI.headerRank.textContent = current.title;
-    UI.headerXp.textContent = `${userProfile.xp} XP`;
-  }
-
-  // Navigation Router
-  function navigateTo(viewName) {
-    audio.playClick();
-    Object.keys(views).forEach(key => {
-      views[key].classList.toggle('active', key === viewName);
-    });
-    window.scrollTo(0, 0);
-
-    if (viewName === 'codex') renderCodex();
-    if (viewName === 'profile') renderProfile();
-  }
-
-  /* ==========================================================================
-     7. GAMEPLAY SESSION LOGIC
-     ========================================================================== */
-
-  // Shuffle array helper (Fisher-Yates)
-  function shuffleArray(arr) {
-    const copy = [...arr];
-    for (let i = copy.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [copy[i], copy[j]] = [copy[j], copy[i]];
-    }
-    return copy;
-  }
-
-  // Start Mode
-  function startShift(mode) {
-    audio.init();
-    audio.playClick();
-
-    session.mode = mode;
-    session.score = 0;
-    session.streak = 0;
-    session.roundStreakMax = 0;
-    session.correctCount = 0;
-    session.currentIndex = 0;
-    session.awaitingAdvance = false;
-    session.answeredHistory = [];
-
-    // Filter or select tickets based on mode
-    let pool = [...QUESTION_BANK];
-    if (mode === 'sensory') {
-      pool = QUESTION_BANK.filter(q => q.category === 'Sensory Diagnosis' || q.category === 'Technique');
-    } else if (mode === 'daily') {
-      // Deterministic pseudo-random seed using calendar day
-      const dateStr = new Date().toISOString().slice(0, 10);
-      let seed = 0;
-      for (let i = 0; i < dateStr.length; i++) seed += dateStr.charCodeAt(i);
-      pool = [...QUESTION_BANK].sort((a, b) => {
-        return (a.id.charCodeAt(0) * seed % 13) - (b.id.charCodeAt(0) * seed % 13);
+        osc.start(noteTime);
+        osc.stop(noteTime + 0.45);
       });
-    } else {
-      pool = shuffleArray(pool);
     }
 
-    const ticketCount = mode === 'rush' ? 25 : (mode === 'daily' ? 7 : 10);
-    session.tickets = pool.slice(0, ticketCount);
+    playThud() {
+      if (!this.enabled) return;
+      this.init();
+      if (!this.ctx) return;
 
-    // Setup Rush Hour Mode Timer
-    if (mode === 'rush') {
-      session.timeRemaining = 60;
-      UI.timerDisplay.style.display = 'inline-flex';
-      UI.timerSeconds.textContent = `${session.timeRemaining}s`;
-      clearInterval(session.timerInterval);
-      session.timerInterval = setInterval(() => {
-        session.timeRemaining--;
-        UI.timerSeconds.textContent = `${session.timeRemaining}s`;
-        if (session.timeRemaining <= 0) {
-          clearInterval(session.timerInterval);
-          finishShift();
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(140, now);
+      osc.frequency.exponentialRampToValueAtTime(45, now + 0.28);
+
+      gain.gain.setValueAtTime(0.25, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.28);
+    }
+
+    playTick() {
+      if (!this.enabled) return;
+      this.init();
+      if (!this.ctx) return;
+
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(950, now);
+
+      gain.gain.setValueAtTime(0.04, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.04);
+    }
+  }
+
+  /* ==========================================================================
+     2. CURATED BARTENDER KNOWLEDGE ENGINE (VERIFIED CRAFT DATA)
+     ========================================================================== */
+  const QUESTION_BANK = [
+    {
+      id: "q_negroni_ratio",
+      category: "Classic Cocktails",
+      difficulty: 1,
+      question: "What is the standard, time-honored historic specification ratio for an authentic classic Negroni?",
+      answers: [
+        "Equal parts: 1:1:1 Gin, Campari, and Sweet Red Vermouth",
+        "2:1:1 Gin, Campari, and Dry White Vermouth",
+        "3:2:1 Bourbon, Sweet Vermouth, and Campari",
+        "Equal parts: 1:1:1 Gin, Aperol, and Lillet Blanc"
+      ],
+      correctIndex: 0,
+      principle: "The Negroni is the defining archetype of the equal-parts trio: Botanical spirit, bitter liqueur, and fortified aromatized wine.",
+      deepContext: "Born circa 1919 at Caffè Casoni in Florence when Count Camillo Negroni asked bartender Fosco Scarselli to strengthen his Americano by substituting gin for soda."
+    },
+    {
+      id: "q_martini_dilution",
+      category: "Technique",
+      difficulty: 2,
+      question: "Why does a professional bartender stir a classic Gin Martini rather than vigorously shaking it in a tin?",
+      answers: [
+        "Stirring prevents micro-aeration and ice shards, preserving a silky, crystal-clear texture",
+        "Shaking raises the cocktail's alcohol by volume beyond legal serving limits",
+        "Gin botanticals spoil instantly if exposed to stainless steel shaker walls",
+        "Stirring cools a drink to -8°C faster than shaking"
+      ],
+      correctIndex: 0,
+      principle: "Cocktails composed solely of clear spirits and fortified wines should be stirred to preserve a dense, crystal-clear texture without cloudy air bubbles.",
+      deepContext: "Shaking forces atmospheric micro-bubbles and fine ice slivers into suspension, which gives citrus sours their prized velvety foam head, but ruins the glass-smooth texture of a clear spirit-forward aperitif."
+    },
+    {
+      id: "q_whiskey_sour_egg",
+      category: "Technique",
+      difficulty: 2,
+      question: "What is the primary thermodynamic purpose of executing a 'Dry Shake' before adding ice to an egg white sour?",
+      answers: [
+        "To emulsify egg proteins at room temperature before chilling tightens the bonds",
+        "To sterilize potential salmonella bacteria with pure whiskey contact",
+        "To reduce total liquid volume by 20% through evaporation",
+        "To caramelize the simple syrup sugars using shaker friction"
+      ],
+      correctIndex: 0,
+      principle: "A dry shake (or reverse dry shake) whips albumin protein chains without ice obstruction, generating structured, stable micro-foam.",
+      deepContext: "Ice cubes inhibit rapid protein chain expansion. Emulsifying warm or room-temp albumin with citrus acid first creates velvety, resilient foam that lasts until the final sip."
+    },
+    {
+      id: "q_sensory_dilution",
+      category: "Sensory & Diagnosis",
+      difficulty: 3,
+      question: "A guest reports their Daiquiri tastes 'thin, watery, and dull' despite exact recipe proportions. What is the root diagnostic cause?",
+      answers: [
+        "The bartender used wet, melting ice with high surface water, causing excessive premature dilution",
+        "The simple syrup was prepared with rich 2:1 cane ratio instead of 1:1",
+        "The cocktail was double strained through a fine wire mesh",
+        "The rum had an ABV above 45%"
+      ],
+      correctIndex: 0,
+      principle: "Wet ice sitting in a warm well carries standing meltwater that floods a shaker with excess liquid before chilling equilibrium is reached.",
+      deepContext: "Always burn wet well ice or strain off puddle water before shaking. Quality bar programs prioritize dense, dry, sub-zero ice cubes with low surface-area melt rates."
+    },
+    {
+      id: "q_daiquiri_specs",
+      category: "Classic Cocktails",
+      difficulty: 1,
+      question: "Which ratio represents the gold-standard modern craft Daiquiri specification?",
+      answers: [
+        "2.0 oz Light Rum, 0.75 oz Fresh Lime Juice, 0.75 oz Demerara or Rich Simple Syrup",
+        "1.0 oz Dark Rum, 2.0 oz Lime Cordial, 1.0 oz Triple Sec",
+        "2.5 oz Coconut Rum, 1.0 oz Pineapple Juice, 0.5 oz Lemon Juice",
+        "1.5 oz Spiced Rum, 1.5 oz Orange Juice, 1.0 oz Grenadine"
+      ],
+      correctIndex: 0,
+      principle: "The Daiquiri is the foundational rum sour: 2 parts spirit, 3/4 parts fresh acid, and 3/4 parts balanced sweetness.",
+      deepContext: "Popularized in Santiago de Cuba around 1900 and immortalized by Constantino Ribalaigua Vert at El Floridita in Havana, who served Ernest Hemingway variations."
+    },
+    {
+      id: "q_glass_coupe_vs_rocks",
+      category: "Glassware",
+      difficulty: 1,
+      question: "Which glass is traditionally and functionally appropriate for an 'up' cocktail like a Manhattan or Corpse Reviver #2?",
+      answers: [
+        "Chilled Coupe or Nick & Nora glass",
+        "Highball glass packed with cracked ice",
+        "Double Old Fashioned rocks tumbler",
+        "Copper Moscow Mule mug"
+      ],
+      correctIndex: 0,
+      principle: "Stemmed glassware isolates the beverage bowl from the warmth of the guest's fingers, maintaining cold serving temperature without ice.",
+      deepContext: "The Nick & Nora (named after characters in Dashiell Hammett's 'The Thin Man') prevents sloshing during service compared to wide-rimmed classic V-shaped martini glasses."
+    },
+    {
+      id: "q_citrus_peel_oil",
+      category: "Garnish & Aroma",
+      difficulty: 2,
+      question: "What is the sensory purpose of 'expressing' an orange or lemon peel over a completed cocktail rather than simply tossing it inside?",
+      answers: [
+        "To mist aromatic volatile essential oils onto the liquid's surface for immediate olfactory impact",
+        "To lower the liquid pH balance by delivering concentrated citric acid",
+        "To tint the top layer of the drink with natural carotenoid color",
+        "To sanitize the rim of the glass with antimicrobial citrus alcohol"
+      ],
+      correctIndex: 0,
+      principle: "Aroma dictates up to 80% of perceived taste; citrus peel flavedo contains volatile oils (limonene) that provide a bright bouquet before the first sip.",
+      deepContext: "Pinching the peel with the outer skin facing the drink projects micro-droplets of oil across the meniscus. Rubbing the peel around the rim transfers fragrance directly to the guest's lips."
+    },
+    {
+      id: "q_vermouth_storage",
+      category: "Ingredients",
+      difficulty: 2,
+      question: "How must opened bottles of Sweet and Dry Vermouth be handled in a professional bar to prevent spoilage?",
+      answers: [
+        "Refrigerated immediately and consumed within 30 to 45 days",
+        "Stored at room temperature on the back bar rail indefinitely",
+        "Frozen into solid blocks and shaved to order",
+        "Cut 50/50 with pure neutral grain spirit to stop fermentation"
+      ],
+      correctIndex: 0,
+      principle: "Vermouth is a fortified, aromatized wine; once exposed to oxygen, it oxidizes, turning flat, sour, and stewed within weeks at ambient temperatures.",
+      deepContext: "Many poor Martinis and Manhattans in dive bars stem from dusty, ambient-temperature vermouth bottles opened months earlier. Keep them refrigerated and gas-blanketed when possible."
+    },
+    {
+      id: "q_chartreuse_sub",
+      category: "Service Judgement",
+      difficulty: 3,
+      question: "Your bar is out of Green Chartreuse for a guest's 'Last Word'. Which modification or substitute is the most professional response?",
+      answers: [
+        "Offer Genepy or an alpine herbal liqueur, informing the guest it offers similar anise-coriander herbal notes with slightly lower proof",
+        "Substitute blue curaçao and peppermint schnapps without mentioning it",
+        "Double the gin and add a drop of green food dye",
+        "Refuse service and suggest they drink beer instead"
+      ],
+      correctIndex: 0,
+      principle: "Professional substitutions honor the botanical profile and functional structure of the cocktail while practicing transparent communication with the guest.",
+      deepContext: "The Last Word (Equal parts Gin, Green Chartreuse, Maraschino, Lime) depends on the potent 55% ABV alpine punch of Chartreuse. Genepy, Dolin Véritable, or Faccia Brutto Centerbe are credible botanical alternatives."
+    },
+    {
+      id: "q_ice_clear_physics",
+      category: "Ice & Thermodynamics",
+      difficulty: 3,
+      question: "Why is dense, directional-frozen clear ice superior to cloudy freezer-tray ice for Old Fashioneds?",
+      answers: [
+        "Clear ice is free of trapped air bubbles and impurities, giving it lower surface area and a far slower melt rate",
+        "Clear ice is chemically treated with sodium to keep it colder than 0°C",
+        "Cloudy ice contains chlorine that instantly neutralizes whiskey ethanol",
+        "Clear ice absorbs whiskey aroma molecules faster"
+      ],
+      correctIndex: 0,
+      principle: "Trapped air bubbles in cloudy ice cause thermal fractures and create exponential surface area, causing an Old Fashioned to quickly become waterlogged.",
+      deepContext: "Directional freezing forces trapped minerals and air downwards into a sacrificial layer, yielding crystal-pure ice that melts evenly and keeps high-proof spirits chilled without dilution runaway."
+    },
+    {
+      id: "q_boulevardier_history",
+      category: "History & Lore",
+      difficulty: 2,
+      question: "The Boulevardier cocktail is a celebrated Prohibition-era cousin of the Negroni that replaces gin with which base spirit?",
+      answers: [
+        "Bourbon or Rye Whiskey",
+        "Aged Demerara Rum",
+        "Blended Scotch Whisky",
+        "Apple Brandy"
+      ],
+      correctIndex: 0,
+      principle: "The Boulevardier was created in 1927 Paris by Erskine Gwynne, replacing gin with American whiskey to pair with Campari and Sweet Vermouth.",
+      deepContext: "Documented in Harry McElhone's 1927 book 'Barflies and Cocktails'. Erskine Gwynne was an American writer who founded the Parisian literary magazine 'The Boulevardier'."
+    },
+    {
+      id: "q_diagnosis_harsh_sour",
+      category: "Sensory & Diagnosis",
+      difficulty: 3,
+      question: "A fresh lime Margarita tastes harsh, aggressively sharp, and acrid despite measuring accurate citrus juice. What likely occurred?",
+      answers: [
+        "Lime juice was squeezed days ago and oxidized, or pressed with excessive pressure releasing bitter pith peel oils",
+        "The tequila was 100% Blue Weber Agave instead of mixto",
+        "The glass was rimmed with kosher salt instead of iodized table salt",
+        "The bartender used crushed pebble ice instead of standard cubes"
+      ],
+      correctIndex: 0,
+      principle: "Citrus juice undergoes enzyme oxidation within 4-10 hours, while heavy mechanical over-pressing extracts bitter albedo pith oils.",
+      deepContext: "Professional cocktail bars juice citrus daily and avoid over-squeezing hand presses to prevent crushing the white pith, which injects astringent limonin into fresh juice."
+    },
+    {
+      id: "q_aviation_violette",
+      category: "Classic Cocktails",
+      difficulty: 2,
+      question: "Which distinctive floral ingredient gives the classic Aviation cocktail its faint sky-blue/purple tint?",
+      answers: [
+        "Crème de Violette",
+        "Blueberry Liqueur",
+        "Blue Curaçao",
+        "Elderflower Cordial"
+      ],
+      correctIndex: 0,
+      principle: "The Aviation (Hugo Ensslin, 1916) blends Gin, Maraschino, Fresh Lemon, and a modest barspoon of Crème de Violette for floral aromatics.",
+      deepContext: "A common bartender mistake is pouring too much Crème de Violette, turning the drink soap-like in taste and dark muddy purple instead of a delicate sky-blue hue."
+    },
+    {
+      id: "q_tequila_blanco_vs_reposado",
+      category: "Spirits & Ingredients",
+      difficulty: 1,
+      question: "By Mexican NOM law, what is the aging requirement for a Tequila to be designated as 'Reposado'?",
+      answers: [
+        "Aged in oak containers for a minimum of 2 months up to 364 days",
+        "Aged in oak casks for at least 3 years",
+        "Unaged and bottled immediately after distillation",
+        "Aged exactly 10 years in ex-bourbon barrels"
+      ],
+      correctIndex: 0,
+      principle: "Reposado translates to 'rested': 2 to 12 months in oak. Blanco is unaged (or up to 60 days), and Añejo requires 1 to 3 years in oak.",
+      deepContext: "For crisp cocktails like the Paloma, Blanco provides bright agave peppery notes, whereas Reposado imparts vanilla and subtle oak tannin."
+    },
+    {
+      id: "q_penicillin_float",
+      category: "Technique",
+      difficulty: 2,
+      question: "How is the Peated Islay Scotch applied in Sam Ross's modern classic 'Penicillin' cocktail?",
+      answers: [
+        "Gently floated on top of the completed cocktail across the back of a barspoon",
+        "Shaken vigorously along with the honey-ginger syrup and blended scotch",
+        "Muddled directly with fresh ginger root at the bottom of the shaker",
+        "Lit on fire as a flambé service presentation"
+      ],
+      correctIndex: 0,
+      principle: "Floated peated whisky sits on the surface, ensuring the guest gets an intense smoky aroma on the nose before tasting the bright honey-lemon drink underneath.",
+      deepContext: "Created in 2005 at Milk & Honey NYC by Sam Ross. Floating an aromatic spirit leverages density and surface tension to separate aroma from body."
+    },
+    {
+      id: "q_saline_in_cocktails",
+      category: "Ingredients & Craft",
+      difficulty: 3,
+      question: "Why do modern mixologists add 2-3 drops of 20% saline (salt solution) to citrus or bitter cocktails?",
+      answers: [
+        "Salt suppresses perceived bitterness while enhancing brightness, sweetness, and aroma",
+        "Salt eliminates all alcohol burn and makes spirits non-intoxicating",
+        "Salt preserves citrus juice so it lasts six weeks in open air",
+        "Salt turns cloudy egg white foam completely crystal clear"
+      ],
+      correctIndex: 0,
+      principle: "Sodium ions bind to bitter taste receptors on the tongue, knocking back astringency and elevating fruit, acid, and sugar perception.",
+      deepContext: "A few drops of 20% saline in a Negroni or Ti' Punch rounds off harsh edges and highlights citrus aromatics without making the drink taste overtly salty."
+    },
+    {
+      id: "q_corpse_reviver_rinse",
+      category: "Classic Cocktails",
+      difficulty: 2,
+      question: "Which aromatized spirit is used as an interior glass rinse in the Corpse Reviver No. 2 and the Sazerac?",
+      answers: [
+        "Absinthe (or Herbsaint)",
+        "Maraschino Liqueur",
+        "Campari",
+        "Green Chartreuse"
+      ],
+      correctIndex: 0,
+      principle: "An absinthe rinse coats the inner surface of the glass with potent anise aromatics without overpowering the delicate liquid balance with excessive volume.",
+      deepContext: "In New Orleans Sazerac service, chilling a tumbler with ice and an absinthe wash while building the rye, bitters, and sugar in a mixing tin is standard choreography."
+    },
+    {
+      id: "q_rush_ticket_prioritization",
+      category: "Service Judgement",
+      difficulty: 3,
+      question: "During a high-volume rush, you receive a ticket with: 1 Ramos Gin Fizz, 1 Draft Beer, 2 Old Fashioneds, and 1 Vodka Soda. What is the most efficient sequence?",
+      answers: [
+        "Start Ramos Gin Fizz shake/rest first, build Old Fashioneds, pour draft beer & highball last so foam and carbonation do not degrade",
+        "Pour the draft beer first and let it sit on the counter while building the rest",
+        "Make the drinks strictly in the order listed on the printed ticket line by line",
+        "Refuse the Ramos Gin Fizz and tell the server it is 86'd"
+      ],
+      correctIndex: 0,
+      principle: "Station efficiency requires starting time-intensive emulsified drinks first, batching stirred cocktails, and pouring carbonated drinks immediately before tray pick-up.",
+      deepContext: "Beer heads deflate and ice melts fast in highballs. Starting the Ramos gin fizz protein structure first allows you to work other drinks while the foam sets up."
+    },
+    {
+      id: "q_ice_surface_area",
+      category: "Ice & Thermodynamics",
+      difficulty: 2,
+      question: "Why does crushed or pebble ice dilute a cocktail significantly faster than a single 2-inch ice cube?",
+      answers: [
+        "Crushed ice has an exponentially greater total surface area exposed to ambient heat and room-temp liquid",
+        "Crushed ice is made of soft tap water while cubes are made from pure alcohol",
+        "Crushed ice generates friction heat from shaker blades",
+        "Single cubes repel room temperature air currents"
+      ],
+      correctIndex: 0,
+      principle: "Thermal transfer rate is directly proportional to surface area; smaller ice fragments present hundreds of times more contact surface to the surrounding liquid.",
+      deepContext: "This is why high-proof, heavily sweetened Tiki drinks like the Zombie or Mai Tai intentionally call for crushed ice: to tame high proof with rapid, refreshing dilution."
+    },
+    {
+      id: "q_fernet_branca_role",
+      category: "Ingredients & Craft",
+      difficulty: 2,
+      question: "Fernet-Branca belongs to which specific European category of intensely bitter, herbal digestif spirits?",
+      answers: [
+        "Amaro",
+        "Vermouth",
+        "Aquavit",
+        "Pastis"
+      ],
+      correctIndex: 0,
+      principle: "Fernet is a sub-class of Italian Amari distinguished by its prominent use of saffron, myrrh, chamomile, and bitter menthol/mint character.",
+      deepContext: "Known affectionately as the 'bartender's handshake' worldwide and the unofficial national cocktail base of Argentina when paired with Coca-Cola (Fernet con Coca)."
+    },
+    {
+      id: "q_bloody_mary_roll",
+      category: "Technique",
+      difficulty: 2,
+      question: "Why is a classic Bloody Mary traditionally 'rolled' between mixing tins rather than violently shaken?",
+      answers: [
+        "Vigorous shaking emulsifies heavy tomato pectins into an unappealing, frothy, watery texture",
+        "Tomato juice explodes under air pressure in stainless steel shakers",
+        "Worcestershire sauce loses all sodium flavor when subjected to centrifugal force",
+        "Stirring with ice is legally required for all vodka drinks"
+      ],
+      correctIndex: 0,
+      principle: "Rolling gently integrates thick, viscous liquids and ice without aerating or foaming tomato solids, which preserves a rich mouthfeel.",
+      deepContext: "Gently pouring the ingredients back and forth between two shaker tins with ice chills and dilutes the cocktail while maintaining the lush body of tomato juice."
+    },
+    {
+      id: "q_bourbon_legal_definition",
+      category: "Spirits & Ingredients",
+      difficulty: 2,
+      question: "Under US Federal Standards of Identity, which requirement is mandatory for a spirit to be labeled 'Bourbon Whiskey'?",
+      answers: [
+        "Must be distilled from a fermented mash of at least 51% corn and aged in new charred oak containers",
+        "Must be distilled exclusively within the geographical borders of Bourbon County, Kentucky",
+        "Must be aged for a minimum of 12 years in ex-sherry butts",
+        "Must contain artificial caramel coloring to achieve its amber tone"
+      ],
+      correctIndex: 0,
+      principle: "Bourbon can be legally distilled anywhere in the USA, provided the grain mash bill is minimum 51% corn and aged in newly charred oak with zero added colorings.",
+      deepContext: "Straight Bourbon must be aged at least 2 years. If aged less than 4 years, an explicit age statement is mandatory on the bottle label."
+    },
+    {
+      id: "q_sidecar_balance",
+      category: "Classic Cocktails",
+      difficulty: 2,
+      question: "Which classic trio of ingredients creates the benchmark 1920s Sidecar cocktail?",
+      answers: [
+        "Cognac (or Brandy), Orange Liqueur (Cointreau), and Fresh Lemon Juice",
+        "Rye Whiskey, Sweet Vermouth, and Angostura Bitters",
+        "Gin, Crème de Cacao, and Heavy Cream",
+        "Tequila, Lime Juice, and Agave Nectar"
+      ],
+      correctIndex: 0,
+      principle: "The Sidecar is the mother of brandy sours, often served with a sugar-rimmed coupe to offset the crisp dryness of Cognac and lemon.",
+      deepContext: "Associated with Harry's New York Bar in Paris and The Ritz Hotel around World War I, named after the motorcycle attachment used by eccentric army captains."
+    },
+    {
+      id: "q_angostura_botanical",
+      category: "Ingredients & Craft",
+      difficulty: 1,
+      question: "Despite its historical association with the town of Angostura, Trinidad's famous Angostura Bitters does NOT contain which ingredient?",
+      answers: [
+        "Angostura bark (Cusparia febrifuga)",
+        "Gentian root",
+        "Aromatic spices",
+        "Alcohol (44.7% ABV)"
+      ],
+      correctIndex: 0,
+      principle: "Angostura Bitters was formulated in 1824 by Dr. Johann Siegert as a medical tonic; it is flavored with gentian and botanicals, but does not use angostura bark.",
+      deepContext: "The oversized paper label on Angostura bottles was a historical design accident: brothers entering a competition ordered the label without measuring the bottle, and decided to keep it as an iconic trademark."
+    }
+  ];
+
+  /* ==========================================================================
+     3. CODEX & RECIPE DATA (INTERACTIVE STUDY HUB)
+     ========================================================================== */
+  const CODEX_DATA = [
+    {
+      id: "negroni",
+      title: "Negroni",
+      category: "Cocktails",
+      spec: "1.0 oz London Dry Gin • 1.0 oz Campari • 1.0 oz Sweet Red Vermouth",
+      notes: "Build in rocks glass over dense clear block. Stir 20 seconds. Express orange peel disk over top and insert."
+    },
+    {
+      id: "daiquiri",
+      title: "Daiquiri (Classic)",
+      category: "Cocktails",
+      spec: "2.0 oz Light Rum • 0.75 oz Fresh Lime Juice • 0.75 oz Rich Demerara Syrup (2:1)",
+      notes: "Vigorous shake with dense ice for 10 seconds. Double strain into chilled coupe. No garnish or thin lime wheel float."
+    },
+    {
+      id: "manhattan",
+      title: "Manhattan",
+      category: "Cocktails",
+      spec: "2.0 oz Rye Whiskey • 1.0 oz Sweet Vermouth • 2 dashes Angostura Bitters",
+      notes: "Stir with ice until down to -1°C. Strain into chilled Nick & Nora glass. Garnish with brandied cherry."
+    },
+    {
+      id: "martini",
+      title: "Dry Gin Martini",
+      category: "Cocktails",
+      spec: "2.5 oz London Dry Gin • 0.5 oz Dry White Vermouth • 1 dash Orange Bitters",
+      notes: "Stir 45 revolutions in mixing glass. Strain into frozen glass. Express lemon twist oils or drop in Castelvetrano olive."
+    },
+    {
+      id: "sazerac",
+      title: "Sazerac",
+      category: "Cocktails",
+      spec: "2.0 oz Rye Whiskey • 1 Sugar Cube • 3 dashes Peychaud's Bitters • Absinthe Rinse",
+      notes: "Muddle sugar with bitters. Add whiskey and stir with ice. Coat chilled rocks glass with absinthe, discard excess. Express lemon peel and discard."
+    },
+    {
+      id: "clear_ice",
+      title: "Directional Clear Ice",
+      category: "Glassware",
+      spec: "Directional freezing in insulated coolers • Sub-zero storage • Hand cut",
+      notes: "Pure H2O free of trapped gas. Dissipates thermal load without premature dilution, critical for spirit-forward cocktails."
+    },
+    {
+      id: "dry_shake",
+      title: "Dry Shake & Emulsion",
+      category: "Technique",
+      spec: "Shake room-temp ingredients + egg white/aquafaba without ice 10s • Add ice and shake 8s",
+      notes: "Emulsifies hydrophobic albumin protein chains. Produces dense micro-foam that supports aromatic bitters drops."
+    },
+    {
+      id: "vermouth_care",
+      title: "Fortified Wine Chemistry",
+      category: "Spirits",
+      spec: "Refrigerate at 3°C • Vacuum seal or Argon gas • Max shelf life 30 days",
+      notes: "Fortified wine oxidizes into acetic and stewed off-flavors once uncorked. Always treat vermouth like perishable wine."
+    },
+    {
+      id: "sensory_acid",
+      title: "Citrus Oxidation Diagnosis",
+      category: "Sensory",
+      spec: "Shelf life: Lime 6-8 hrs • Lemon 10 hrs • Avoid overpressing white pith albedo",
+      notes: "Limonin development causes old juice to taste bitter and sharp. Freshly pressed daily citrus is non-negotiable."
+    }
+  ];
+
+  /* ==========================================================================
+     4. BARTENDER RANK SYSTEM
+     ========================================================================== */
+  const RANKS = [
+    { name: "Barback", minXp: 0, badge: "🌱" },
+    { name: "Apprentice", minXp: 400, badge: "🥄" },
+    { name: "Bartender", minXp: 1200, badge: "🍸" },
+    { name: "Senior Bartender", minXp: 2600, badge: "★" },
+    { name: "Head Mixologist", minXp: 4800, badge: "👑" },
+    { name: "Master of Cocktails", minXp: 8000, badge: "✨" }
+  ];
+
+  /* ==========================================================================
+     5. PERSISTENT STORAGE CONTROLLER
+     ========================================================================== */
+  const STORAGE_KEY = "BAR_KNOWLEDGE_CAREER_V1";
+
+  class PersistenceManager {
+    static load() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return this.getDefaults();
+        const parsed = JSON.parse(raw);
+        return Object.assign(this.getDefaults(), parsed);
+      } catch (err) {
+        console.warn("Storage load error:", err);
+        return this.getDefaults();
+      }
+    }
+
+    static save(data) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      } catch (err) {
+        console.warn("Storage save error:", err);
+      }
+    }
+
+    static getDefaults() {
+      return {
+        totalXp: 0,
+        bestStreak: 0,
+        shiftsCompleted: 0,
+        ticketsAnswered: 0,
+        ticketsCorrect: 0,
+        weakCategories: {},
+        unlockedCards: ["negroni", "daiquiri", "manhattan"],
+        soundEnabled: true,
+        relaxedTimer: false,
+        lastDailyDate: null
+      };
+    }
+  }
+
+  /* ==========================================================================
+     6. MAIN GAME ENGINE
+     ========================================================================== */
+  class BarKnowledgeGame {
+    constructor() {
+      this.audio = new BarAudioSystem();
+      this.profile = PersistenceManager.load();
+      this.audio.enabled = this.profile.soundEnabled;
+
+      // Active shift state
+      this.activeMode = "standard";
+      this.shiftQueue = [];
+      this.currentIndex = 0;
+      this.shiftScore = 0;
+      this.shiftCorrect = 0;
+      this.shiftStreak = 0;
+      this.shiftPeakStreak = 0;
+      this.shiftStartTime = 0;
+      this.ticketStartTime = 0;
+      this.responseTimes = [];
+      this.categoryPerformance = {};
+
+      // Ticket level interaction state
+      this.currentConfidence = "guess"; // 'guess' (+100), 'think' (+200), 'certain' (+350)
+      this.hasAnswered = false;
+      this.timerInterval = null;
+      this.timeRemaining = 15;
+      this.lifelineSpoons = 1;
+      this.lifelineNotes = 1;
+
+      this.cacheDOMElements();
+      this.bindEvents();
+      this.renderProfile();
+      this.updateHeaderUI();
+      this.renderCodex();
+    }
+
+    cacheDOMElements() {
+      // Screens
+      this.screens = {
+        lobby: document.getElementById("screen-lobby"),
+        game: document.getElementById("screen-game"),
+        results: document.getElementById("screen-results"),
+        codex: document.getElementById("screen-codex"),
+        profile: document.getElementById("screen-profile")
+      };
+
+      // Header Stats
+      this.streakCounter = document.getElementById("streak-counter");
+      this.scoreCounter = document.getElementById("score-counter");
+      this.rankText = document.getElementById("rank-text");
+      this.soundIconOn = document.getElementById("sound-icon-on");
+      this.soundIconOff = document.getElementById("sound-icon-off");
+
+      // Game Screen Ticket Elements
+      this.ticketNumber = document.getElementById("ticket-number");
+      this.multiplierBadge = document.getElementById("multiplier-badge");
+      this.timerDisplay = document.getElementById("timer-display");
+      this.progressFill = document.getElementById("progress-fill");
+      this.categoryPill = document.getElementById("question-category");
+      this.difficultyIndicator = document.getElementById("question-difficulty");
+      this.ticketStamp = document.getElementById("ticket-stamp");
+      this.questionPrompt = document.getElementById("question-prompt");
+      this.confidenceBar = document.getElementById("confidence-bar");
+      this.confButtons = document.querySelectorAll(".conf-btn");
+      this.answersGrid = document.getElementById("answers-grid");
+      this.ansButtons = document.querySelectorAll(".ans-btn");
+
+      // Lifelines
+      this.btnLifelineSpoon = document.getElementById("btn-lifeline-spoon");
+      this.btnLifelineNote = document.getElementById("btn-lifeline-note");
+      this.spoonCountSpan = document.getElementById("spoon-count");
+      this.noteCountSpan = document.getElementById("note-count");
+
+      // Feedback Drawer
+      this.feedbackDrawer = document.getElementById("feedback-drawer");
+      this.feedbackStatus = document.getElementById("feedback-status");
+      this.feedbackIcon = document.getElementById("feedback-icon");
+      this.feedbackTitle = document.getElementById("feedback-title");
+      this.feedbackPoints = document.getElementById("feedback-points");
+      this.feedbackPrinciple = document.getElementById("feedback-principle");
+      this.feedbackDetailBox = document.getElementById("feedback-detail-box");
+      this.feedbackDetailText = document.getElementById("feedback-detail-text");
+      this.btnToggleDeep = document.getElementById("btn-toggle-deep");
+      this.btnNextQuestion = document.getElementById("btn-next-question");
+
+      // Results Elements
+      this.resultsStamp = document.getElementById("results-stamp");
+      this.resultsHeadline = document.getElementById("results-headline");
+      this.resultsSub = document.getElementById("results-sub");
+      this.resScore = document.getElementById("res-score");
+      this.resAccuracy = document.getElementById("res-accuracy");
+      this.resStreak = document.getElementById("res-streak");
+      this.resSpeed = document.getElementById("res-speed");
+      this.resRankName = document.getElementById("res-rank-name");
+      this.resRankFill = document.getElementById("res-rank-fill");
+      this.resXpToNext = document.getElementById("res-xp-to-next");
+      this.resBreakdownList = document.getElementById("res-breakdown-list");
+
+      // Codex Elements
+      this.codexCountBadge = document.getElementById("codex-count-badge");
+      this.codexCardsGrid = document.getElementById("codex-cards-grid");
+      this.codexSearchInput = document.getElementById("codex-search-input");
+      this.codexFilters = document.querySelectorAll(".filter-tab");
+
+      // Profile Elements
+      this.profTotalShifts = document.getElementById("prof-total-shifts");
+      this.profTotalAnswers = document.getElementById("prof-total-answers");
+      this.profLifetimeAcc = document.getElementById("prof-lifetime-acc");
+      this.profBestStreak = document.getElementById("prof-best-streak");
+      this.weakSpotsList = document.getElementById("weak-spots-list");
+      this.checkRelaxedTimer = document.getElementById("check-relaxed-timer");
+      this.checkSoundToggle = document.getElementById("check-sound-toggle");
+      this.toastEl = document.getElementById("toast");
+    }
+
+    bindEvents() {
+      // Global navigation
+      document.getElementById("btn-brand").addEventListener("click", () => this.showScreen("lobby"));
+      document.getElementById("btn-open-profile").addEventListener("click", () => this.showScreen("profile"));
+      document.getElementById("btn-nav-codex").addEventListener("click", () => this.showScreen("codex"));
+      document.getElementById("btn-nav-diagnosis").addEventListener("click", () => {
+        this.showScreen("codex");
+        this.filterCodex("Sensory");
+      });
+      document.getElementById("btn-codex-back").addEventListener("click", () => this.showScreen("lobby"));
+      document.getElementById("btn-profile-back").addEventListener("click", () => this.showScreen("lobby"));
+      document.getElementById("btn-results-home").addEventListener("click", () => this.showScreen("lobby"));
+      document.getElementById("btn-results-codex").addEventListener("click", () => this.showScreen("codex"));
+
+      // Audio toggling
+      document.getElementById("btn-toggle-sound").addEventListener("click", () => this.toggleSound());
+
+      // Mode Selection
+      document.querySelectorAll(".mode-card").forEach((card) => {
+        card.addEventListener("click", () => {
+          const mode = card.getAttribute("data-mode");
+          this.startShift(mode);
+        });
+      });
+
+      // Answer Choices Click
+      this.ansButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const index = parseInt(btn.getAttribute("data-index"), 10);
+          this.handleAnswerSelection(index);
+        });
+      });
+
+      // Confidence Selectors
+      this.confButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          if (this.hasAnswered) return;
+          this.confButtons.forEach((b) => {
+            b.classList.remove("active");
+            b.setAttribute("aria-checked", "false");
+          });
+          btn.classList.add("active");
+          btn.setAttribute("aria-checked", "true");
+          this.currentConfidence = btn.getAttribute("data-conf");
+          this.audio.playTick();
+        });
+      });
+
+      // Lifelines
+      this.btnLifelineSpoon.addEventListener("click", () => this.useLifelineSpoon());
+      this.btnLifelineNote.addEventListener("click", () => this.useLifelineNote());
+
+      // Feedback next ticket
+      this.btnNextQuestion.addEventListener("click", () => this.advanceToNextTicket());
+      this.btnToggleDeep.addEventListener("click", () => {
+        this.feedbackDetailBox.classList.toggle("is-hidden");
+        this.btnToggleDeep.textContent = this.feedbackDetailBox.classList.contains("is-hidden")
+          ? "Read Deep Note"
+          : "Hide Note";
+      });
+
+      // Results screen restart
+      document.getElementById("btn-play-again").addEventListener("click", () => this.startShift(this.activeMode));
+
+      // Codex filtering and search
+      this.codexFilters.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          this.codexFilters.forEach((t) => t.classList.remove("is-active"));
+          tab.classList.add("is-active");
+          this.filterCodex(tab.getAttribute("data-cat"));
+        });
+      });
+
+      this.codexSearchInput.addEventListener("input", (e) => {
+        this.searchCodex(e.target.value);
+      });
+
+      // Settings toggles
+      this.checkRelaxedTimer.addEventListener("change", (e) => {
+        this.profile.relaxedTimer = e.target.checked;
+        PersistenceManager.save(this.profile);
+      });
+
+      this.checkSoundToggle.addEventListener("change", (e) => {
+        this.profile.soundEnabled = e.target.checked;
+        this.audio.enabled = e.target.checked;
+        this.updateSoundIcons();
+        PersistenceManager.save(this.profile);
+      });
+
+      // Reset data button
+      document.getElementById("btn-reset-data").addEventListener("click", () => {
+        if (confirm("Reset all bartender certifications, XP, and shift records?")) {
+          localStorage.removeItem(STORAGE_KEY);
+          this.profile = PersistenceManager.getDefaults();
+          this.audio.enabled = true;
+          this.renderProfile();
+          this.updateHeaderUI();
+          this.renderCodex();
+          this.showScreen("lobby");
+          this.showToast("Station sanitized. Records cleared.");
+        }
+      });
+
+      // Keyboard Controls (Accessibility & Rapid Flow)
+      window.addEventListener("keydown", (e) => {
+        if (this.screens.game.classList.contains("is-hidden")) return;
+
+        if (!this.hasAnswered) {
+          if (e.key === "1") this.handleAnswerSelection(0);
+          else if (e.key === "2") this.handleAnswerSelection(1);
+          else if (e.key === "3") this.handleAnswerSelection(2);
+          else if (e.key === "4") this.handleAnswerSelection(3);
+        } else {
+          if (e.key === " " || e.key === "Enter") {
+            e.preventDefault();
+            this.advanceToNextTicket();
+          }
+        }
+      });
+    }
+
+    showScreen(screenName) {
+      Object.keys(this.screens).forEach((key) => {
+        if (key === screenName) {
+          this.screens[key].classList.remove("is-hidden");
+          this.screens[key].classList.add("screen-active");
+        } else {
+          this.screens[key].classList.add("is-hidden");
+          this.screens[key].classList.remove("screen-active");
+        }
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    toggleSound() {
+      this.profile.soundEnabled = !this.profile.soundEnabled;
+      this.audio.enabled = this.profile.soundEnabled;
+      this.checkSoundToggle.checked = this.profile.soundEnabled;
+      this.updateSoundIcons();
+      PersistenceManager.save(this.profile);
+      if (this.profile.soundEnabled) this.audio.playClink();
+    }
+
+    updateSoundIcons() {
+      if (this.profile.soundEnabled) {
+        this.soundIconOn.classList.remove("is-hidden");
+        this.soundIconOff.classList.add("is-hidden");
+      } else {
+        this.soundIconOn.classList.add("is-hidden");
+        this.soundIconOff.classList.remove("is-hidden");
+      }
+    }
+
+    showToast(message) {
+      this.toastEl.textContent = message;
+      this.toastEl.classList.remove("is-hidden");
+      setTimeout(() => {
+        this.toastEl.classList.add("is-hidden");
+      }, 2600);
+    }
+
+    /* ==========================================================================
+       7. SHIFT GAMEPLAY LIFECYCLE
+       ========================================================================== */
+    startShift(mode = "standard") {
+      this.audio.init();
+      this.activeMode = mode;
+      this.shiftScore = 0;
+      this.shiftCorrect = 0;
+      this.shiftStreak = 0;
+      this.shiftPeakStreak = 0;
+      this.currentIndex = 0;
+      this.responseTimes = [];
+      this.categoryPerformance = {};
+      this.lifelineSpoons = 1;
+      this.lifelineNotes = 1;
+      this.spoonCountSpan.textContent = "1";
+      this.noteCountSpan.textContent = "1";
+      this.btnLifelineSpoon.disabled = false;
+      this.btnLifelineNote.disabled = false;
+
+      // Question Queue Composition
+      let totalQuestions = 10;
+      if (mode === "survival") totalQuestions = 30; // Endless sequence
+      if (mode === "speed") totalQuestions = 15;
+
+      this.shiftQueue = this.generateAdaptiveQueue(totalQuestions, mode);
+      this.shiftStartTime = Date.now();
+
+      this.showScreen("game");
+      this.loadTicket(this.currentIndex);
+    }
+
+    generateAdaptiveQueue(count, mode) {
+      // Prioritize recently missed categories for adaptive difficulty
+      const weakPool = Object.keys(this.profile.weakCategories).filter(
+        (cat) => this.profile.weakCategories[cat] > 0
+      );
+
+      // Clone question bank
+      let pool = [...QUESTION_BANK];
+
+      // Shuffle array
+      for (let i = pool.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pool[i], pool[j]] = [pool[j], pool[i]];
+      }
+
+      // Prioritize weak questions if available
+      if (weakPool.length > 0) {
+        pool.sort((a, b) => {
+          const aWeak = weakPool.includes(a.category) ? -1 : 1;
+          const bWeak = weakPool.includes(b.category) ? -1 : 1;
+          return aWeak - bWeak;
+        });
+      }
+
+      return pool.slice(0, count);
+    }
+
+    loadTicket(index) {
+      clearInterval(this.timerInterval);
+      this.hasAnswered = false;
+      this.ticketStartTime = Date.now();
+
+      const ticket = this.shiftQueue[index];
+      if (!ticket) {
+        this.finishShift();
+        return;
+      }
+
+      // Track categories in this shift
+      if (!this.categoryPerformance[ticket.category]) {
+        this.categoryPerformance[ticket.category] = { correct: 0, total: 0 };
+      }
+      this.categoryPerformance[ticket.category].total++;
+
+      // UI Labels
+      const totalDisplay = this.activeMode === "survival" ? "∞" : this.shiftQueue.length;
+      this.ticketNumber.textContent = `Ticket ${index + 1} of ${totalDisplay}`;
+      this.categoryPill.textContent = ticket.category;
+      this.difficultyIndicator.textContent = `● Level ${ticket.difficulty}`;
+      this.ticketStamp.textContent = `TICKET #${Math.floor(1000 + Math.random() * 9000)}`;
+      this.questionPrompt.textContent = ticket.question;
+
+      // Progress bar percentage
+      const pct = ((index) / this.shiftQueue.length) * 100;
+      this.progressFill.style.width = `${Math.max(5, pct)}%`;
+
+      // Streak & Multiplier
+      this.updateStreakBadge();
+
+      // Reset Answer choices
+      this.ansButtons.forEach((btn, i) => {
+        btn.classList.remove("is-correct", "is-incorrect", "is-dimmed");
+        btn.disabled = false;
+        btn.querySelector(".ans-text").textContent = ticket.answers[i] || "";
+      });
+
+      // Reset Confidence options to "Guess" or retain preference
+      this.confButtons.forEach((b) => {
+        if (b.getAttribute("data-conf") === this.currentConfidence) {
+          b.classList.add("active");
+          b.setAttribute("aria-checked", "true");
+        } else {
+          b.classList.remove("active");
+          b.setAttribute("aria-checked", "false");
+        }
+      });
+
+      // Hide Feedback Drawer
+      this.feedbackDrawer.classList.add("is-hidden");
+      this.feedbackDetailBox.classList.add("is-hidden");
+      this.btnToggleDeep.textContent = "Read Deep Note";
+
+      // Re-enable tools if available
+      this.btnLifelineSpoon.disabled = this.lifelineSpoons <= 0;
+      this.btnLifelineNote.disabled = this.lifelineNotes <= 0;
+
+      // Timer Setup
+      const baseSeconds = this.profile.relaxedTimer ? 30 : (this.activeMode === "speed" ? 10 : 16);
+      this.timeRemaining = baseSeconds;
+      this.timerDisplay.textContent = `${this.timeRemaining}s`;
+
+      this.timerInterval = setInterval(() => {
+        this.timeRemaining--;
+        this.timerDisplay.textContent = `${this.timeRemaining}s`;
+
+        if (this.timeRemaining <= 4 && this.timeRemaining > 0) {
+          this.audio.playTick();
+          this.timerDisplay.style.color = "var(--color-danger)";
+        } else {
+          this.timerDisplay.style.color = "var(--warm-gold)";
+        }
+
+        if (this.timeRemaining <= 0) {
+          clearInterval(this.timerInterval);
+          this.handleAnswerSelection(-1); // Timeout penalty
         }
       }, 1000);
-    } else {
-      UI.timerDisplay.style.display = 'none';
-      clearInterval(session.timerInterval);
     }
 
-    navigateTo('game');
-    renderCurrentTicket();
-  }
+    updateStreakBadge() {
+      let multiplier = 1.0;
+      if (this.shiftStreak >= 3) multiplier = 1.5;
+      if (this.shiftStreak >= 6) multiplier = 2.0;
+      if (this.shiftStreak >= 9) multiplier = 2.5;
 
-  // Render Ticket Question
-  function renderCurrentTicket() {
-    session.awaitingAdvance = false;
-    const ticket = session.tickets[session.currentIndex];
-    const total = session.tickets.length;
-
-    // Metas
-    UI.ticketProgress.textContent = `Ticket ${session.currentIndex + 1} of ${total}`;
-    UI.ticketCategory.textContent = ticket.category;
-    UI.ticketStreak.textContent = session.streak;
-    UI.ticketScore.textContent = session.score;
-    UI.difficultyBadge.textContent = `DIFFICULTY: ${ticket.difficulty}`;
-    UI.ticketSpecId.textContent = `ORD #${ticket.id.toUpperCase().slice(0, 7)}`;
-    UI.ticketPrompt.textContent = ticket.prompt;
-
-    // Progress bar
-    const percent = ((session.currentIndex) / total) * 100;
-    UI.progressFill.style.width = `${percent}%`;
-
-    // Confidence resets to normal
-    const firstConf = UI.confidenceBar.querySelector('input[value="1"]');
-    if (firstConf) firstConf.checked = true;
-    UI.confidenceBar.style.display = 'block';
-
-    // Hide previous feedback
-    UI.feedbackDrawer.style.display = 'none';
-
-    // Populate Answers
-    UI.answerGrid.innerHTML = '';
-    const keyLabels = ['A', 'B', 'C', 'D'];
-
-    ticket.answers.forEach((ansText, idx) => {
-      const btn = document.createElement('button');
-      btn.className = 'answer-btn';
-      btn.setAttribute('data-index', idx);
-      btn.setAttribute('role', 'button');
-      btn.setAttribute('aria-label', `Option ${keyLabels[idx]}: ${ansText}`);
-
-      btn.innerHTML = `
-        <span class="answer-key" aria-hidden="true">${keyLabels[idx]}</span>
-        <span class="answer-text">${escapeHtml(ansText)}</span>
-      `;
-
-      btn.addEventListener('click', () => handleAnswerSelect(idx));
-      UI.answerGrid.appendChild(btn);
-    });
-  }
-
-  // Handle Answer Selection
-  function handleAnswerSelect(selectedIndex) {
-    if (session.awaitingAdvance) return;
-    session.awaitingAdvance = true;
-
-    const ticket = session.tickets[session.currentIndex];
-    const isCorrect = (selectedIndex === ticket.correctIndex);
-
-    // Confidence multiplier
-    const selectedConf = document.querySelector('input[name="confidence"]:checked');
-    const multiplier = selectedConf ? parseFloat(selectedConf.value) : 1;
-
-    // Lock options
-    const allBtns = UI.answerGrid.querySelectorAll('.answer-btn');
-    allBtns.forEach(b => b.disabled = true);
-    UI.confidenceBar.style.display = 'none';
-
-    // Record Answer History
-    session.answeredHistory.push({
-      ticket,
-      selectedAnswer: ticket.answers[selectedIndex],
-      isCorrect
-    });
-
-    // Tracking for persistence
-    userProfile.ticketsAnswered++;
-    userProfile.categoryStats[ticket.category] = userProfile.categoryStats[ticket.category] || { answered: 0, correct: 0 };
-    userProfile.categoryStats[ticket.category].answered++;
-
-    if (isCorrect) {
-      audio.playCorrect();
-      session.correctCount++;
-      session.streak++;
-      if (session.streak > session.roundStreakMax) session.roundStreakMax = session.streak;
-      if (session.streak > userProfile.maxStreak) userProfile.maxStreak = session.streak;
-
-      userProfile.ticketsCorrect++;
-      userProfile.categoryStats[ticket.category].correct++;
-
-      // Streak sounds milestone
-      if (session.streak % 5 === 0) {
-        audio.playStreak();
-      }
-
-      // Calculate ticket points
-      const basePoints = 100;
-      const streakBonus = (session.streak - 1) * 25;
-      const earned = Math.round((basePoints + streakBonus) * multiplier);
-      session.score += earned;
-
-      // Rush mode time addition
-      if (session.mode === 'rush') {
-        session.timeRemaining += 4;
-        UI.timerSeconds.textContent = `${session.timeRemaining}s`;
-      }
-
-      // Visual button state
-      allBtns[selectedIndex].classList.add('correct');
-
-      // Feedback Drawer
-      UI.feedbackBanner.className = 'feedback-banner success';
-      UI.feedbackIcon.textContent = '✓';
-      UI.feedbackTitle.textContent = `Correct Call (+${earned} pts)`;
-    } else {
-      audio.playIncorrect();
-      session.streak = 0;
-
-      // Log trouble spot
-      userProfile.weaknesses[ticket.category] = (userProfile.weaknesses[ticket.category] || 0) + 1;
-
-      // Rush mode time penalty
-      if (session.mode === 'rush') {
-        session.timeRemaining = Math.max(0, session.timeRemaining - 5);
-        UI.timerSeconds.textContent = `${session.timeRemaining}s`;
-      }
-
-      // Visual state
-      allBtns[selectedIndex].classList.add('incorrect');
-      allBtns[ticket.correctIndex].classList.add('correct');
-
-      // Dim other answers
-      allBtns.forEach((b, i) => {
-        if (i !== selectedIndex && i !== ticket.correctIndex) b.classList.add('dimmed');
-      });
-
-      // Feedback Drawer
-      UI.feedbackBanner.className = 'feedback-banner error';
-      UI.feedbackIcon.textContent = '✕';
-      UI.feedbackTitle.textContent = 'Misjudged Ticket';
+      this.multiplierBadge.textContent = `${multiplier.toFixed(1)}x Flow`;
+      this.streakCounter.textContent = this.shiftStreak;
     }
 
-    // Update header stats
-    UI.ticketStreak.textContent = session.streak;
-    UI.ticketScore.textContent = session.score;
+    handleAnswerSelection(selectedIndex) {
+      if (this.hasAnswered) return;
+      this.hasAnswered = true;
+      clearInterval(this.timerInterval);
 
-    // Show feedback drawer
-    UI.feedbackExplanation.textContent = ticket.explanation;
-    UI.feedbackProTip.textContent = ticket.proTip;
-    UI.feedbackDrawer.style.display = 'flex';
+      const responseDuration = (Date.now() - this.ticketStartTime) / 1000;
+      this.responseTimes.push(responseDuration);
 
-    // Focus on Next Ticket button for accessibility
-    setTimeout(() => {
-      UI.btnNextTicket.focus();
-    }, 100);
-  }
+      const ticket = this.shiftQueue[this.currentIndex];
+      const isCorrect = selectedIndex === ticket.correctIndex;
 
-  // Advance to Next Ticket or Finish
-  function advanceTicket() {
-    audio.playClick();
-    session.currentIndex++;
+      // Disable buttons
+      this.ansButtons.forEach((btn) => (btn.disabled = true));
 
-    if (session.currentIndex >= session.tickets.length) {
-      finishShift();
-    } else {
-      renderCurrentTicket();
-    }
-  }
+      // Calculate confidence base & multiplier
+      let baseBonus = 100;
+      if (this.currentConfidence === "think") baseBonus = 200;
+      if (this.currentConfidence === "certain") baseBonus = 350;
 
-  // Finish Shift & Show Ledger Summary
-  function finishShift() {
-    clearInterval(session.timerInterval);
+      let streakMultiplier = 1.0;
+      if (this.shiftStreak >= 3) streakMultiplier = 1.5;
+      if (this.shiftStreak >= 6) streakMultiplier = 2.0;
+      if (this.shiftStreak >= 9) streakMultiplier = 2.5;
 
-    // Calculate XP earned from shift
-    const earnedXp = Math.round(session.score / 2.5);
-    userProfile.xp += earnedXp;
-    userProfile.shiftsCompleted++;
+      // Speed bonus if answered in under 4 seconds
+      const speedBonus = responseDuration < 4.0 && isCorrect ? 50 : 0;
 
-    if (session.mode === 'daily') {
-      userProfile.lastDaily = new Date().toISOString().slice(0, 10);
-    }
+      if (isCorrect) {
+        this.audio.playSuccessChime();
+        this.shiftCorrect++;
+        this.shiftStreak++;
+        if (this.shiftStreak > this.shiftPeakStreak) {
+          this.shiftPeakStreak = this.shiftStreak;
+        }
 
-    saveProfile(userProfile);
-    refreshHeader();
+        const awardedPoints = Math.round(baseBonus * streakMultiplier) + speedBonus;
+        this.shiftScore += awardedPoints;
+        this.profile.totalXp += awardedPoints;
+        this.categoryPerformance[ticket.category].correct++;
 
-    // Populate Results Screen
-    UI.resScore.textContent = session.score;
-    const totalAnswered = session.answeredHistory.length || 1;
-    const accuracy = Math.round((session.correctCount / totalAnswered) * 100);
-    UI.resAccuracy.textContent = `${accuracy}%`;
-    UI.resStreak.textContent = session.roundStreakMax;
-    UI.resXp.textContent = `+${earnedXp} XP`;
+        // Style the tapped button
+        this.ansButtons[selectedIndex].classList.add("is-correct");
 
-    // Rank Evaluation Card
-    const { current, nextRank } = getRank(userProfile.xp);
-    UI.resRankName.textContent = current.title;
-    UI.resRankDesc.textContent = current.lore;
-    UI.resXpCurr.textContent = `${userProfile.xp} XP`;
+        // Format feedback drawer
+        this.feedbackStatus.className = "feedback-status correct";
+        this.feedbackIcon.textContent = "✓";
+        this.feedbackTitle.textContent = "Spot On, Barkeep!";
+        this.feedbackPoints.textContent = `+${awardedPoints} XP`;
 
-    if (nextRank) {
-      UI.resXpNext.textContent = `${nextRank.minXp - userProfile.xp} XP to ${nextRank.title}`;
-      const progress = ((userProfile.xp - current.minXp) / (nextRank.minXp - current.minXp)) * 100;
-      UI.resRankFill.style.width = `${Math.min(100, Math.max(5, progress))}%`;
-    } else {
-      UI.resXpNext.textContent = 'Highest Rank Attained';
-      UI.resRankFill.style.width = '100%';
-    }
+        // Clear category weakness if mastered
+        if (this.profile.weakCategories[ticket.category]) {
+          this.profile.weakCategories[ticket.category]--;
+          if (this.profile.weakCategories[ticket.category] <= 0) {
+            delete this.profile.weakCategories[ticket.category];
+          }
+        }
+      } else {
+        this.audio.playThud();
+        this.shiftStreak = 0; // Streak broken
 
-    // Mistakes Review
-    const mistakes = session.answeredHistory.filter(h => !h.isCorrect);
-    UI.mistakesList.innerHTML = '';
+        // Deduct confidence penalty if 'Certain' was wrong
+        if (this.currentConfidence === "certain") {
+          this.shiftScore = Math.max(0, this.shiftScore - 100);
+        }
 
-    if (mistakes.length === 0) {
-      UI.mistakesList.innerHTML = `
-        <div class="empty-state" style="color: #81c784;">
-          ★ Flawless Service! Every ticket was fulfilled to professional spec.
-        </div>
-      `;
-    } else {
-      mistakes.forEach(m => {
-        const item = document.createElement('div');
-        item.className = 'mistake-item';
-        item.innerHTML = `
-          <div class="mistake-question">${escapeHtml(m.ticket.prompt)}</div>
-          <div class="mistake-answer-row">
-            <span class="mistake-wrong">Your Call: ${escapeHtml(m.selectedAnswer)}</span>
-            <span class="mistake-right">Bartender Standard: ${escapeHtml(m.ticket.answers[m.ticket.correctIndex])}</span>
-          </div>
-        `;
-        UI.mistakesList.appendChild(item);
-      });
-    }
+        // Highlight incorrect & correct
+        if (selectedIndex >= 0) {
+          this.ansButtons[selectedIndex].classList.add("is-incorrect");
+        }
+        this.ansButtons[ticket.correctIndex].classList.add("is-correct");
 
-    navigateTo('results');
-  }
+        // Format feedback drawer
+        this.feedbackStatus.className = "feedback-status incorrect";
+        this.feedbackIcon.textContent = "✗";
+        this.feedbackTitle.textContent = selectedIndex === -1 ? "Service Timeout!" : "Order Off-Spec";
+        this.feedbackPoints.textContent = "+0 XP";
 
-  /* ==========================================================================
-     8. CODEX MODULE
-     ========================================================================== */
-  let currentFilter = 'all';
+        // Register weakness for adaptive practice
+        if (!this.profile.weakCategories[ticket.category]) {
+          this.profile.weakCategories[ticket.category] = 0;
+        }
+        this.profile.weakCategories[ticket.category]++;
 
-  function renderCodex() {
-    const searchVal = (UI.codexSearch.value || '').toLowerCase();
-    const filtered = CODEX_DATA.filter(item => {
-      const matchFilter = (currentFilter === 'all') || (item.type === currentFilter);
-      const matchSearch = item.name.toLowerCase().includes(searchVal) ||
-                          item.specs.toLowerCase().includes(searchVal) ||
-                          item.glass.toLowerCase().includes(searchVal) ||
-                          item.notes.toLowerCase().includes(searchVal);
-      return matchFilter && matchSearch;
-    });
-
-    UI.codexCounter.textContent = `${filtered.length} Specs`;
-    UI.codexContainer.innerHTML = '';
-
-    if (filtered.length === 0) {
-      UI.codexContainer.innerHTML = `<p class="empty-state">No cocktails or techniques match your search query.</p>`;
-      return;
-    }
-
-    filtered.forEach(drink => {
-      const card = document.createElement('article');
-      card.className = 'codex-card';
-      card.innerHTML = `
-        <div class="codex-card-header">
-          <h3 class="codex-drink-name">${escapeHtml(drink.name)}</h3>
-          <span class="codex-glass-tag">${escapeHtml(drink.glass)}</span>
-        </div>
-        <div class="codex-spec-table">${escapeHtml(drink.specs)}</div>
-        <p class="codex-notes"><strong>Method:</strong> ${escapeHtml(drink.method)}</p>
-        <p class="codex-notes"><strong>Garnish:</strong> ${escapeHtml(drink.garnish)}</p>
-        <p class="codex-notes" style="margin-top: 0.2rem; color: var(--text-secondary);">${escapeHtml(drink.notes)}</p>
-      `;
-      UI.codexContainer.appendChild(card);
-    });
-  }
-
-  /* ==========================================================================
-     9. CAREER LEDGER & PROFILE MODULE
-     ========================================================================== */
-  function renderProfile() {
-    const { current } = getRank(userProfile.xp);
-    UI.profRankTitle.textContent = current.title;
-    UI.profRankLore.textContent = current.lore;
-
-    UI.profShifts.textContent = userProfile.shiftsCompleted;
-    UI.profQuestions.textContent = userProfile.ticketsAnswered;
-
-    const lifetimeAcc = userProfile.ticketsAnswered > 0
-      ? Math.round((userProfile.ticketsCorrect / userProfile.ticketsAnswered) * 100)
-      : 0;
-    UI.profAccuracy.textContent = `${lifetimeAcc}%`;
-    UI.profMaxStreak.textContent = userProfile.maxStreak;
-
-    // Station Mastery breakdown
-    UI.categoryMasteryList.innerHTML = '';
-    const categories = ['Classic Specs', 'Sensory Diagnosis', 'Technique', 'Glassware', 'Spirits & Wine', 'History', 'Service & Operations'];
-
-    categories.forEach(cat => {
-      const stats = userProfile.categoryStats[cat] || { answered: 0, correct: 0 };
-      const percent = stats.answered > 0 ? Math.round((stats.correct / stats.answered) * 100) : 0;
-
-      const row = document.createElement('div');
-      row.className = 'mastery-item';
-      row.innerHTML = `
-        <div class="mastery-label-row">
-          <span>${cat}</span>
-          <span style="font-family: var(--font-mono);">${percent}% (${stats.correct}/${stats.answered})</span>
-        </div>
-        <div class="progress-track" style="height: 5px; margin-bottom: 0.2rem;">
-          <div class="progress-fill" style="width: ${percent}%;"></div>
-        </div>
-      `;
-      UI.categoryMasteryList.appendChild(row);
-    });
-
-    // Weakness Ledger
-    UI.weaknessList.innerHTML = '';
-    const weaknessEntries = Object.entries(userProfile.weaknesses || {}).filter(([_, count]) => count > 0);
-    UI.weaknessBadge.textContent = `${weaknessEntries.length} Flagged`;
-
-    if (weaknessEntries.length === 0) {
-      UI.weaknessList.innerHTML = `<p class="empty-state">No persistent blindspots logged! Clean shifts recorded.</p>`;
-    } else {
-      weaknessEntries.forEach(([cat, count]) => {
-        const item = document.createElement('div');
-        item.className = 'weakness-item';
-        item.innerHTML = `
-          <span><strong>${escapeHtml(cat)}</strong></span>
-          <span style="color: var(--burnt-orange); font-family: var(--font-mono);">${count} mistakes flagged</span>
-        `;
-        UI.weaknessList.appendChild(item);
-      });
-    }
-  }
-
-  /* ==========================================================================
-     10. PREFERENCES & ACCESSIBILITY CONTROLS
-     ========================================================================== */
-  function applyPreferences() {
-    audio.enabled = userProfile.settings.sound;
-    UI.audioIcon.textContent = userProfile.settings.sound ? '🔊' : '🔇';
-    UI.setSound.checked = userProfile.settings.sound;
-
-    document.body.classList.toggle('reduce-motion', userProfile.settings.reducedMotion);
-    UI.setMotion.checked = userProfile.settings.reducedMotion;
-
-    document.body.classList.toggle('high-contrast', userProfile.settings.highContrast);
-    UI.setContrast.checked = userProfile.settings.highContrast;
-  }
-
-  /* ==========================================================================
-     11. EVENT LISTENERS & KEYBOARD BINDINGS
-     ========================================================================== */
-  function setupEventListeners() {
-    // Top bar interactions
-    document.getElementById('btn-home-logo').addEventListener('click', () => navigateTo('home'));
-    document.getElementById('btn-home-logo').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') navigateTo('home');
-    });
-
-    UI.audioToggle.addEventListener('click', () => {
-      userProfile.settings.sound = !userProfile.settings.sound;
-      saveProfile(userProfile);
-      applyPreferences();
-      if (userProfile.settings.sound) {
-        audio.init();
-        audio.playClick();
-      }
-    });
-
-    // Home Mode triggers
-    document.getElementById('btn-mode-classic').addEventListener('click', () => startShift('classic'));
-    document.getElementById('btn-mode-rush').addEventListener('click', () => startShift('rush'));
-    document.getElementById('btn-mode-sensory').addEventListener('click', () => startShift('sensory'));
-    document.getElementById('btn-mode-daily').addEventListener('click', () => startShift('daily'));
-
-    // Hub Nav Buttons
-    document.getElementById('btn-nav-codex').addEventListener('click', () => navigateTo('codex'));
-    document.getElementById('btn-nav-profile').addEventListener('click', () => navigateTo('profile'));
-    document.getElementById('btn-nav-settings').addEventListener('click', () => navigateTo('settings'));
-
-    // Back Buttons
-    document.getElementById('btn-codex-back').addEventListener('click', () => navigateTo('home'));
-    document.getElementById('btn-profile-back').addEventListener('click', () => navigateTo('home'));
-    document.getElementById('btn-settings-back').addEventListener('click', () => navigateTo('home'));
-
-    // Gameplay Actions
-    UI.btnNextTicket.addEventListener('click', advanceTicket);
-    UI.btnAbandon.addEventListener('click', () => {
-      if (confirm('Abandon current service shift? Unanswered tickets will not be saved.')) {
-        clearInterval(session.timerInterval);
-        navigateTo('home');
-      }
-    });
-
-    // Results Actions
-    UI.btnReplay.addEventListener('click', () => startShift(session.mode));
-    UI.btnResultsHome.addEventListener('click', () => navigateTo('home'));
-
-    // Codex Filters & Search
-    UI.codexSearch.addEventListener('input', renderCodex);
-    UI.codexFilterContainer.addEventListener('click', (e) => {
-      const btn = e.target.closest('.filter-pill');
-      if (!btn) return;
-      UI.codexFilterContainer.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      currentFilter = btn.getAttribute('data-filter');
-      audio.playClick();
-      renderCodex();
-    });
-
-    // Settings switches
-    UI.setSound.addEventListener('change', (e) => {
-      userProfile.settings.sound = e.target.checked;
-      saveProfile(userProfile);
-      applyPreferences();
-    });
-    UI.setMotion.addEventListener('change', (e) => {
-      userProfile.settings.reducedMotion = e.target.checked;
-      saveProfile(userProfile);
-      applyPreferences();
-    });
-    UI.setContrast.addEventListener('change', (e) => {
-      userProfile.settings.highContrast = e.target.checked;
-      saveProfile(userProfile);
-      applyPreferences();
-    });
-
-    // Reset Data
-    UI.btnReset.addEventListener('click', () => {
-      if (confirm('Are you sure you want to wipe your entire Career Ledger and XP? This action cannot be undone.')) {
-        localStorage.removeItem(STORAGE_KEY);
-        userProfile = loadProfile();
-        saveProfile(userProfile);
-        applyPreferences();
-        refreshHeader();
-        alert('Career Ledger has been reset to Barback.');
-        navigateTo('home');
-      }
-    });
-
-    // Keyboard Shortcuts (1, 2, 3, 4 or A, B, C, D to answer; Space/Enter for Next)
-    window.addEventListener('keydown', (e) => {
-      // Ignore if user is searching in Codex
-      if (document.activeElement === UI.codexSearch) return;
-
-      const key = e.key.toLowerCase();
-
-      // In-game answer hotkeys
-      if (views.game.classList.contains('active')) {
-        if (!session.awaitingAdvance) {
-          if (key === '1' || key === 'a') handleAnswerSelect(0);
-          if (key === '2' || key === 'b') handleAnswerSelect(1);
-          if (key === '3' || key === 'c') handleAnswerSelect(2);
-          if (key === '4' || key === 'd') handleAnswerSelect(3);
-        } else {
-          if (key === ' ' || key === 'enter') {
-            e.preventDefault();
-            advanceTicket();
+        // Survival mode strike out condition
+        if (this.activeMode === "survival") {
+          const totalMistakes = this.currentIndex + 1 - this.shiftCorrect;
+          if (totalMistakes >= 3) {
+            setTimeout(() => {
+              this.showToast("3 Strikes reached on the Night Shift!");
+              this.finishShift();
+            }, 1200);
+            return;
           }
         }
       }
-    });
-  }
 
-  // Utility to prevent XSS injection
-  function escapeHtml(str) {
-    if (!str) return '';
-    return str
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
-  }
+      // Record ticket history
+      this.profile.ticketsAnswered++;
+      if (isCorrect) this.profile.ticketsCorrect++;
+      if (this.shiftPeakStreak > this.profile.bestStreak) {
+        this.profile.bestStreak = this.shiftPeakStreak;
+      }
 
-  /* ==========================================================================
-     12. INITIALIZATION
-     ========================================================================== */
-  function init() {
-    applyPreferences();
-    refreshHeader();
-    setupEventListeners();
+      this.updateStreakBadge();
+      this.updateHeaderUI();
 
-    // Daily Exam status tag
-    const todayStr = new Date().toISOString().slice(0, 10);
-    const dailyTag = document.getElementById('daily-status-tag');
-    if (userProfile.lastDaily === todayStr) {
-      dailyTag.textContent = 'Shift Completed';
-      dailyTag.style.color = '#81c784';
+      // Show Principle and Context
+      this.feedbackPrinciple.innerHTML = `<strong>Bartender's Principle:</strong> ${ticket.principle}`;
+      this.feedbackDetailText.textContent = ticket.deepContext;
+      this.feedbackDrawer.classList.remove("is-hidden");
+
+      // Auto-save persistent profile
+      PersistenceManager.save(this.profile);
+    }
+
+    advanceToNextTicket() {
+      this.currentIndex++;
+      if (this.currentIndex >= this.shiftQueue.length) {
+        this.finishShift();
+      } else {
+        this.loadTicket(this.currentIndex);
+      }
+    }
+
+    /* ==========================================================================
+       8. LIFELINE SYSTEMS
+       ========================================================================== */
+    useLifelineSpoon() {
+      if (this.hasAnswered || this.lifelineSpoons <= 0) return;
+      this.lifelineSpoons--;
+      this.spoonCountSpan.textContent = this.lifelineSpoons;
+      this.btnLifelineSpoon.disabled = true;
+      this.audio.playClink();
+
+      const ticket = this.shiftQueue[this.currentIndex];
+      const wrongIndices = [0, 1, 2, 3].filter((i) => i !== ticket.correctIndex);
+
+      // Randomly eliminate 2 incorrect answers
+      for (let i = wrongIndices.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [wrongIndices[i], wrongIndices[j]] = [wrongIndices[j], wrongIndices[i]];
+      }
+
+      this.ansButtons[wrongIndices[0]].classList.add("is-dimmed");
+      this.ansButtons[wrongIndices[0]].disabled = true;
+      this.ansButtons[wrongIndices[1]].classList.add("is-dimmed");
+      this.ansButtons[wrongIndices[1]].disabled = true;
+
+      this.showToast("50/50 Spoon: 2 incorrect recipes removed.");
+    }
+
+    useLifelineNote() {
+      if (this.hasAnswered || this.lifelineNotes <= 0) return;
+      this.lifelineNotes--;
+      this.noteCountSpan.textContent = this.lifelineNotes;
+      this.btnLifelineNote.disabled = true;
+      this.audio.playTick();
+
+      const ticket = this.shiftQueue[this.currentIndex];
+      this.showToast(`Note: ${ticket.principle.slice(0, 75)}...`);
+    }
+
+    /* ==========================================================================
+       9. SHIFT SUMMARY & RESULTS
+       ========================================================================== */
+    finishShift() {
+      clearInterval(this.timerInterval);
+      this.profile.shiftsCompleted++;
+      PersistenceManager.save(this.profile);
+
+      const totalTickets = this.currentIndex;
+      const accuracy = totalTickets > 0 ? Math.round((this.shiftCorrect / totalTickets) * 100) : 0;
+
+      const avgSpeed = this.responseTimes.length > 0
+        ? (this.responseTimes.reduce((a, b) => a + b, 0) / this.responseTimes.length).toFixed(1)
+        : "0.0";
+
+      // Stamp and Headline
+      if (accuracy >= 80) {
+        this.resultsStamp.textContent = "SERVICE EXCELLENCE";
+        this.resultsHeadline.textContent = "Clean Ticket Board!";
+        this.resultsSub.textContent = "Top-tier station flow, precise specifications, and zero cocktail returns.";
+      } else if (accuracy >= 60) {
+        this.resultsStamp.textContent = "SHIFT PASSED";
+        this.resultsHeadline.textContent = "Solid Service";
+        this.resultsSub.textContent = "Station completed with good speed. Review off-spec tickets below.";
+      } else {
+        this.resultsStamp.textContent = "RE-TRAINING REQUIRED";
+        this.resultsHeadline.textContent = "Rough Station Run";
+        this.resultsSub.textContent = "Several tickets sent back. Check the Bar Codex to sharpen specs.";
+      }
+
+      this.resScore.textContent = this.shiftScore.toLocaleString();
+      this.resAccuracy.textContent = `${accuracy}%`;
+      this.resStreak.textContent = this.shiftPeakStreak;
+      this.resSpeed.textContent = `${avgSpeed}s`;
+
+      // Rank Progress Logic
+      const currentRank = this.getRankInfo(this.profile.totalXp);
+      const nextRank = RANKS[currentRank.index + 1];
+
+      this.resRankName.textContent = currentRank.name;
+      if (nextRank) {
+        const xpInLevel = this.profile.totalXp - currentRank.minXp;
+        const xpNeeded = nextRank.minXp - currentRank.minXp;
+        const pct = Math.min(100, Math.round((xpInLevel / xpNeeded) * 100));
+        this.resRankFill.style.width = `${pct}%`;
+        this.resXpToNext.textContent = `${nextRank.minXp - this.profile.totalXp} XP to ${nextRank.name}`;
+      } else {
+        this.resRankFill.style.width = "100%";
+        this.resXpToNext.textContent = "Maximum Certification Attained";
+      }
+
+      // Breakdown by Category
+      this.resBreakdownList.innerHTML = "";
+      Object.keys(this.categoryPerformance).forEach((cat) => {
+        const info = this.categoryPerformance[cat];
+        const row = document.createElement("div");
+        row.className = "breakdown-row";
+        row.innerHTML = `
+          <span class="breakdown-cat">${cat}</span>
+          <span class="breakdown-stat">${info.correct} / ${info.total} (${Math.round((info.correct / info.total) * 100)}%)</span>
+        `;
+        this.resBreakdownList.appendChild(row);
+      });
+
+      this.renderProfile();
+      this.updateHeaderUI();
+      this.showScreen("results");
+    }
+
+    getRankInfo(xp) {
+      let activeIndex = 0;
+      for (let i = 0; i < RANKS.length; i++) {
+        if (xp >= RANKS[i].minXp) {
+          activeIndex = i;
+        }
+      }
+      return { ...RANKS[activeIndex], index: activeIndex };
+    }
+
+    updateHeaderUI() {
+      const rank = this.getRankInfo(this.profile.totalXp);
+      this.scoreCounter.textContent = this.profile.totalXp.toLocaleString();
+      this.rankText.textContent = rank.name;
+      this.updateSoundIcons();
+    }
+
+    /* ==========================================================================
+       10. CODEX & RECIPE VAULT
+       ========================================================================== */
+    renderCodex(filterCategory = "all", searchQuery = "") {
+      this.codexCardsGrid.innerHTML = "";
+      const filtered = CODEX_DATA.filter((item) => {
+        const matchesCat = filterCategory === "all" || item.category === filterCategory;
+        const matchesQuery = !searchQuery || 
+          item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.spec.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          item.notes.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesCat && matchesQuery;
+      });
+
+      this.codexCountBadge.textContent = `${filtered.length} of ${CODEX_DATA.length} Entries`;
+
+      filtered.forEach((item) => {
+        const card = document.createElement("article");
+        card.className = "codex-card";
+        card.innerHTML = `
+          <div class="codex-card-top">
+            <h2 class="codex-card-title">${item.title}</h2>
+            <span class="codex-card-cat">${item.category}</span>
+          </div>
+          <div class="codex-recipe-spec">${item.spec}</div>
+          <p class="codex-notes">${item.notes}</p>
+        `;
+        this.codexCardsGrid.appendChild(card);
+      });
+
+      document.getElementById("codex-unlocked-summary").textContent = 
+        `${CODEX_DATA.length} Standard Specs Documented`;
+    }
+
+    filterCodex(category) {
+      this.codexFilters.forEach((tab) => {
+        if (tab.getAttribute("data-cat") === category) tab.classList.add("is-active");
+        else tab.classList.remove("is-active");
+      });
+      this.renderCodex(category, this.codexSearchInput.value);
+    }
+
+    searchCodex(query) {
+      const activeTab = document.querySelector(".filter-tab.is-active");
+      const cat = activeTab ? activeTab.getAttribute("data-cat") : "all";
+      this.renderCodex(cat, query);
+    }
+
+    /* ==========================================================================
+       11. BARTENDER PROFILE & DIAGNOSTICS
+       ========================================================================== */
+    renderProfile() {
+      const rank = this.getRankInfo(this.profile.totalXp);
+      document.getElementById("prof-badge-icon").textContent = rank.badge;
+      document.getElementById("prof-rank-name").textContent = rank.name;
+
+      this.profTotalShifts.textContent = this.profile.shiftsCompleted;
+      this.profTotalAnswers.textContent = this.profile.ticketsAnswered;
+
+      const lifetimeAcc = this.profile.ticketsAnswered > 0
+        ? Math.round((this.profile.ticketsCorrect / this.profile.ticketsAnswered) * 100)
+        : 0;
+      this.profLifetimeAcc.textContent = `${lifetimeAcc}%`;
+      this.profBestStreak.textContent = this.profile.bestStreak;
+
+      this.checkRelaxedTimer.checked = !!this.profile.relaxedTimer;
+      this.checkSoundToggle.checked = !!this.profile.soundEnabled;
+
+      // Render weak spots diagnostic list
+      this.weakSpotsList.innerHTML = "";
+      const weakKeys = Object.keys(this.profile.weakCategories).filter(
+        (k) => this.profile.weakCategories[k] > 0
+      );
+
+      if (weakKeys.length === 0) {
+        this.weakSpotsList.innerHTML = `
+          <div class="empty-state-card">Station clean! No recurrent knowledge blindspots logged.</div>
+        `;
+      } else {
+        weakKeys.forEach((cat) => {
+          const item = document.createElement("div");
+          item.className = "weak-item";
+          item.innerHTML = `
+            <span>${cat}</span>
+            <span style="color: var(--burnt-orange); font-weight: bold;">${this.profile.weakCategories[cat]} Misses logged</span>
+          `;
+          this.weakSpotsList.appendChild(item);
+        });
+      }
     }
   }
 
-  // Bootstrap when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-
+  // Initialize Game on DOM ready
+  document.addEventListener("DOMContentLoaded", () => {
+    window.barGame = new BarKnowledgeGame();
+  });
 })();
