@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1b120c">
+  <meta name="description" content="Bar Knowledge: The Bartender's Trivia Game — Professional cocktail trivia, sensory diagnosis, technique, and bar judgement.">
+  <title>Bar Knowledge — The Bartender's Trivia Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header / Status Bar -->
+  <header class="bar-header" role="banner">
+    <div class="header-container">
+      <div class="brand-group" id="btn-home-logo" role="button" tabindex="0" aria-label="Return to main menu">
+        <span class="brand-crest" aria-hidden="true">🍸</span>
+        <div class="brand-text">
+          <h1 class="brand-title">BAR KNOWLEDGE</h1>
+          <span class="brand-subtitle">The Bartender's Craft</span>
+        </div>
+      </div>
+
+      <div class="header-status" id="header-status" aria-live="polite">
+        <div class="stat-pill" title="Career Bartender Rank">
+          <span class="stat-icon" aria-hidden="true">🎖️</span>
+          <span class="stat-val" id="header-rank">Barback</span>
+        </div>
+        <div class="stat-pill" title="Total Career XP">
+          <span class="stat-icon" aria-hidden="true">✨</span>
+          <span class="stat-val" id="header-xp">0 XP</span>
+        </div>
+        <button id="btn-audio-toggle" class="icon-button" aria-label="Toggle Sound Effects" title="Sound Mute/Unmute">
+          <span id="audio-icon" aria-hidden="true">🔊</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container / Screen Router -->
+  <main class="game-viewport" id="app-viewport">
+
+    <!-- SCREEN 1: HOME / DASHBOARD -->
+    <section id="view-home" class="view-screen active" aria-labelledby="home-hero-title">
+      <div class="hero-card">
+        <div class="hero-badge">BEHIND THE STICK</div>
+        <h2 id="home-hero-title" class="hero-heading">Step Behind The Bar.</h2>
+        <p class="hero-desc">
+          Test and hone your instincts across classic specifications, dilution thermodynamics, 
+          sensory troubleshooting, glassware, and high-volume service judgement.
+        </p>
+      </div>
+
+      <div class="mode-grid">
+        <button class="mode-card primary" id="btn-mode-classic" data-mode="classic">
+          <div class="mode-icon" aria-hidden="true">📋</div>
+          <div class="mode-details">
+            <div class="mode-tag">Standard Service</div>
+            <h3 class="mode-title">Service Shift</h3>
+            <p class="mode-desc">10 tickets. Balanced mix of recipe recall, technique, and bar problem diagnosis.</p>
+          </div>
+          <div class="mode-action" aria-hidden="true">→</div>
+        </button>
+
+        <button class="mode-card" id="btn-mode-rush" data-mode="rush">
+          <div class="mode-icon" aria-hidden="true">⚡</div>
+          <div class="mode-details">
+            <div class="mode-tag">High Pressure</div>
+            <h3 class="mode-title">Rush Hour</h3>
+            <p class="mode-desc">60 seconds on the clock. Correct tickets add time; errors cost precious seconds.</p>
+          </div>
+          <div class="mode-action" aria-hidden="true">→</div>
+        </button>
+
+        <button class="mode-card" id="btn-mode-sensory" data-mode="sensory">
+          <div class="mode-icon" aria-hidden="true">🔬</div>
+          <div class="mode-details">
+            <div class="mode-tag">Troubleshooting</div>
+            <h3 class="mode-title">Blind Tasting & Diagnosis</h3>
+            <p class="mode-desc">Diagnose off-flavors, structural flaws, ice melt, and guest corrections.</p>
+          </div>
+          <div class="mode-action" aria-hidden="true">→</div>
+        </button>
+
+        <button class="mode-card" id="btn-mode-daily" data-mode="daily">
+          <div class="mode-icon" aria-hidden="true">📅</div>
+          <div class="mode-details">
+            <div class="mode-tag" id="daily-status-tag">Daily Ticket</div>
+            <h3 class="mode-title">Daily Exam</h3>
+            <p class="mode-desc">A unified 7-ticket examination seeded fresh every calendar day.</p>
+          </div>
+          <div class="mode-action" aria-hidden="true">→</div>
+        </button>
+      </div>
+
+      <!-- Quick Nav Hub -->
+      <nav class="home-nav-hub" aria-label="Game Sections">
+        <button class="hub-button" id="btn-nav-codex">
+          <span class="hub-icon" aria-hidden="true">📖</span>
+          <span>Cocktail Codex</span>
+        </button>
+        <button class="hub-button" id="btn-nav-profile">
+          <span class="hub-icon" aria-hidden="true">📊</span>
+          <span>Career Ledger</span>
+        </button>
+        <button class="hub-button" id="btn-nav-settings">
+          <span class="hub-icon" aria-hidden="true">⚙️</span>
+          <span>Preferences</span>
+        </button>
+      </nav>
+    </section>
+
+    <!-- SCREEN 2: GAMEPLAY (TICKET QUESTION) -->
+    <section id="view-game" class="view-screen" aria-live="assertive">
+      <!-- Round Info Bar -->
+      <div class="game-meta-bar">
+        <div class="meta-left">
+          <span class="ticket-step" id="ticket-progress">Ticket 1 of 10</span>
+          <span class="category-badge" id="ticket-category">Classic Specs</span>
+        </div>
+        <div class="meta-right">
+          <div class="streak-indicator" id="streak-container" title="Current Correct Streak">
+            <span class="streak-flame" aria-hidden="true">🔥</span>
+            <span class="streak-count" id="ticket-streak">0</span>
+          </div>
+          <div class="timer-badge" id="timer-display" aria-label="Time remaining" style="display: none;">
+            <span aria-hidden="true">⏱️</span>
+            <span id="timer-seconds">60s</span>
+          </div>
+          <div class="score-display">
+            <span class="score-label">Score</span>
+            <span class="score-val" id="ticket-score">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress bar -->
+      <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="round-progressbar">
+        <div class="progress-fill" id="round-progress-fill"></div>
+      </div>
+
+      <!-- Main Question Ticket Card -->
+      <article class="ticket-card" id="active-ticket">
+        <div class="ticket-header">
+          <div class="ticket-stamp" id="ticket-difficulty">DIFFICULTY: FOUNDATION</div>
+          <div class="ticket-id" id="ticket-spec-id">ORD #042</div>
+        </div>
+
+        <div class="ticket-body">
+          <p class="ticket-scenario" id="ticket-prompt">Loading question scenario...</p>
+        </div>
+
+        <!-- Metacognitive Confidence Selector -->
+        <fieldset class="confidence-selector" id="confidence-bar">
+          <legend class="confidence-label">Metacognitive Confidence:</legend>
+          <div class="confidence-options">
+            <label class="conf-pill">
+              <input type="radio" name="confidence" value="1" checked>
+              <span>Educated Guess (1×)</span>
+            </label>
+            <label class="conf-pill">
+              <input type="radio" name="confidence" value="1.5">
+              <span>Solid Recall (1.5×)</span>
+            </label>
+            <label class="conf-pill">
+              <input type="radio" name="confidence" value="2">
+              <span>Ironclad Certain (2×)</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- 4 Answer Choices -->
+        <div class="answer-grid" id="answer-grid" role="group" aria-label="Ticket answers">
+          <!-- Populated dynamically with large tap targets -->
+        </div>
+
+        <!-- Inline Post-Answer Feedback Drawer -->
+        <div class="feedback-drawer" id="feedback-drawer" style="display: none;">
+          <div class="feedback-banner" id="feedback-banner">
+            <span class="feedback-icon" id="feedback-icon">✓</span>
+            <span class="feedback-headline" id="feedback-title">Correct Call</span>
+          </div>
+          <div class="feedback-content">
+            <p class="feedback-rationale" id="feedback-explanation">Explanation here.</p>
+            <div class="pro-tip-box" id="feedback-tip-box">
+              <span class="tip-label">THE BARTENDER'S WHY:</span>
+              <p class="tip-text" id="feedback-pro-tip">Technical insight behind this bar decision.</p>
+            </div>
+          </div>
+          <button class="btn-primary primary-action-btn" id="btn-next-ticket">
+            <span>Next Ticket</span>
+            <span class="btn-key-hint" aria-hidden="true">[Space]</span>
+          </button>
+        </div>
+      </article>
+
+      <div class="game-footer-actions">
+        <button class="btn-text-ghost" id="btn-abandon-shift">Abandon Shift</button>
+      </div>
+    </section>
+
+    <!-- SCREEN 3: RESULTS & SHIFT SUMMARY -->
+    <section id="view-results" class="view-screen">
+      <div class="results-card">
+        <div class="results-header">
+          <div class="results-crest">📜</div>
+          <h2 class="results-title" id="results-headline">Shift Completed</h2>
+          <p class="results-sub" id="results-subtitle">Service Ticket Summary & Review</p>
+        </div>
+
+        <div class="results-stats-grid">
+          <div class="stat-box">
+            <span class="stat-num" id="res-score">0</span>
+            <span class="stat-tag">Final Shift Score</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num" id="res-accuracy">0%</span>
+            <span class="stat-tag">Ticket Accuracy</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num" id="res-streak">0</span>
+            <span class="stat-tag">Longest Streak</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num" id="res-xp">+0</span>
+            <span class="stat-tag">XP Earned</span>
+          </div>
+        </div>
+
+        <!-- Rank Evaluation & Promotion Banner -->
+        <div class="rank-eval-card" id="rank-eval-card">
+          <div class="rank-eval-info">
+            <span class="rank-tag">Current Standing</span>
+            <h3 class="rank-name" id="res-rank-name">Craft Bartender</h3>
+            <p class="rank-desc" id="res-rank-desc">Recognizes classic ratios and diagnoses foundational dilution errors.</p>
+          </div>
+          <div class="rank-progress-bar-wrap">
+            <div class="rank-xp-labels">
+              <span id="res-xp-curr">0 XP</span>
+              <span id="res-xp-next">500 XP to Senior</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="res-rank-progress-fill"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shift Mistakes Review List -->
+        <div class="mistakes-container" id="mistakes-section">
+          <h4 class="mistakes-title">Tickets Flagged for Bar Review:</h4>
+          <div class="mistakes-list" id="mistakes-list">
+            <!-- Populated dynamically or indicates clean ticket board -->
+          </div>
+        </div>
+
+        <div class="results-actions">
+          <button class="btn-primary" id="btn-replay-shift">Start Another Shift</button>
+          <button class="btn-secondary" id="btn-results-to-home">Back to Bar Station</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 4: COCKTAIL & TECHNIQUE CODEX -->
+    <section id="view-codex" class="view-screen">
+      <div class="view-header">
+        <button class="btn-back" id="btn-codex-back" aria-label="Return to previous screen">← Back</button>
+        <h2 class="view-title">The Bartender's Codex</h2>
+        <span class="codex-count" id="codex-counter">12 Unlocked</span>
+      </div>
+
+      <div class="codex-controls">
+        <input type="search" id="codex-search" class="search-input" placeholder="Search spec, ingredient, spirit, glass..." aria-label="Search Codex">
+        <div class="filter-pills" id="codex-filters" role="tablist">
+          <button class="filter-pill active" data-filter="all">All Specs</button>
+          <button class="filter-pill" data-filter="sour">Sours & Daisy</button>
+          <button class="filter-pill" data-filter="spirit-forward">Spirit-Forward</button>
+          <button class="filter-pill" data-filter="highball">Highball / Fizz</button>
+          <button class="filter-pill" data-filter="technique">Technique</button>
+        </div>
+      </div>
+
+      <div class="codex-grid" id="codex-cards-container">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- SCREEN 5: CAREER PROFILE & WEAKNESS LEDGER -->
+    <section id="view-profile" class="view-screen">
+      <div class="view-header">
+        <button class="btn-back" id="btn-profile-back" aria-label="Return to previous screen">← Back</button>
+        <h2 class="view-title">Career Service Ledger</h2>
+      </div>
+
+      <div class="profile-summary-card">
+        <div class="profile-header-meta">
+          <div class="profile-avatar" aria-hidden="true">🎖️</div>
+          <div>
+            <span class="profile-standing-label">Staff Level</span>
+            <h3 class="profile-title" id="prof-rank-title">Barback</h3>
+            <p class="profile-subtitle" id="prof-rank-lore">Learning station setup, mise en place, and foundational proportions.</p>
+          </div>
+        </div>
+
+        <div class="career-stat-metrics">
+          <div class="metric-cell">
+            <span class="metric-val" id="prof-stat-shifts">0</span>
+            <span class="metric-lbl">Shifts Worked</span>
+          </div>
+          <div class="metric-cell">
+            <span class="metric-val" id="prof-stat-questions">0</span>
+            <span class="metric-lbl">Tickets Cleared</span>
+          </div>
+          <div class="metric-cell">
+            <span class="metric-val" id="prof-stat-accuracy">0%</span>
+            <span class="metric-lbl">Lifetime Accuracy</span>
+          </div>
+          <div class="metric-cell">
+            <span class="metric-val" id="prof-stat-maxstreak">0</span>
+            <span class="metric-lbl">Record Streak</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category Mastery Breakdown -->
+      <div class="ledger-card">
+        <h3 class="ledger-card-title">Category Station Mastery</h3>
+        <div class="category-mastery-list" id="category-mastery-list">
+          <!-- Dynamic bars for Spirits, Specs, Technique, Glassware, Sensory, History, Operations -->
+        </div>
+      </div>
+
+      <!-- Trouble Spots / Weakness Ledger -->
+      <div class="ledger-card">
+        <div class="ledger-card-header">
+          <h3 class="ledger-card-title">Bar Station Weakness Analysis</h3>
+          <span class="ledger-badge" id="weakness-count-badge">0 Flagged</span>
+        </div>
+        <p class="ledger-subtitle">Categories with repeated misjudgements appear here for targeted training.</p>
+        <div class="weakness-list" id="profile-weakness-list">
+          <p class="empty-state">No persistent blindspots logged! Clean shifts recorded.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 6: PREFERENCES & ACCESSIBILITY -->
+    <section id="view-settings" class="view-screen">
+      <div class="view-header">
+        <button class="btn-back" id="btn-settings-back" aria-label="Return to previous screen">← Back</button>
+        <h2 class="view-title">Bar Preferences</h2>
+      </div>
+
+      <div class="settings-card">
+        <div class="setting-row">
+          <div class="setting-info">
+            <label for="set-sound" class="setting-title">Audio Synthesizer Effects</label>
+            <p class="setting-desc">Tactile crystal clinks, shaker strikes, and audio validation cues.</p>
+          </div>
+          <div class="setting-toggle">
+            <input type="checkbox" id="set-sound" checked>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <label for="set-motion" class="setting-title">Reduced Visual Motion</label>
+            <p class="setting-desc">Disables card slides and streak flares for accessibility.</p>
+          </div>
+          <div class="setting-toggle">
+            <input type="checkbox" id="set-motion">
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <div class="setting-info">
+            <label for="set-contrast" class="setting-title">High Contrast Station Mode</label>
+            <p class="setting-desc">Amplifies borders and font weights for low-light bar environments.</p>
+          </div>
+          <div class="setting-toggle">
+            <input type="checkbox" id="set-contrast">
+          </div>
+        </div>
+
+        <div class="setting-row danger-zone">
+          <div class="setting-info">
+            <span class="setting-title danger-text">Reset Career Ledger</span>
+            <p class="setting-desc">Wipes all stored XP, category mastery, and career stats from localStorage.</p>
+          </div>
+          <button class="btn-danger-outline" id="btn-reset-data">Reset All Data</button>
+        </div>
+      </div>
+
+      <div class="credits-card">
+        <h4>Bar Knowledge Engine</h4>
+        <p>Crafted to train authentic bartender judgement, sensory troubleshooting, and classic mixology standards without bloat.</p>
+        <span class="version-label">Version 1.0.0 • Pure Vanilla Web Standard</span>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
