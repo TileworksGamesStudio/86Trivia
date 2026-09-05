@@ -1,24 +1,25 @@
+html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="description" content="Bar Knowledge: An authentic mobile mixology, craft technique, and high-pressure service judgment game." />
+  <meta name="description" content="Bar Knowledge: An authentic craft cocktail mixology, ice thermodynamics, and high-pressure service judgment game." />
   <meta name="theme-color" content="#140d0a" />
   <title>Bar Knowledge — The Bartender's Craft &amp; Service Game</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Ambient Bar Lighting Overlay -->
+  <!-- Ambient Speakeasy Lighting Overlay -->
   <div class="bar-ambient-glow" aria-hidden="true"></div>
 
   <!-- Main Mobile App Shell -->
   <div id="app" class="app-container">
     
-    <!-- Top Bar Navigation & Career Stats -->
+    <!-- Top Bar Navigation & Real-Time Shift Statistics -->
     <header class="bar-header" role="banner">
       <div class="header-left">
-        <button id="btn-brand" class="brand-btn" aria-label="Return to Bar Lobby">
+        <button id="btn-brand" class="brand-btn" aria-label="Bar Knowledge Lobby" title="Return to Bar Lobby">
           <svg class="brand-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
             <path d="M7 2v2h1v4.586A4 4 0 0 0 9.172 11.4L11 13.228V20H8v2h8v-2h-3v-6.772l1.828-1.828A4 4 0 0 0 16 8.586V4h1V2H7zm3 2h4v4.586c0 .53-.21 1.04-.586 1.414L12 11.414l-1.414-1.414A2 2 0 0 1 10 8.586V4z"/>
           </svg>
@@ -39,7 +40,7 @@
         </div>
         <div class="stat-pill rank-pill" id="rank-badge" title="Certification Rank">
           <span class="stat-icon" aria-hidden="true">★</span>
-          <span id="rank-text" class="stat-value">Apprentice</span>
+          <span id="rank-text" class="stat-value">Barback</span>
         </div>
       </div>
 
@@ -55,7 +56,7 @@
             <line x1="17" y1="9" x2="23" y2="15"></line>
           </svg>
         </button>
-        <button id="btn-open-profile" class="icon-btn" aria-label="Open Bartender Career Log" title="Career Log">
+        <button id="btn-open-profile" class="icon-btn" aria-label="Open Bartender Career Log" title="Career Log &amp; Settings">
           <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
             <circle cx="12" cy="7" r="4"></circle>
@@ -64,38 +65,38 @@
       </div>
     </header>
 
-    <!-- Main Dynamic Screen Content -->
+    <!-- Main Dynamic Screen Content Stage -->
     <main id="main-stage" class="main-stage" role="main">
 
       <!-- ================= SCREEN 1: BAR LOBBY ================= -->
       <section id="screen-lobby" class="game-screen screen-active" aria-labelledby="lobby-heading">
         <div class="hero-card">
-          <div class="hero-badge">STATION CERTIFICATION READY</div>
+          <div class="hero-badge">STATION READY</div>
           <h1 id="lobby-heading" class="hero-title">Step Behind the Stick</h1>
-          <p class="hero-subtitle">Master classic specs, ice dilution, foam chemistry, sensory troubleshooting, and high-pressure service tickets.</p>
+          <p class="hero-subtitle">Master classic specs, clear ice thermodynamics, foam chemistry, sensory troubleshooting, and high-pressure service tickets.</p>
         </div>
 
         <!-- Mode Grid -->
         <div class="modes-grid" role="region" aria-label="Available Shift Modes">
-          <button class="mode-card primary-mode" data-mode="standard">
+          <button class="mode-card primary-mode" data-mode="standard" type="button">
             <div class="mode-card-header">
               <span class="mode-tag">Standard Shift</span>
-              <span class="mode-meta">5 Tickets</span>
+              <span class="mode-meta">5 Tickets &bull; 16s</span>
             </div>
             <h2 class="mode-name">Full Station Service</h2>
-            <p class="mode-desc">A complete 5-ticket operational run testing specs, dilution, emulsion, and service workflow.</p>
+            <p class="mode-desc">A complete 5-ticket operational run testing specs, dilution, emulsion, and service sequencing.</p>
           </button>
 
-          <button class="mode-card" data-mode="rush">
+          <button class="mode-card" data-mode="rush" type="button">
             <div class="mode-card-header">
               <span class="mode-tag rush-tag">Speed Call</span>
-              <span class="mode-meta">8s / Ticket</span>
+              <span class="mode-meta">5 Tickets &bull; 8s Rush</span>
             </div>
             <h2 class="mode-name">Friday Rush</h2>
-            <p class="mode-desc">Rapid-fire ticket calls against a compressed 8-second clock. Test intuition under real pressure.</p>
+            <p class="mode-desc">Rapid-fire drink calls against a compressed 8-second clock. Hone professional intuition under pressure.</p>
           </button>
 
-          <button class="mode-card" data-mode="master">
+          <button class="mode-card" data-mode="master" type="button">
             <div class="mode-card-header">
               <span class="mode-tag master-tag">Master Exam</span>
               <span class="mode-meta">1 Strike Out</span>
@@ -107,7 +108,7 @@
 
         <!-- Utility Hub Navigation Cards -->
         <div class="lobby-hubs" role="region" aria-label="Reference Hubs">
-          <button id="btn-nav-codex" class="hub-pill">
+          <button id="btn-nav-codex" class="hub-pill" type="button">
             <span class="hub-icon" aria-hidden="true">📖</span>
             <div class="hub-text">
               <span class="hub-title">Bar Codex &amp; Recipe Specs</span>
@@ -116,7 +117,7 @@
             <span class="hub-arrow" aria-hidden="true">&rsaquo;</span>
           </button>
 
-          <button id="btn-nav-diagnosis" class="hub-pill">
+          <button id="btn-nav-diagnosis" class="hub-pill" type="button">
             <span class="hub-icon" aria-hidden="true">🔍</span>
             <div class="hub-text">
               <span class="hub-title">Sensory &amp; Diagnostic Lab</span>
@@ -144,9 +145,16 @@
         <!-- Shift Progress Tracker Bar -->
         <div class="progress-bar-container" aria-label="Current Shift Progression">
           <div class="progress-info-row">
-            <span id="ticket-tracker" class="ticket-tracker">Ticket 1 of 5</span>
-            <div class="streak-multiplier-badge" id="multiplier-badge">1.0x Flow</div>
-            <span id="timer-display" class="timer-display" aria-label="Remaining time">16s</span>
+            <div class="tracker-left">
+              <button id="btn-abandon-shift" class="abandon-btn" type="button" title="Abandon Current Shift">
+                &times; Abandon
+              </button>
+              <span id="ticket-tracker" class="ticket-tracker">Ticket 1 of 5</span>
+            </div>
+            <div class="tracker-right">
+              <span class="streak-multiplier-badge" id="multiplier-badge">1.0x Flow</span>
+              <span id="timer-display" class="timer-display" aria-label="Remaining time">16s</span>
+            </div>
           </div>
           <div class="progress-track" role="progressbar" id="progress-bar-track" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
             <div id="progress-fill" class="progress-fill"></div>
@@ -175,15 +183,15 @@
           <div class="confidence-bar" id="confidence-bar" aria-label="Answer Confidence Bonus">
             <span class="confidence-label">Confidence:</span>
             <div class="confidence-options" role="radiogroup" aria-label="Select Confidence Level">
-              <button class="conf-btn active" data-conf="guess" role="radio" aria-checked="true">
+              <button class="conf-btn active" data-conf="guess" role="radio" aria-checked="true" type="button">
                 <span class="conf-name">Guess</span>
                 <span class="conf-bonus">+100</span>
               </button>
-              <button class="conf-btn" data-conf="solid" role="radio" aria-checked="false">
+              <button class="conf-btn" data-conf="solid" role="radio" aria-checked="false" type="button">
                 <span class="conf-name">Solid</span>
                 <span class="conf-bonus">+200</span>
               </button>
-              <button class="conf-btn" data-conf="certain" role="radio" aria-checked="false">
+              <button class="conf-btn" data-conf="certain" role="radio" aria-checked="false" type="button">
                 <span class="conf-name">Certain</span>
                 <span class="conf-bonus">+350</span>
               </button>
@@ -192,19 +200,19 @@
 
           <!-- 4 Multiple Choice Answer Buttons -->
           <div class="answers-grid" id="answers-grid" role="group" aria-label="Drink ticket options">
-            <button class="ans-btn" data-index="0" aria-label="Option A">
+            <button class="ans-btn" data-index="0" aria-label="Option A" type="button">
               <span class="ans-letter">A</span>
               <span class="ans-text">Option 1</span>
             </button>
-            <button class="ans-btn" data-index="1" aria-label="Option B">
+            <button class="ans-btn" data-index="1" aria-label="Option B" type="button">
               <span class="ans-letter">B</span>
               <span class="ans-text">Option 2</span>
             </button>
-            <button class="ans-btn" data-index="2" aria-label="Option C">
+            <button class="ans-btn" data-index="2" aria-label="Option C" type="button">
               <span class="ans-letter">C</span>
               <span class="ans-text">Option 3</span>
             </button>
-            <button class="ans-btn" data-index="3" aria-label="Option D">
+            <button class="ans-btn" data-index="3" aria-label="Option D" type="button">
               <span class="ans-letter">D</span>
               <span class="ans-text">Option 4</span>
             </button>
@@ -213,11 +221,11 @@
           <!-- Lifelines & Tools Tray -->
           <div class="tools-tray" id="tools-tray" aria-label="Bartender Station Tools">
             <span class="tools-label">Tools:</span>
-            <button id="btn-lifeline-spoon" class="tool-btn" title="Barspoon 50/50: Eliminate 2 incorrect answers">
+            <button id="btn-lifeline-spoon" class="tool-btn" type="button" title="Barspoon 50/50: Eliminate 2 off-spec answers">
               <span class="tool-icon" aria-hidden="true">🥄</span>
               <span class="tool-name">50/50 (<span id="spoon-count">1</span>)</span>
             </button>
-            <button id="btn-lifeline-note" class="tool-btn" title="Recipe Note: Reveal an authentic craft hint">
+            <button id="btn-lifeline-note" class="tool-btn" type="button" title="Recipe Note: Reveal an authentic craft hint">
               <span class="tool-icon" aria-hidden="true">📝</span>
               <span class="tool-name">Recipe Card (<span id="note-count">1</span>)</span>
             </button>
@@ -237,9 +245,15 @@
           <div class="feedback-body">
             <p id="feedback-principle" class="bartender-principle"></p>
 
+            <!-- Contained Scroll Information Panel for Deep Context -->
             <div id="feedback-detail-box" class="feedback-detail-box is-hidden">
-              <span class="detail-label">Deep Craft Context:</span>
-              <p id="feedback-detail-text" class="detail-text"></p>
+              <div class="detail-header-row">
+                <span class="detail-label">Deep Craft Context:</span>
+                <span class="detail-hint">Scroll to read</span>
+              </div>
+              <div class="detail-scroll-pane">
+                <p id="feedback-detail-text" class="detail-text"></p>
+              </div>
             </div>
           </div>
 
@@ -281,19 +295,21 @@
           <!-- Rank Progress Bar -->
           <div class="rank-progress-block">
             <div class="rank-label-row">
-              <span class="rank-current-lbl">Rank: <strong id="res-rank-name">Apprentice</strong></span>
-              <span class="rank-next-lbl" id="res-xp-to-next">200 XP to Bartender</span>
+              <span class="rank-current-lbl">Rank: <strong id="res-rank-name">Barback</strong></span>
+              <span class="rank-next-lbl" id="res-xp-to-next">250 XP to Apprentice</span>
             </div>
             <div class="rank-track" role="progressbar" id="res-rank-bar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
               <div class="rank-bar-fill" id="res-rank-fill"></div>
             </div>
           </div>
 
-          <!-- Category Performance Breakdown -->
+          <!-- Category Performance Breakdown Container with Contained Scroll -->
           <div class="breakdown-box">
             <h2 class="breakdown-title">Ticket Knowledge Breakdown</h2>
-            <div class="breakdown-list" id="res-breakdown-list">
-              <!-- Populated dynamically -->
+            <div class="breakdown-scroll-pane">
+              <div class="breakdown-list" id="res-breakdown-list">
+                <!-- Populated dynamically -->
+              </div>
             </div>
           </div>
 
@@ -309,19 +325,19 @@
       <!-- ================= SCREEN 4: CODEX & RECIPE VAULT ================= -->
       <section id="screen-codex" class="game-screen is-hidden" aria-labelledby="codex-title">
         <div class="subview-header">
-          <button class="back-link" id="btn-codex-back" type="button">&larr; Back to Lobby</button>
+          <button class="back-link" id="btn-codex-back" type="button">&larr; Back</button>
           <h1 class="subview-title" id="codex-title">Bar Codex &amp; Specs</h1>
           <span class="subview-tag" id="codex-count-badge">5 Formulas</span>
         </div>
 
-        <!-- Filter Pill Tabs -->
+        <!-- Filter Tabs -->
         <div class="codex-filters" role="tablist" aria-label="Filter Codex Categories">
-          <button class="filter-tab is-active" data-cat="all" role="tab" aria-selected="true">All Specs</button>
-          <button class="filter-tab" data-cat="Classic Cocktails" role="tab" aria-selected="false">Cocktails</button>
-          <button class="filter-tab" data-cat="Ice &amp; Thermodynamics" role="tab" aria-selected="false">Ice</button>
-          <button class="filter-tab" data-cat="Technique &amp; Texture" role="tab" aria-selected="false">Technique</button>
-          <button class="filter-tab" data-cat="Sensory &amp; Diagnosis" role="tab" aria-selected="false">Diagnosis</button>
-          <button class="filter-tab" data-cat="Service &amp; Speed" role="tab" aria-selected="false">Service</button>
+          <button class="filter-tab is-active" data-cat="all" role="tab" aria-selected="true" type="button">All Specs</button>
+          <button class="filter-tab" data-cat="Classic Cocktails" role="tab" aria-selected="false" type="button">Cocktails</button>
+          <button class="filter-tab" data-cat="Ice &amp; Thermodynamics" role="tab" aria-selected="false" type="button">Ice</button>
+          <button class="filter-tab" data-cat="Technique &amp; Texture" role="tab" aria-selected="false" type="button">Technique</button>
+          <button class="filter-tab" data-cat="Sensory &amp; Diagnosis" role="tab" aria-selected="false" type="button">Diagnosis</button>
+          <button class="filter-tab" data-cat="Service &amp; Speed" role="tab" aria-selected="false" type="button">Service</button>
         </div>
 
         <!-- Search Bar -->
@@ -329,9 +345,11 @@
           <input type="search" id="codex-search-input" class="search-input" placeholder="Search drinks, techniques, or ingredients..." aria-label="Search Codex formulas" />
         </div>
 
-        <!-- Codex Cards Container -->
-        <div class="codex-grid" id="codex-cards-grid" role="region" aria-label="Formula Spec Cards">
-          <!-- Populated by JavaScript from the unified 5-challenge dataset -->
+        <!-- Codex Cards Container with Responsive Structure -->
+        <div class="codex-container" role="region" aria-label="Formula Spec Cards">
+          <div class="codex-grid" id="codex-cards-grid">
+            <!-- Populated dynamically by JavaScript -->
+          </div>
         </div>
       </section>
 
@@ -345,9 +363,9 @@
 
         <div class="profile-card">
           <div class="profile-badge-row">
-            <div class="big-rank-badge" id="prof-badge-icon" aria-hidden="true">🍸</div>
+            <div class="big-rank-badge" id="prof-badge-icon" aria-hidden="true">🌱</div>
             <div class="profile-meta">
-              <h2 class="profile-title" id="prof-rank-name">Apprentice</h2>
+              <h2 class="profile-title" id="prof-rank-name">Barback</h2>
               <p class="profile-sub" id="prof-summary-sub">Station Certified &bull; Shift Ready</p>
             </div>
           </div>
@@ -372,12 +390,14 @@
           </div>
         </div>
 
-        <!-- Station Weak Spot Diagnostic Area -->
+        <!-- Station Diagnostic Area with Contained Scroll -->
         <div class="weakness-card">
           <h2 class="section-heading">Diagnostic Focus Areas</h2>
           <p class="section-subtext">Topics where off-spec choices were recently recorded behind the bar.</p>
-          <div id="weak-spots-list" class="weak-spots-list">
-            <div class="empty-state-card">Station clean! No recurrent knowledge blindspots logged.</div>
+          <div class="weakness-scroll-pane">
+            <div id="weak-spots-list" class="weak-spots-list">
+              <div class="empty-state-card">Station clean! No recurrent knowledge blindspots logged.</div>
+            </div>
           </div>
         </div>
 
@@ -387,7 +407,7 @@
           <div class="settings-row">
             <div>
               <span class="setting-title" id="lbl-relaxed-timer">Extended Timers</span>
-              <p class="setting-sub">Extends ticket window to 25s for deliberate craft study.</p>
+              <p class="setting-sub">Extends ticket window for deliberate craft study.</p>
             </div>
             <input type="checkbox" id="check-relaxed-timer" class="toggle-switch" aria-labelledby="lbl-relaxed-timer" />
           </div>
