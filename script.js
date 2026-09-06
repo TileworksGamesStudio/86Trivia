@@ -1,15 +1,15 @@
 /**
  * BAR KNOWLEDGE: THE BARTENDER'S CRAFT & SERVICE GAME
- * Clean Vanilla ES6 Front-end Architecture
- * Synthesized Web Audio Sound Engine (Zero external asset dependencies)
- * Fully continuous state model, defensive validation, and contained UI scrolling.
+ * Clean Vanilla ES6 Architecture
+ * Synthesized Web Audio Sound Engine (Zero external assets)
+ * Neubrutalist Lounge Sleek Edition
  */
 
 (function () {
   "use strict";
 
   /* ==========================================================================
-     1. IN-SCRIPT CONTENT DATABASE: EXACTLY 5 PLAYABLE CHALLENGE EXAMPLES
+     1. IN-SCRIPT CONTENT DATABASE: EXACTLY 5 PLAYABLE CRAFT CHALLENGES
      ========================================================================== */
   const CHALLENGES = [
   // --- ORIGINAL 01 TO 05 ---
@@ -558,7 +558,7 @@
 ];
 
   /* ==========================================================================
-     2. DATA VALIDATION SUBSYSTEM (DEFENSIVE RUNTIME CHECK)
+     2. DATA VALIDATION SUBSYSTEM
      ========================================================================== */
   function validateChallenges(dataset) {
     if (!Array.isArray(dataset) || dataset.length !== 5) {
@@ -579,7 +579,7 @@
   }
 
   /* ==========================================================================
-     3. AUDIO SYNTHESIS SYSTEM (WEB AUDIO API - SELF-CONTAINED)
+     3. AUDIO SYNTHESIS SYSTEM (WEB AUDIO API)
      ========================================================================== */
   class BarAudioSystem {
     constructor() {
@@ -706,7 +706,7 @@
   ];
 
   /* ==========================================================================
-     5. PERSISTENT STORAGE CONTROLLER (ROBUST SCHEMA WITH VERSIONING)
+     5. PERSISTENT STORAGE CONTROLLER
      ========================================================================== */
   const STORAGE_KEY = "BAR_KNOWLEDGE_CAREER_V3";
 
@@ -728,7 +728,7 @@
         data.version = 3;
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       } catch (e) {
-        // Fallback gracefully if storage quota exceeded or restricted
+        // Fallback safely if storage is disabled or restricted
       }
     }
 
@@ -759,7 +759,7 @@
       this.profile = StorageManager.load();
       this.audio.enabled = !!this.profile.soundEnabled;
 
-      // Active Navigation State
+      // Navigation State
       this.currentScreen = "lobby";
       this.previousScreen = "lobby";
 
@@ -778,7 +778,7 @@
       this.responseTimes = [];
       this.categoryPerformance = {};
 
-      // Ticket Level State
+      // Ticket State
       this.currentConfidence = "guess";
       this.hasAnswered = false;
       this.timerInterval = null;
@@ -872,7 +872,6 @@
     }
 
     bindEvents() {
-      // Header brand returns home or confirms abandonment if mid-shift
       document.getElementById("btn-brand").addEventListener("click", () => {
         if (this.isShiftActive) {
           if (window.confirm("Step away from the current service ticket and return to Lobby? Progress in this shift will reset.")) {
@@ -883,14 +882,12 @@
         }
       });
 
-      // Abandon Shift Button inside Gameplay
       this.btnAbandonShift.addEventListener("click", () => {
         if (window.confirm("Abandon current shift and return to Bar Lobby?")) {
           this.abandonShift();
         }
       });
 
-      // Navigation Buttons
       document.getElementById("btn-open-profile").addEventListener("click", () => {
         if (this.isShiftActive) {
           if (!window.confirm("Review Career Log? Current active ticket shift will be abandoned.")) {
@@ -928,10 +925,8 @@
         this.showScreen("codex");
       });
 
-      // Header Audio Toggle
       this.btnToggleSound.addEventListener("click", () => this.toggleSound());
 
-      // Mode Selection
       document.querySelectorAll(".mode-card").forEach((btn) => {
         btn.addEventListener("click", () => {
           const mode = btn.getAttribute("data-mode");
@@ -939,7 +934,6 @@
         });
       });
 
-      // Answer Options Selection
       this.ansButtons.forEach((btn) => {
         btn.addEventListener("click", () => {
           const idx = parseInt(btn.getAttribute("data-index"), 10);
@@ -947,7 +941,6 @@
         });
       });
 
-      // Confidence Selector
       this.confButtons.forEach((btn) => {
         btn.addEventListener("click", () => {
           if (this.hasAnswered) return;
@@ -962,11 +955,9 @@
         });
       });
 
-      // Station Lifelines
       this.btnLifelineSpoon.addEventListener("click", () => this.useLifelineSpoon());
       this.btnLifelineNote.addEventListener("click", () => this.useLifelineNote());
 
-      // Feedback Drawer Actions
       this.btnNextQuestion.addEventListener("click", () => this.advanceToNextTicket());
       this.btnToggleDeep.addEventListener("click", () => {
         this.feedbackDetailBox.classList.toggle("is-hidden");
@@ -975,10 +966,8 @@
           : "Hide Context";
       });
 
-      // Replay Action on Results Screen
       document.getElementById("btn-play-again").addEventListener("click", () => this.startShift(this.activeMode));
 
-      // Codex Category Filtering & Searching
       this.codexFilters.forEach((tab) => {
         tab.addEventListener("click", () => {
           this.codexFilters.forEach((t) => {
@@ -995,7 +984,6 @@
         this.searchCodex(e.target.value);
       });
 
-      // Settings Controls
       this.checkRelaxedTimer.addEventListener("change", (e) => {
         this.profile.relaxedTimer = e.target.checked;
         StorageManager.save(this.profile);
@@ -1008,7 +996,6 @@
         StorageManager.save(this.profile);
       });
 
-      // Wipe/Reset Data Handler
       document.getElementById("btn-reset-data").addEventListener("click", () => {
         if (window.confirm("Reset all bartender certification records, XP, and shift statistics?")) {
           localStorage.removeItem(STORAGE_KEY);
@@ -1022,7 +1009,6 @@
         }
       });
 
-      // Keyboard Accessibility
       window.addEventListener("keydown", (e) => {
         if (this.screens.game.classList.contains("is-hidden")) return;
 
@@ -1094,7 +1080,7 @@
     }
 
     /* ==========================================================================
-       7. SHIFT GAMEPLAY FLOW (5 PLAYTHROUGH TICKETS)
+       7. SHIFT GAMEPLAY FLOW
        ========================================================================== */
     startShift(mode = "standard") {
       this.audio.init();
@@ -1126,7 +1112,7 @@
       clearInterval(this.timerInterval);
       this.hasAnswered = false;
       this.ticketStartTime = Date.now();
-      this.currentConfidence = "guess"; // Reset confidence to standard baseline each ticket
+      this.currentConfidence = "guess";
 
       const ticket = this.challenges[index];
       if (!ticket) {
@@ -1143,7 +1129,7 @@
 
       this.ticketTracker.textContent = `Ticket ${index + 1} of 5`;
       this.categoryPill.textContent = ticket.category;
-      this.difficultyIndicator.textContent = `• Level ${ticket.difficulty}`;
+      this.difficultyIndicator.textContent = `LEVEL ${ticket.difficulty}`;
       this.ticketStamp.textContent = `TICKET #${101 + index}`;
       this.questionPrompt.textContent = ticket.question;
 
@@ -1162,7 +1148,6 @@
         ({ originalIndex }) => originalIndex === ticket.correctIndex
       );
 
-      // Update progress bar
       const progressPercent = ((index + 1) / 5) * 100;
       this.progressFill.style.width = `${progressPercent}%`;
       this.progressBarTrack.setAttribute("aria-valuenow", progressPercent);
@@ -1193,7 +1178,6 @@
       this.btnLifelineSpoon.disabled = this.lifelineSpoons <= 0;
       this.btnLifelineNote.disabled = this.lifelineNotes <= 0;
 
-      // Timer duration resolution
       let seconds = 16;
       if (this.activeMode === "rush") {
         seconds = this.profile.relaxedTimer ? 12 : 8;
@@ -1211,7 +1195,7 @@
 
         if (this.timeRemaining <= 3 && this.timeRemaining > 0) {
           this.audio.playTick();
-          this.timerDisplay.style.color = "var(--color-danger-border)";
+          this.timerDisplay.style.color = "#f85149";
         } else {
           this.timerDisplay.style.color = "var(--warm-gold-bright)";
         }
@@ -1228,14 +1212,12 @@
       if (this.shiftStreak >= 2) multiplier = 1.5;
       if (this.shiftStreak >= 4) multiplier = 2.0;
 
-      this.multiplierBadge.textContent = `${multiplier.toFixed(1)}x Flow`;
+      this.multiplierBadge.textContent = `${multiplier.toFixed(1)}x FLOW`;
       this.streakCounter.textContent = this.shiftStreak;
     }
 
     handleAnswerSelection(selectedIndex) {
       if (this.hasAnswered) return;
-
-      // If selection came from a button that was dimmed by 50/50, ignore
       if (selectedIndex >= 0 && this.ansButtons[selectedIndex].disabled) return;
 
       this.hasAnswered = true;
@@ -1308,7 +1290,6 @@
         }
         this.profile.weakCategories[ticket.category]++;
 
-        // Master mode zero-tolerance check
         if (this.activeMode === "master") {
           this.isMasterStrikeOut = true;
           this.btnNextQuestion.textContent = "View Exam Debrief →";
@@ -1349,7 +1330,7 @@
     }
 
     /* ==========================================================================
-       8. LIFELINE SYSTEMS
+       8. LIFELINES
        ========================================================================== */
     useLifelineSpoon() {
       if (this.hasAnswered || this.lifelineSpoons <= 0) return;
@@ -1358,7 +1339,6 @@
       this.btnLifelineSpoon.disabled = true;
       this.audio.playClink();
 
-      const ticket = this.challenges[this.currentTicketIndex];
       const incorrectIndices = [0, 1, 2, 3].filter((i) => i !== this.displayedCorrectIndex);
       const shuffled = incorrectIndices.sort(() => Math.random() - 0.5).slice(0, 2);
 
@@ -1436,7 +1416,6 @@
         this.resXpToNext.textContent = "Highest Certification Achieved";
       }
 
-      // Populate category breakdown list
       this.resBreakdownList.innerHTML = "";
       Object.keys(this.categoryPerformance).forEach((cat) => {
         const data = this.categoryPerformance[cat];
@@ -1566,7 +1545,7 @@
 
       if (weakKeys.length === 0) {
         this.weakSpotsList.innerHTML = `
-          <div class="empty-state-card">Station clean! No recurrent knowledge blindspots logged.</div>
+          <div class="empty-state-card">Station clean. Zero recurrent knowledge blindspots logged.</div>
         `;
       } else {
         weakKeys.forEach((cat) => {
@@ -1574,7 +1553,7 @@
           item.className = "weak-item";
           item.innerHTML = `
             <span>${cat}</span>
-            <span style="color: var(--burnt-orange-bright); font-weight: bold;">${this.profile.weakCategories[cat]} Off-Spec</span>
+            <span style="color: var(--burnt-orange-bright); font-weight: 900;">${this.profile.weakCategories[cat]} OFF-SPEC</span>
           `;
           this.weakSpotsList.appendChild(item);
         });
