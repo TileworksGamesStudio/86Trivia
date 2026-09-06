@@ -1804,6 +1804,44 @@ html, body {
 
 /* Mobile Responsiveness */
 @media (max-width: 420px) {
+  .confidence-bar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 5px;
+    padding: 6px 8px;
+  }
+
+  .confidence-label {
+    flex: 0 0 auto;
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .confidence-options {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    min-width: 0;
+    gap: 4px;
+  }
+
+  .conf-btn {
+    min-width: 0;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+    padding: 4px 3px;
+    font-size: 0.62rem;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .conf-bonus {
+    font-size: 0.56rem;
+  }
+
   .results-metrics-grid {
     grid-template-columns: 1fr 1fr;
   }
