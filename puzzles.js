@@ -13,7 +13,7 @@ window.COCKTAIL_PUZZLES = {
   config: {
     // Canonical UTC epoch start date.
     // Day 1 corresponds to this calendar day: Today has Puzzle 1, Vault is empty.
-    epochDate: "2025-01-01T00:00:00Z"
+    epochDate: "2026-09-08T00:00:00Z"
   },
 
   flights: [
