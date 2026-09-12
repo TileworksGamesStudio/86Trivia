@@ -3,42 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <meta name="theme-color" content="#120804">
-  <meta name="description" content="Cocktail Digest: The Daily Bar Exam. Test your mixology knowledge, cocktail history, chemistry, and craft specs every day.">
-  <title>Cocktail Digest — Daily Bar Trivia</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="theme-color" content="#0d0402">
+  <title>Cocktail Digest</title>
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <!-- Ambient Atmospheric & Garnish Background -->
+  <!-- Ambient Atmospheric Background -->
   <div class="ambient-lounge" aria-hidden="true">
     <div class="ambient-glow orb-1"></div>
     <div class="ambient-glow orb-2"></div>
-    <div class="ambient-glow bottom-spotlight"></div>
-    <!-- Procedural floating garnish icons injected dynamically -->
     <div id="garnishCanvas" class="garnish-canvas"></div>
   </div>
 
   <div class="app-container">
-    
     <!-- Unified Top Bar -->
     <header class="bar-header" role="banner">
       <div class="header-left">
-        <!-- Return to Menu Button (Active when in Game, Vault, or Scorecard) -->
-        <button id="headerBackBtn" class="neo-btn header-nav-btn hidden" aria-label="Return to Main Menu" title="Return to Main Menu">
+        <button id="headerBackBtn" class="neo-btn header-nav-btn hidden" aria-label="Menu" title="Menu">
           <span class="back-arrow" aria-hidden="true">←</span>
-          <span class="btn-text">MENU</span>
+          <span class="btn-text">Menu</span>
         </button>
-
-        <!-- Brand Lockup -->
-        <div class="title-lockup">
-          <h1 class="brand-title">COCKTAIL DIGEST</h1>
-          <span class="brand-subtitle">THE DAILY BAR EXAM</span>
-        </div>
+        <h1 class="brand-title">COCKTAIL DIGEST</h1>
       </div>
-
       <div class="header-right">
-        <!-- Sound Toggle -->
-        <button id="soundToggleBtn" class="neo-btn icon-btn" aria-label="Toggle Sound (Mute/Unmute)" title="Toggle Sound">
+        <button id="soundToggleBtn" class="neo-btn icon-btn" aria-label="Toggle Sound" title="Toggle Sound">
           <svg id="soundIconOn" class="icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
             <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
@@ -49,283 +37,132 @@
             <line x1="17" y1="9" x2="23" y2="15"></line>
           </svg>
         </button>
-
-        <!-- Bar Arcade 86 Universal Home -->
-        <a href="https://tileworksgamesstudio.github.io/86/" class="home-badge" title="Return to Bar Arcade Hub (86)" aria-label="Return to Bar Arcade Hub">
-          <svg class="icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-          </svg>
-          <span class="home-text">86</span>
-        </a>
       </div>
     </header>
 
-    <!-- Main Dynamic Stage -->
     <main id="mainContent" class="main-stage" role="main">
 
-      <!-- ===================================================================
-           SCREEN 1: DEDICATED MAIN MENU (STANDALONE SCREEN)
-           =================================================================== -->
-      <section id="menuView" class="view-panel active" aria-label="Main Menu">
-        <div class="menu-stage">
-          
-          <!-- Lounge Banner / Atmosphere Lockup -->
-          <div class="menu-hero-header">
-            <div class="menu-ornament-line" aria-hidden="true">
-              <span class="line-diamond">◆</span>
-            </div>
-            <p class="menu-welcome-tag">COCKTAIL CURRICULUM • MASTER SERIES</p>
-            <h2 class="menu-headline">Test Your Bar Repertoire</h2>
-            <p class="menu-subhead">Five curated tasting notes, classic specs, and cocktail history questions every day.</p>
-          </div>
-
-          <!-- PRIMARY NAVIGATION CARD: TODAY'S PUZZLE (HERO) -->
-          <article class="menu-card today-hero-card neo-glass-surface" id="menuTodayCard">
-            <div class="card-glow-edge" aria-hidden="true"></div>
-            <div class="today-card-header">
-              <div class="today-tag-wrap">
-                <span class="pulse-status-dot" aria-hidden="true"></span>
-                <span class="today-tag">TODAY'S SERVICE</span>
-              </div>
-              <span id="menuTodayDateBadge" class="today-date-badge">DAY 0 • TODAY</span>
-            </div>
-
-            <div class="today-info-body">
-              <h3 id="menuTodayFlightTitle" class="today-flight-title">Foundations &amp; The Shaker Tin</h3>
-              <p id="menuTodayFlightDesc" class="today-flight-desc">5 Curated Questions • Technique, Spirits &amp; Heritage</p>
-              
-              <!-- Progress / Completion Status Indicator -->
-              <div id="menuTodayStatusWrap" class="today-status-wrap">
-                <div class="today-status-pill unplayed">
-                  <span class="status-indicator-icon" aria-hidden="true">🍸</span>
-                  <span id="menuTodayStatusText">NOT STARTED</span>
-                </div>
-                <div class="today-streak-counter">
-                  <span class="streak-icon" aria-hidden="true">🔥</span>
-                  <span id="menuStreakVal">0</span> Day Streak
-                </div>
-              </div>
-            </div>
-
-            <div class="today-card-footer">
-              <button id="menuStartTodayBtn" class="neo-btn action-btn primary-action start-btn">
-                <span id="menuStartBtnLabel">START TODAY'S FLIGHT</span>
-                <span class="btn-arrow" aria-hidden="true">→</span>
-              </button>
-            </div>
-          </article>
-
-          <!-- SECONDARY NAVIGATION: VAULT & PLATFORM HUB -->
-          <div class="menu-secondary-grid">
-            
-            <!-- Vault Card -->
-            <div class="menu-card vault-menu-card neo-glass-surface" id="menuVaultCard">
-              <div class="subcard-header">
-                <div class="subcard-title-group">
-                  <span class="subcard-icon" aria-hidden="true">🗝️</span>
-                  <h3 class="subcard-title">THE VAULT</h3>
-                </div>
-                <span id="menuVaultCountBadge" class="subcard-badge">0 AVAILABLE</span>
-              </div>
-              <p class="subcard-desc">Review and replay past daily cocktail flights. Future cellars remain locked.</p>
-              <button id="menuOpenVaultBtn" class="neo-btn action-btn subcard-action">
-                <span>OPEN ARCHIVE</span>
-                <span class="btn-arrow" aria-hidden="true">→</span>
-              </button>
-            </div>
-
-            <!-- Arcade Hub Card -->
-            <div class="menu-card arcade-menu-card neo-glass-surface">
-              <div class="subcard-header">
-                <div class="subcard-title-group">
-                  <span class="subcard-icon" aria-hidden="true">🍸</span>
-                  <h3 class="subcard-title">BAR ARCADE</h3>
-                </div>
-                <span class="subcard-badge hub-badge">86 PLATFORM</span>
-              </div>
-              <p class="subcard-desc">Return to the parlor hub and explore our other daily cocktail puzzle games.</p>
-              <a href="https://tileworksgamesstudio.github.io/86/" class="neo-btn action-btn subcard-action link-btn">
-                <span>VISIT PARLOR</span>
-                <span class="btn-arrow" aria-hidden="true">↗</span>
-              </a>
-            </div>
-
-          </div>
-
-          <!-- Sound & Preference Setting Box -->
-          <div class="menu-settings-bar neo-glass-surface">
-            <div class="setting-item">
-              <span class="setting-label">Atmospheric Audio Effects</span>
-              <span id="menuSoundStateLabel" class="setting-state">ON</span>
-            </div>
-            <button id="menuSoundToggleBtn" class="neo-btn mini-btn">TOGGLE SOUND</button>
-          </div>
-
+      <!-- SYSTEM STATE (LOADING / ERROR) -->
+      <section id="systemStateView" class="view-panel active">
+        <div class="state-card neo-glass-surface">
+          <h2 id="systemStateTitle" class="state-title">Loading</h2>
+          <p id="systemStateDesc" class="state-desc"></p>
+          <button id="systemRetryBtn" class="neo-btn primary-action hidden">Try again</button>
         </div>
       </section>
 
-      <!-- ===================================================================
-           SCREEN 2: ACTIVE TRIVIA GAME BOARD
-           =================================================================== -->
-      <section id="gameView" class="view-panel hidden" aria-label="Daily Trivia Flight Board">
-        
-        <!-- Flight Meta & Stepper Bar -->
-        <div class="flight-meta-bar neo-glass-surface">
-          <div class="flight-day-indicator">
-            <span class="status-dot"></span>
-            <span id="flightDayLabel" class="flight-label">DAILY FLIGHT</span>
-          </div>
-          
-          <!-- Stepper / Progress Pips -->
-          <div id="flightStepper" class="stepper-track" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5" aria-label="Question Progress">
-            <div class="step-pip current" data-step="0"><span class="pip-inner">1</span></div>
-            <div class="step-pip" data-step="1"><span class="pip-inner">2</span></div>
-            <div class="step-pip" data-step="2"><span class="pip-inner">3</span></div>
-            <div class="step-pip" data-step="3"><span class="pip-inner">4</span></div>
-            <div class="step-pip" data-step="4"><span class="pip-inner">5</span></div>
-          </div>
+      <!-- MAIN MENU -->
+      <section id="menuView" class="view-panel hidden" aria-label="Main Menu">
+        <div class="menu-stage">
+          <!-- Today's Puzzle Card -->
+          <article class="menu-card today-hero-card neo-glass-surface" id="menuTodayCard">
+            <h2 class="section-title">Today's Puzzle</h2>
+            <h3 id="menuTodayFlightTitle" class="today-flight-title">Loading...</h3>
+            
+            <div id="menuTodayStatusWrap" class="today-status-wrap">
+              <span id="menuTodayStatusText" class="status-pill">NOT STARTED</span>
+              <span class="streak-counter"><span aria-hidden="true">🔥</span> <span id="menuStreakVal">0</span></span>
+            </div>
+            <button id="menuStartTodayBtn" class="neo-btn action-btn primary-action">Play</button>
+          </article>
 
-          <div class="flight-streak" title="Current Daily Streak">
-            <span class="streak-flame" aria-hidden="true">🍸</span>
-            <span id="streakCountLabel">0</span>
+          <!-- Vault Card -->
+          <div class="menu-card vault-menu-card neo-glass-surface" id="menuVaultCard">
+            <div class="subcard-header">
+              <h2 class="section-title">Vault</h2>
+              <span id="menuVaultCountBadge" class="subcard-badge">0</span>
+            </div>
+            <button id="menuOpenVaultBtn" class="neo-btn action-btn secondary-action">Open Vault</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ACTIVE GAME BOARD -->
+      <section id="gameView" class="view-panel hidden" aria-label="Game Board">
+        <div class="flight-meta-bar neo-glass-surface">
+          <span id="flightDayLabel" class="flight-label">TODAY</span>
+          <div id="flightStepper" class="stepper-track" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5">
+            <div class="step-pip current" data-step="0">1</div>
+            <div class="step-pip" data-step="1">2</div>
+            <div class="step-pip" data-step="2">3</div>
+            <div class="step-pip" data-step="3">4</div>
+            <div class="step-pip" data-step="4">5</div>
           </div>
         </div>
 
-        <!-- Question Card (Hero Element) -->
         <article class="trivia-card neo-glass-surface" id="triviaCard">
           <header class="card-header">
             <div class="badge-cluster">
-              <span id="curriculumBadge" class="neo-badge category-badge">LEVEL 1 — CLASSIC COCKTAILS</span>
-              <span id="difficultyBadge" class="neo-badge difficulty-badge">MEDIUM</span>
-            </div>
-            <div id="vaultBanner" class="vault-banner hidden" aria-live="polite">
-              ARCHIVE PLAYBACK — DAY <span id="vaultDayNumber">0</span>
+              <span id="curriculumBadge" class="neo-badge">CATEGORY</span>
+              <span id="difficultyBadge" class="neo-badge difficulty-badge">DIFFICULTY</span>
             </div>
           </header>
 
           <div class="question-container">
-            <h2 id="questionText" class="question-title">Loading cocktail trivia question...</h2>
+            <h2 id="questionText" class="question-title">Question loading...</h2>
           </div>
 
-          <!-- Options Radiogroup -->
           <div id="optionsGrid" class="options-grid" role="radiogroup" aria-labelledby="questionText">
-            <!-- Dynamically populated via script.js -->
+            <!-- Dynamically populated -->
           </div>
 
-          <!-- The Bar Note (Educational Reveal) -->
           <div id="barNotePanel" class="bar-note-panel hidden" aria-live="polite">
-            <div class="bar-note-header">
-              <span class="note-icon" aria-hidden="true">📖</span>
-              <span class="note-title">BAR NOTE</span>
-            </div>
+            <h3 class="note-title">Explanation</h3>
             <p id="barNoteText" class="bar-note-text"></p>
             <div class="bar-note-action">
-              <button id="nextQuestionBtn" class="neo-btn action-btn">
-                <span id="nextBtnLabel">NEXT POUR</span>
-                <span class="arrow-glyph" aria-hidden="true">→</span>
-              </button>
+              <button id="nextQuestionBtn" class="neo-btn action-btn">Next</button>
             </div>
           </div>
         </article>
       </section>
 
-      <!-- ===================================================================
-           SCREEN 3: COMPLETION TAB (SCORECARD / SERVICE REPORT)
-           =================================================================== -->
-      <section id="resultsView" class="view-panel hidden" aria-label="Flight Service Scorecard">
+      <!-- SCORECARD -->
+      <section id="resultsView" class="view-panel hidden" aria-label="Scorecard">
         <div class="scorecard-card neo-glass-surface">
-          <div class="score-header">
-            <span class="tasting-complete-tag">SERVICE REPORT</span>
-            <h2 class="score-title" id="scorecardRank">Master Mixologist</h2>
-            <p class="score-subtext" id="scorecardRemark">Outstanding palate. You know your cocktail history inside and out.</p>
-          </div>
-
+          <h2 class="score-title" id="scorecardRank">Scorecard</h2>
           <div class="score-display">
             <div class="score-circle">
-              <span id="finalScoreVal" class="score-num">5</span>
+              <span id="finalScoreVal" class="score-num">0</span>
               <span class="score-denom">/ 5</span>
             </div>
-            <div class="score-breakdown" id="scorePillList">
-              <!-- Rendered summary pips -->
-            </div>
+            <div class="score-breakdown" id="scorePillList"></div>
           </div>
 
-          <!-- Performance & Curriculum Recap -->
-          <div class="flight-recap-box">
-            <h3 class="recap-heading">CURRICULUM TESTED</h3>
-            <ul id="curriculumRecapList" class="curriculum-list">
-              <!-- Rendered recap -->
-            </ul>
-          </div>
-
-          <!-- Actions -->
           <div class="scorecard-actions">
-            <button id="shareScoreBtn" class="neo-btn action-btn primary-action">
-              <svg class="icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="18" cy="5" r="3"></circle>
-                <circle cx="6" cy="12" r="3"></circle>
-                <circle cx="18" cy="19" r="3"></circle>
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-              </svg>
-              <span>SHARE SCORECARD</span>
-            </button>
+            <button id="shareScoreBtn" class="neo-btn action-btn primary-action">Share</button>
             <div class="scorecard-button-row">
-              <button id="reviewFlightBtn" class="neo-btn action-btn secondary-action">REVIEW NOTES</button>
-              <button id="goToVaultBtn" class="neo-btn action-btn secondary-action">THE VAULT</button>
+              <button id="reviewFlightBtn" class="neo-btn action-btn secondary-action">Review</button>
+              <button id="goToVaultBtn" class="neo-btn action-btn secondary-action">Vault</button>
             </div>
-            <button id="returnToMenuBtn" class="neo-btn action-btn tertiary-action">RETURN TO MAIN MENU</button>
+            <button id="returnToMenuBtn" class="neo-btn action-btn tertiary-action">Menu</button>
           </div>
         </div>
       </section>
 
-      <!-- ===================================================================
-           SCREEN 4: THE VAULT (ARCHIVE)
-           =================================================================== -->
-      <section id="vaultView" class="view-panel hidden" aria-label="Puzzle Vault Archive">
+      <!-- THE VAULT -->
+      <section id="vaultView" class="view-panel hidden" aria-label="Vault">
         <div class="vault-shell neo-glass-surface">
           <header class="vault-header">
-            <div class="vault-title-group">
-              <h2 class="vault-title">THE CELLAR VAULT</h2>
-              <p class="vault-desc">Revisit past shifts and test your cocktail repertoire. Future puzzles remain locked in the cellar.</p>
-            </div>
-            <button id="closeVaultBtn" class="neo-btn icon-btn" aria-label="Close Vault and Return to Menu">
-              <svg class="icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            </button>
+            <h2 class="vault-title">Vault</h2>
           </header>
 
           <div id="vaultEmptyMessage" class="vault-empty-state hidden">
-            <span class="empty-icon" aria-hidden="true">🍸</span>
-            <h3>CELLAR IS FRESH</h3>
-            <p>Today is Day 0 of service. Tomorrow at midnight, today's cocktail flight will enter the archive.</p>
-            <button id="vaultBackToTodayBtn" class="neo-btn action-btn start-today-fallback">PLAY TODAY'S FLIGHT</button>
+            <h3>Empty</h3>
+            <button id="vaultBackToTodayBtn" class="neo-btn action-btn primary-action start-today-fallback">Play Today</button>
           </div>
 
           <div id="vaultGrid" class="vault-grid" role="list">
-            <!-- Dynamically populated past released flights -->
+            <!-- Dynamically populated -->
           </div>
         </div>
       </section>
 
     </main>
 
-    <!-- Toast Notification Banner -->
-    <div id="toastMessage" class="neo-toast" role="status" aria-live="polite" aria-hidden="true">
-      Scorecard copied to clipboard!
-    </div>
-
-    <!-- Persistent Global Footer -->
-    <footer class="app-footer">
-      <span>COCKTAIL DIGEST • PART OF THE 86 COCKTAIL PARLOR</span>
-    </footer>
+    <!-- Toast Notification -->
+    <div id="toastMessage" class="neo-toast" role="status" aria-live="polite" aria-hidden="true"></div>
   </div>
 
-  <!-- Content Database & Runtime Engine -->
-  <script src="puzzles.js"></script>
-  <script src="script.js"></script>
+  <script src="./script.js"></script>
 </body>
 </html>
