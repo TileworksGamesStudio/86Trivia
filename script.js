@@ -8,7 +8,7 @@
 
   const CONFIG = {
     csvPath: './puzzles.csv',
-    storageKey: 'universal_daily_quiz_state',
+    storageKey: 'cocktail_universal_daily_quiz_state',
     storageVersion: 1,
     homeUrl: 'https://tileworksgamesstudio.github.io/86/'
   };
