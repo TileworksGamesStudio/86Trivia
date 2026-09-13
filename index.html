@@ -2,165 +2,246 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  <meta name="theme-color" content="#0d0402">
-  <title>Cocktail Digest</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>The Daily Reserve — Connoisseur's Quiz</title>
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <!-- Ambient Atmospheric Background -->
-  <div class="ambient-lounge" aria-hidden="true">
-    <div class="ambient-glow orb-1"></div>
-    <div class="ambient-glow orb-2"></div>
-    <div id="garnishCanvas" class="garnish-canvas"></div>
-  </div>
+  <!-- Atmospheric Lighting & Ambient Caustics Layer -->
+  <div class="lounge-caustics" aria-hidden="true"></div>
+  <div class="lounge-vignette" aria-hidden="true"></div>
+
+  <!-- Animated Ambient Cocktail Garnish Layer (12 SVG Archetypes) -->
+  <div id="garnishContainer" class="garnish-stage" aria-hidden="true"></div>
+
+  <!-- SVG Icon Library Template (12 Cocktail Garnishes) -->
+  <svg class="svg-defs" aria-hidden="true" style="display: none;">
+    <defs>
+      <!-- 1. Orange Twist -->
+      <g id="garnish-orange-twist">
+        <path d="M6,38 C14,36 18,26 18,18 C18,10 26,4 34,4 C42,4 46,10 42,18 C38,26 26,30 20,38 C16,42 22,46 28,44" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M8,36 C15,34 19,25 19,18" fill="none" stroke="#F1D88A" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+      </g>
+      <!-- 2. Lemon Twist -->
+      <g id="garnish-lemon-twist">
+        <path d="M8,42 C6,30 14,20 24,18 C34,16 40,8 36,3 C32,-2 22,2 18,12 C14,22 28,32 38,34" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      </g>
+      <!-- 3. Lime Wheel -->
+      <g id="garnish-lime-wheel">
+        <circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="2.5"/>
+        <circle cx="24" cy="24" r="16.5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 2"/>
+        <circle cx="24" cy="24" r="3.5" fill="currentColor"/>
+        <path d="M24,7.5 L24,20.5 M24,27.5 L24,40.5 M7.5,24 L20.5,24 M27.5,24 L40.5,24 M12.5,12.5 L21.5,21.5 M26.5,26.5 L35.5,35.5 M12.5,35.5 L21.5,26.5 M26.5,21.5 L35.5,12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </g>
+      <!-- 4. Lemon Wheel -->
+      <g id="garnish-lemon-wheel">
+        <circle cx="24" cy="24" r="21" fill="none" stroke="currentColor" stroke-width="2.5"/>
+        <circle cx="24" cy="24" r="17" fill="none" stroke="currentColor" stroke-width="1"/>
+        <circle cx="24" cy="24" r="3" fill="currentColor"/>
+        <line x1="24" y1="7" x2="24" y2="41" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="7" y1="24" x2="41" y2="24" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="12" y1="12" x2="36" y2="36" stroke="currentColor" stroke-width="1.5"/>
+        <line x1="12" y1="36" x2="36" y2="12" stroke="currentColor" stroke-width="1.5"/>
+      </g>
+      <!-- 5. Dehydrated Orange Wheel -->
+      <g id="garnish-dehydrated-orange">
+        <circle cx="24" cy="24" r="20" fill="none" stroke="currentColor" stroke-width="3"/>
+        <circle cx="24" cy="24" r="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
+        <circle cx="24" cy="24" r="4.5" fill="currentColor" opacity="0.7"/>
+        <path d="M24,9.5 L24,38.5 M9.5,24 L38.5,24 M13.5,13.5 L34.5,34.5 M13.5,34.5 L34.5,13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity="0.8"/>
+      </g>
+      <!-- 6. Dehydrated Lemon Wheel -->
+      <g id="garnish-dehydrated-lemon">
+        <circle cx="24" cy="24" r="19" fill="none" stroke="currentColor" stroke-width="2.5"/>
+        <circle cx="24" cy="24" r="13.5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2 2"/>
+        <circle cx="24" cy="24" r="4" fill="currentColor" opacity="0.6"/>
+        <path d="M24,10.5 L24,37.5 M10.5,24 L37.5,24 M14.5,14.5 L33.5,33.5 M14.5,33.5 L33.5,14.5" stroke="currentColor" stroke-width="1.4"/>
+      </g>
+      <!-- 7. Cocktail Cherry -->
+      <g id="garnish-cocktail-cherry">
+        <path d="M26,16 C30,9 35,6 40,4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="22" cy="28" r="14" fill="currentColor" opacity="0.85"/>
+        <ellipse cx="18" cy="24" rx="4" ry="2.5" fill="#F1D88A" opacity="0.6"/>
+      </g>
+      <!-- 8. Maraschino Cherry Pair -->
+      <g id="garnish-cherry-pair">
+        <path d="M16,24 C16,14 22,6 26,4 C30,6 36,14 36,26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="16" cy="30" r="11" fill="currentColor" opacity="0.85"/>
+        <circle cx="34" cy="32" r="10" fill="currentColor" opacity="0.85"/>
+        <ellipse cx="13" cy="27" rx="3" ry="2" fill="#F1D88A" opacity="0.5"/>
+      </g>
+      <!-- 9. Mint Sprig -->
+      <g id="garnish-mint-sprig">
+        <path d="M24,44 L24,12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M24,12 C18,8 18,2 24,2 C30,2 30,8 24,12 Z" fill="currentColor" opacity="0.8"/>
+        <path d="M24,22 C14,20 12,12 18,12 C24,12 24,20 24,22 Z" fill="currentColor" opacity="0.8"/>
+        <path d="M24,22 C34,20 36,12 30,12 C24,12 24,20 24,22 Z" fill="currentColor" opacity="0.8"/>
+        <path d="M24,32 C12,32 10,24 16,22 C22,20 24,30 24,32 Z" fill="currentColor" opacity="0.8"/>
+        <path d="M24,32 C36,32 38,24 32,22 C26,20 24,30 24,32 Z" fill="currentColor" opacity="0.8"/>
+      </g>
+      <!-- 10. Rosemary Sprig -->
+      <g id="garnish-rosemary-sprig">
+        <line x1="24" y1="44" x2="24" y2="4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <line x1="24" y1="36" x2="14" y2="28" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="24" y1="36" x2="34" y2="28" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="24" y1="26" x2="13" y2="18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="24" y1="26" x2="35" y2="18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="24" y1="16" x2="15" y2="9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="24" y1="16" x2="33" y2="9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="24" y1="7" x2="20" y2="2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="24" y1="7" x2="28" y2="2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </g>
+      <!-- 11. Green Olive on Cocktail Pick -->
+      <g id="garnish-olive-pick">
+        <line x1="8" y1="40" x2="40" y2="8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <ellipse cx="24" cy="24" rx="14" ry="10" transform="rotate(-45 24 24)" fill="currentColor" opacity="0.85"/>
+        <circle cx="21" cy="21" r="3.5" fill="#120A07" opacity="0.9"/>
+        <circle cx="21" cy="21" r="1.8" fill="#D56A2D"/>
+      </g>
+      <!-- 12. Cucumber Ribbon -->
+      <g id="garnish-cucumber-ribbon">
+        <path d="M10,40 C22,42 36,36 34,26 C32,16 12,24 16,14 C18,8 28,6 38,6" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
+        <path d="M12,39 C22,41 34,35 32,26 C30,17 14,24 18,14 C20,9 28,7 36,7" fill="none" stroke="#F1D88A" stroke-width="1.2" stroke-linecap="round" opacity="0.7"/>
+      </g>
+    </defs>
+  </svg>
 
   <div class="app-container">
-    <!-- Unified Top Bar -->
-    <header class="bar-header" role="banner">
-      <div class="header-left">
-        <button id="headerBackBtn" class="neo-btn header-nav-btn hidden" aria-label="Menu" title="Menu">
-          <span class="back-arrow" aria-hidden="true">←</span>
-          <span class="btn-text">Menu</span>
-        </button>
-        <h1 class="brand-title">COCKTAIL DIGEST</h1>
+    <!-- Application / Gameplay Header -->
+    <header class="app-header" id="appHeader">
+      <button id="headerBackBtn" class="btn btn-icon hidden" aria-label="Back to Menu">
+        <span class="btn-symbol">←</span> Back
+      </button>
+      <div class="title-wrap">
+        <span class="lounge-eyebrow">Edition Privée</span>
+        <h1 id="appHeaderTitle" class="header-title">Daily Quiz</h1>
       </div>
-      <div class="header-right">
-        <button id="soundToggleBtn" class="neo-btn icon-btn" aria-label="Toggle Sound" title="Toggle Sound">
-          <svg id="soundIconOn" class="icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-          </svg>
-          <svg id="soundIconOff" class="icon hidden" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-            <line x1="23" y1="9" x2="17" y2="15"></line>
-            <line x1="17" y1="9" x2="23" y2="15"></line>
-          </svg>
-        </button>
-      </div>
+      <button id="soundToggleBtn" class="btn btn-icon" aria-label="Toggle Sound">
+        <span class="sound-icon-display">🔊</span>
+      </button>
     </header>
 
-    <main id="mainContent" class="main-stage" role="main">
+    <div class="lounge-divider-gold" aria-hidden="true">
+      <span class="divider-gem"></span>
+    </div>
 
-      <!-- SYSTEM STATE (LOADING / ERROR) -->
-      <section id="systemStateView" class="view-panel active">
-        <div class="state-card neo-glass-surface">
-          <h2 id="systemStateTitle" class="state-title">Loading</h2>
-          <p id="systemStateDesc" class="state-desc"></p>
-          <button id="systemRetryBtn" class="neo-btn primary-action hidden">Try again</button>
+    <main id="mainContent" class="main-content">
+      <!-- Status & Loading View -->
+      <section id="statusView" class="panel" aria-live="polite">
+        <div class="card status-card">
+          <div class="card-glass-sweep" aria-hidden="true"></div>
+          <span class="destination-label">Grand Tasting</span>
+          <h2 id="statusTitle" class="card-headline">Loading</h2>
+          <p id="statusMessage" class="text-muted">Loading puzzle data...</p>
+          <button id="statusRetryBtn" class="btn btn-primary hidden">Retry</button>
         </div>
       </section>
 
-      <!-- MAIN MENU -->
-      <section id="menuView" class="view-panel hidden" aria-label="Main Menu">
-        <div class="menu-stage">
-          <!-- Today's Puzzle Card -->
-          <article class="menu-card today-hero-card neo-glass-surface" id="menuTodayCard">
-            <h2 class="section-title">Today's Puzzle</h2>
-            <h3 id="menuTodayFlightTitle" class="today-flight-title">Loading...</h3>
-            
-            <div id="menuTodayStatusWrap" class="today-status-wrap">
-              <span id="menuTodayStatusText" class="status-pill">NOT STARTED</span>
-              <span class="streak-counter"><span aria-hidden="true">🔥</span> <span id="menuStreakVal">0</span></span>
-            </div>
-            <button id="menuStartTodayBtn" class="neo-btn action-btn primary-action">Play</button>
-          </article>
-
-          <!-- Vault Card -->
-          <div class="menu-card vault-menu-card neo-glass-surface" id="menuVaultCard">
-            <div class="subcard-header">
-              <h2 class="section-title">Vault</h2>
-              <span id="menuVaultCountBadge" class="subcard-badge">0</span>
-            </div>
-            <button id="menuOpenVaultBtn" class="neo-btn action-btn secondary-action">Open Vault</button>
+      <!-- Main Menu View: Daily Puzzle → Vault → Home -->
+      <section id="menuView" class="panel hidden">
+        <!-- 1. Daily Puzzle -->
+        <article class="card menu-card primary-destination">
+          <div class="card-glass-sweep" aria-hidden="true"></div>
+          <div class="card-header-row">
+            <span class="destination-label">Daily Selection</span>
+            <span id="menuTodayStatus" class="badge">Not Started</span>
           </div>
-        </div>
-      </section>
-
-      <!-- ACTIVE GAME BOARD -->
-      <section id="gameView" class="view-panel hidden" aria-label="Game Board">
-        <div class="flight-meta-bar neo-glass-surface">
-          <span id="flightDayLabel" class="flight-label">TODAY</span>
-          <div id="flightStepper" class="stepper-track" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5">
-            <div class="step-pip current" data-step="0">1</div>
-            <div class="step-pip" data-step="1">2</div>
-            <div class="step-pip" data-step="2">3</div>
-            <div class="step-pip" data-step="3">4</div>
-            <div class="step-pip" data-step="4">5</div>
+          <h2 id="menuTodayDate" class="card-headline">Today's Puzzle</h2>
+          <div class="status-row">
+            <span class="streak-label">Reserve Streak</span>
+            <strong id="menuStreakCount" class="streak-value">0</strong>
           </div>
-        </div>
+          <button id="playTodayBtn" class="btn btn-primary">Play</button>
+        </article>
 
-        <article class="trivia-card neo-glass-surface" id="triviaCard">
-          <header class="card-header">
-            <div class="badge-cluster">
-              <span id="curriculumBadge" class="neo-badge">CATEGORY</span>
-              <span id="difficultyBadge" class="neo-badge difficulty-badge">DIFFICULTY</span>
-            </div>
-          </header>
-
-          <div class="question-container">
-            <h2 id="questionText" class="question-title">Question loading...</h2>
+        <!-- 2. Vault -->
+        <article class="card menu-card">
+          <div class="card-header-row">
+            <span class="destination-label">The Archive</span>
+            <span id="vaultCountBadge" class="badge">0</span>
           </div>
+          <h2 class="card-headline">Previous Puzzles</h2>
+          <p class="text-muted">Browse and play past released puzzles from the archive.</p>
+          <button id="openVaultBtn" class="btn btn-secondary">Open Vault</button>
+        </article>
 
-          <div id="optionsGrid" class="options-grid" role="radiogroup" aria-labelledby="questionText">
-            <!-- Dynamically populated -->
+        <!-- 3. Home -->
+        <article class="card menu-card">
+          <div class="card-header-row">
+            <span class="destination-label">Lounge Parlour</span>
           </div>
-
-          <div id="barNotePanel" class="bar-note-panel hidden" aria-live="polite">
-            <h3 class="note-title">Explanation</h3>
-            <p id="barNoteText" class="bar-note-text"></p>
-            <div class="bar-note-action">
-              <button id="nextQuestionBtn" class="neo-btn action-btn">Next</button>
-            </div>
-          </div>
+          <p class="text-muted">Return to the main puzzle hub.</p>
+          <button id="homeBtn" class="btn btn-secondary">Return Home</button>
         </article>
       </section>
 
-      <!-- SCORECARD -->
-      <section id="resultsView" class="view-panel hidden" aria-label="Scorecard">
-        <div class="scorecard-card neo-glass-surface">
-          <h2 class="score-title" id="scorecardRank">Scorecard</h2>
-          <div class="score-display">
-            <div class="score-circle">
-              <span id="finalScoreVal" class="score-num">0</span>
-              <span class="score-denom">/ 5</span>
-            </div>
-            <div class="score-breakdown" id="scorePillList"></div>
-          </div>
+      <!-- Gameplay View -->
+      <section id="gameView" class="panel hidden">
+        <!-- Icons & Status above board -->
+        <div class="game-meta">
+          <span id="gameModeLabel" class="game-mode-label">Daily Puzzle</span>
+          <div id="stepperTrack" class="stepper-track" aria-label="Puzzle progress" role="group"></div>
+        </div>
 
-          <div class="scorecard-actions">
-            <button id="shareScoreBtn" class="neo-btn action-btn primary-action">Share</button>
-            <div class="scorecard-button-row">
-              <button id="reviewFlightBtn" class="neo-btn action-btn secondary-action">Review</button>
-              <button id="goToVaultBtn" class="neo-btn action-btn secondary-action">Vault</button>
+        <!-- Central Game Board -->
+        <div class="game-board-card" id="gameBoard">
+          <div class="card-glass-sweep" aria-hidden="true"></div>
+          <h2 id="questionText" class="question-text">Question</h2>
+          <div id="optionsContainer" class="options-container" role="radiogroup" aria-label="Question choices"></div>
+        </div>
+
+        <!-- Supporting text & feedback below board -->
+        <div id="explanationPanel" class="explanation-panel hidden" aria-live="polite">
+          <div class="explanation-header">
+            <span id="answerIndicator" class="answer-badge"></span>
+            <h3 class="explanation-title">Sommelier's Note</h3>
+          </div>
+          <p id="explanationText" class="explanation-text"></p>
+          <button id="nextQuestionBtn" class="btn btn-primary">Next</button>
+        </div>
+      </section>
+
+      <!-- Results View -->
+      <section id="resultsView" class="panel hidden">
+        <div class="card text-center results-card">
+          <div class="card-glass-sweep" aria-hidden="true"></div>
+          <span class="destination-label">Tasting Score</span>
+          <h2 id="resultsHeadline" class="results-title">Puzzle Complete</h2>
+          <div class="score-container">
+            <span id="scoreValue" class="score-value">0</span>
+            <span id="scoreTotal" class="score-total">/ 5</span>
+          </div>
+          <div id="resultsBreakdown" class="results-breakdown" aria-label="Results breakdown"></div>
+
+          <div class="action-stack">
+            <button id="shareScoreBtn" class="btn btn-primary">Share Score</button>
+            <div class="button-row">
+              <button id="reviewQuizBtn" class="btn btn-secondary">Review</button>
+              <button id="resultsVaultBtn" class="btn btn-secondary">Vault</button>
             </div>
-            <button id="returnToMenuBtn" class="neo-btn action-btn tertiary-action">Menu</button>
+            <button id="resultsMenuBtn" class="btn btn-secondary">Menu</button>
           </div>
         </div>
       </section>
 
-      <!-- THE VAULT -->
-      <section id="vaultView" class="view-panel hidden" aria-label="Vault">
-        <div class="vault-shell neo-glass-surface">
-          <header class="vault-header">
-            <h2 class="vault-title">Vault</h2>
-          </header>
-
-          <div id="vaultEmptyMessage" class="vault-empty-state hidden">
-            <h3>Empty</h3>
-            <button id="vaultBackToTodayBtn" class="neo-btn action-btn primary-action start-today-fallback">Play Today</button>
+      <!-- Vault (Archive) View -->
+      <section id="vaultView" class="panel hidden">
+        <div class="card vault-card">
+          <div class="card-header-row">
+            <div>
+              <span class="destination-label">Historic Vintage</span>
+              <h2 class="card-headline">The Vault</h2>
+            </div>
+            <span class="text-muted" id="vaultSubtext">Past Puzzles</span>
           </div>
-
-          <div id="vaultGrid" class="vault-grid" role="list">
-            <!-- Dynamically populated -->
-          </div>
+          <p id="vaultEmptyMsg" class="text-muted hidden">No previous puzzles available yet.</p>
+          <div id="vaultList" class="vault-list" role="list"></div>
         </div>
       </section>
-
     </main>
 
-    <!-- Toast Notification -->
-    <div id="toastMessage" class="neo-toast" role="status" aria-live="polite" aria-hidden="true"></div>
+    <!-- Accessible Toast Feedback -->
+    <div id="toastMessage" class="toast" role="status" aria-live="polite"></div>
   </div>
 
   <script src="./script.js"></script>
