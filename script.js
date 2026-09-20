@@ -1,7 +1,7 @@
 /**
- * UNIVERSAL GAME ENGINE — LUXURY COCKTAIL LOUNGE EDITION
- * Preserves 100% of underlying game rules, storage, and navigation.
- * Upgrades audio synthesizer and ambient animated garnish particles.
+ * DAILY QUIZ — COCKTAIL LOUNGE MASTER ENGINE
+ * High-Proof Nocturne Edition: Features 12 Custom Botanical/Citrus SVG Garnishes,
+ * Emissive Lighting Engine, Crystal/Brass Synthesizer & Authoritative UK Schedule.
  */
 (function () {
   'use strict';
@@ -9,118 +9,229 @@
   const CONFIG = {
     csvPath: './puzzles.csv',
     storageKey: 'cocktail_universal_daily_quiz_state',
-    storageVersion: 1,
-    homeUrl: 'https://tileworksgamesstudio.github.io/86/'
+    storageVersion: 2,
+    homeUrl: 'https://tileworksgamesstudio.github.io/86/',
+    plusUrl: 'https://example.com/games',
+    releaseTimeZone: 'Europe/London',
+    garnishPopulation: 8
   };
 
-  // --- 12 SIGNATURE COCKTAIL GARNISH SILHOUETTES ---
-  const GARNISH_IDS = [
-    'garnish-orange-twist',
-    'garnish-lemon-twist',
-    'garnish-lime-wheel',
-    'garnish-lemon-wheel',
-    'garnish-dehydrated-orange',
-    'garnish-dehydrated-lemon',
-    'garnish-cocktail-cherry',
-    'garnish-cherry-pair',
-    'garnish-mint-sprig',
-    'garnish-rosemary-sprig',
-    'garnish-olive-pick',
-    'garnish-cucumber-ribbon'
+  // --- 12 ULTRA-PREMIUM CUSTOM SVG COCKTAIL GARNISH CATALOGUE ---
+  // Shared viewBox 0 0 100 100, custom gradients, internal reflections, and warm bloom
+  const GARNISH_SVGS = [
+    // 1. Orange Twist
+    `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g_ot" x1="15" y1="20" x2="85" y2="80" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#FFB347"/>
+          <stop offset="45%" stop-color="#E86A2D"/>
+          <stop offset="100%" stop-color="#9E3812"/>
+        </linearGradient>
+      </defs>
+      <path d="M22 26C35 12 65 14 76 28C88 44 78 72 58 80C42 86 26 78 30 62C34 46 54 44 62 52" 
+            stroke="url(#g_ot)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M25 24C36 14 62 16 72 28C80 40 74 62 60 70" 
+            stroke="#FFF1BE" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
+    </svg>`,
+
+    // 2. Lemon Twist
+    `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g_lt" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#FFF9A6"/>
+          <stop offset="50%" stop-color="#F5DE8C"/>
+          <stop offset="100%" stop-color="#CCA048"/>
+        </linearGradient>
+      </defs>
+      <path d="M26 30C38 18 68 18 78 32C88 48 76 74 54 80C36 84 22 68 32 50C40 36 60 40 66 50" 
+            stroke="url(#g_lt)" stroke-width="8" stroke-linecap="round"/>
+      <path d="M30 26C40 18 64 20 72 30" 
+            stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.85"/>
+    </svg>`,
+
+    // 3. Lime Wheel
+    `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="g_lw" cx="50" cy="50" r="46" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#A4C639"/>
+          <stop offset="70%" stop-color="#558B2F"/>
+          <stop offset="100%" stop-color="#2E5618"/>
+        </radialGradient>
+      </defs>
+      <circle cx="50" cy="50" r="44" stroke="#7CB342" stroke-width="5" fill="none"/>
+      <circle cx="50" cy="50" r="40" stroke="#F5DE8C" stroke-width="2" fill="url(#g_lw)" opacity="0.9"/>
+      <circle cx="50" cy="50" r="6" fill="#F5DE8C"/>
+      <!-- Spokes -->
+      <line x1="50" y1="12" x2="50" y2="44" stroke="#F5DE8C" stroke-width="1.8" opacity="0.75"/>
+      <line x1="50" y1="56" x2="50" y2="88" stroke="#F5DE8C" stroke-width="1.8" opacity="0.75"/>
+      <line x1="12" y1="50" x2="44" y2="50" stroke="#F5DE8C" stroke-width="1.8" opacity="0.75"/>
+      <line x1="56" y1="50" x2="88" y2="50" stroke="#F5DE8C" stroke-width="1.8" opacity="0.75"/>
+      <line x1="23" y1="23" x2="46" y2="46" stroke="#F5DE8C" stroke-width="1.8" opacity="0.75"/>
+      <line x1="54" y1="54" x2="77" y2="77" stroke="#F5DE8C" stroke-width="1.8" opacity="0.75"/>
+      <line x1="23" y1="77" x2="46" y2="54" stroke="#F5DE8C" stroke-width="1.8" opacity="0.75"/>
+      <line x1="54" y1="46" x2="77" y2="23" stroke="#F5DE8C" stroke-width="1.8" opacity="0.75"/>
+    </svg>`,
+
+    // 4. Grapefruit Wheel
+    `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="g_gw" cx="50" cy="50" r="46" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#FF8A80"/>
+          <stop offset="65%" stop-color="#E53935"/>
+          <stop offset="100%" stop-color="#B71C1C"/>
+        </radialGradient>
+      </defs>
+      <circle cx="50" cy="50" r="45" stroke="#FFA726" stroke-width="6" fill="none"/>
+      <circle cx="50" cy="50" r="40" stroke="#FFF5E4" stroke-width="2" fill="url(#g_gw)" opacity="0.9"/>
+      <circle cx="50" cy="50" r="7" fill="#FFF5E4"/>
+      <!-- Radial segments -->
+      <line x1="50" y1="13" x2="50" y2="43" stroke="#FFF5E4" stroke-width="2" opacity="0.7"/>
+      <line x1="50" y1="57" x2="50" y2="87" stroke="#FFF5E4" stroke-width="2" opacity="0.7"/>
+      <line x1="13" y1="50" x2="43" y2="50" stroke="#FFF5E4" stroke-width="2" opacity="0.7"/>
+      <line x1="57" y1="50" x2="87" y2="50" stroke="#FFF5E4" stroke-width="2" opacity="0.7"/>
+      <line x1="24" y1="24" x2="45" y2="45" stroke="#FFF5E4" stroke-width="2" opacity="0.7"/>
+      <line x1="55" y1="55" x2="76" y2="76" stroke="#FFF5E4" stroke-width="2" opacity="0.7"/>
+    </svg>`,
+
+    // 5. Blood Orange Wheel
+    `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="g_bo" cx="50" cy="50" r="46" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#D81B60"/>
+          <stop offset="60%" stop-color="#880E4F"/>
+          <stop offset="100%" stop-color="#4A0020"/>
+        </radialGradient>
+      </defs>
+      <circle cx="50" cy="50" r="45" stroke="#FB8C00" stroke-width="5" fill="none"/>
+      <circle cx="50" cy="50" r="41" stroke="#F5DE8C" stroke-width="2" fill="url(#g_bo)" opacity="0.92"/>
+      <circle cx="50" cy="50" r="6" fill="#F5DE8C"/>
+      <line x1="50" y1="12" x2="50" y2="44" stroke="#F5DE8C" stroke-width="1.8" opacity="0.75"/>
+      <line x1="50" y1="56" x2="50" y2="88" stroke="#F5DE8C" stroke-width="1.8" opacity="0.75"/>
+      <line x1="12" y1="50" x2="44" y2="50" stroke="#F5DE8C" stroke-width="1.8" opacity="0.75"/>
+      <line x1="56" y1="50" x2="88" y2="50" stroke="#F5DE8C" stroke-width="1.8" opacity="0.75"/>
+      <line x1="23" y1="23" x2="46" y2="46" stroke="#F5DE8C" stroke-width="1.8" opacity="0.75"/>
+      <line x1="54" y1="54" x2="77" y2="77" stroke="#F5DE8C" stroke-width="1.8" opacity="0.75"/>
+    </svg>`,
+
+    // 6. Dehydrated Citrus Wheel
+    `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="g_dc" cx="50" cy="50" r="46" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#A5772D"/>
+          <stop offset="70%" stop-color="#6E4416"/>
+          <stop offset="100%" stop-color="#3A2107"/>
+        </radialGradient>
+      </defs>
+      <circle cx="50" cy="50" r="44" stroke="#523612" stroke-width="6" fill="none"/>
+      <circle cx="50" cy="50" r="39" stroke="#CCA048" stroke-width="1.8" fill="url(#g_dc)" opacity="0.88"/>
+      <circle cx="50" cy="50" r="5" fill="#CCA048"/>
+      <line x1="50" y1="13" x2="50" y2="45" stroke="#CCA048" stroke-width="1.5" opacity="0.6"/>
+      <line x1="50" y1="55" x2="50" y2="87" stroke="#CCA048" stroke-width="1.5" opacity="0.6"/>
+      <line x1="13" y1="50" x2="45" y2="50" stroke="#CCA048" stroke-width="1.5" opacity="0.6"/>
+      <line x1="55" y1="50" x2="87" y2="50" stroke="#CCA048" stroke-width="1.5" opacity="0.6"/>
+      <line x1="24" y1="24" x2="46" y2="46" stroke="#CCA048" stroke-width="1.5" opacity="0.6"/>
+      <line x1="54" y1="54" x2="76" y2="76" stroke="#CCA048" stroke-width="1.5" opacity="0.6"/>
+    </svg>`,
+
+    // 7. Single Cocktail Cherry
+    `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="g_ch" cx="44" cy="58" r="32" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#FF5252"/>
+          <stop offset="55%" stop-color="#B71C1C"/>
+          <stop offset="100%" stop-color="#310000"/>
+        </radialGradient>
+      </defs>
+      <path d="M50 48C48 28 62 16 74 12" stroke="#A5772D" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="48" cy="62" r="28" fill="url(#g_ch)"/>
+      <ellipse cx="40" cy="52" rx="6" ry="3.5" transform="rotate(-30 40 52)" fill="#FFFFFF" opacity="0.75"/>
+    </svg>`,
+
+    // 8. Double Cherry
+    `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="g_ch1" cx="30" cy="60" r="24" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#FF5252"/>
+          <stop offset="60%" stop-color="#B71C1C"/>
+          <stop offset="100%" stop-color="#310000"/>
+        </radialGradient>
+        <radialGradient id="g_ch2" cx="66" cy="66" r="24" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#FF5252"/>
+          <stop offset="60%" stop-color="#B71C1C"/>
+          <stop offset="100%" stop-color="#310000"/>
+        </radialGradient>
+      </defs>
+      <path d="M34 52C36 32 46 20 54 14C62 20 66 38 68 54" stroke="#CCA048" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="34" cy="66" r="22" fill="url(#g_ch1)"/>
+      <circle cx="68" cy="68" r="20" fill="url(#g_ch2)"/>
+      <ellipse cx="28" cy="58" rx="5" ry="3" transform="rotate(-25 28 58)" fill="#FFF" opacity="0.7"/>
+    </svg>`,
+
+    // 9. Mint Sprig
+    `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g_mint" x1="30" y1="20" x2="70" y2="80" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#81C784"/>
+          <stop offset="60%" stop-color="#2E7D32"/>
+          <stop offset="100%" stop-color="#1B5E20"/>
+        </linearGradient>
+      </defs>
+      <path d="M50 85C50 55 50 30 50 16" stroke="#4CAF50" stroke-width="3" stroke-linecap="round"/>
+      <!-- Leaves -->
+      <path d="M50 35C35 22 25 35 48 50Z" fill="url(#g_mint)" stroke="#A5D6A7" stroke-width="1"/>
+      <path d="M50 35C65 22 75 35 52 50Z" fill="url(#g_mint)" stroke="#A5D6A7" stroke-width="1"/>
+      <path d="M50 55C32 42 22 55 48 70Z" fill="url(#g_mint)" stroke="#A5D6A7" stroke-width="1"/>
+      <path d="M50 55C68 42 78 55 52 70Z" fill="url(#g_mint)" stroke="#A5D6A7" stroke-width="1"/>
+      <path d="M50 20C42 8 58 8 50 20Z" fill="#81C784"/>
+    </svg>`,
+
+    // 10. Rosemary Sprig
+    `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M50 90C48 65 52 35 50 10" stroke="#33691E" stroke-width="3" stroke-linecap="round"/>
+      <!-- Fine needles -->
+      <line x1="50" y1="75" x2="32" y2="65" stroke="#558B2F" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="50" y1="75" x2="68" y2="65" stroke="#558B2F" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="50" y1="60" x2="30" y2="50" stroke="#689F38" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="50" y1="60" x2="70" y2="50" stroke="#689F38" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="50" y1="45" x2="34" y2="35" stroke="#7CB342" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="50" y1="45" x2="66" y2="35" stroke="#7CB342" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="50" y1="30" x2="38" y2="20" stroke="#8BC34A" stroke-width="2" stroke-linecap="round"/>
+      <line x1="50" y1="30" x2="62" y2="20" stroke="#8BC34A" stroke-width="2" stroke-linecap="round"/>
+    </svg>`,
+
+    // 11. Green Olive with Pimento
+    `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="g_ol" cx="45" cy="45" r="38" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#9CCC65"/>
+          <stop offset="60%" stop-color="#558B2F"/>
+          <stop offset="100%" stop-color="#2E5618"/>
+        </radialGradient>
+      </defs>
+      <!-- Skewer toothpick -->
+      <line x1="20" y1="85" x2="80" y2="15" stroke="#D7CCC8" stroke-width="3.5" stroke-linecap="round"/>
+      <ellipse cx="50" cy="50" rx="30" ry="24" transform="rotate(-40 50 50)" fill="url(#g_ol)"/>
+      <circle cx="56" cy="45" r="7" fill="#C62828"/>
+      <ellipse cx="44" cy="42" rx="4" ry="2" transform="rotate(-30 44 42)" fill="#FFF" opacity="0.6"/>
+    </svg>`,
+
+    // 12. Flowing Cucumber Ribbon
+    `<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g_cuc" x1="20" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#E8F5E9"/>
+          <stop offset="50%" stop-color="#A5D6A7"/>
+          <stop offset="100%" stop-color="#388E3C"/>
+        </linearGradient>
+      </defs>
+      <path d="M18 25C35 45 65 15 82 35C90 45 75 75 55 70C35 65 25 85 35 90" 
+            stroke="url(#g_cuc)" stroke-width="12" stroke-linecap="round" opacity="0.85"/>
+      <path d="M18 25C35 45 65 15 82 35C90 45 75 75 55 70C35 65 25 85 35 90" 
+            stroke="#1B5E20" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+    </svg>`
   ];
 
-  // --- AMBIENT GARNISH PARTICLE ENGINE ---
-  class AmbientGarnishManager {
-    constructor(containerId) {
-      this.container = document.getElementById(containerId);
-      this.activeCount = 0;
-      this.maxParticles = window.innerWidth < 600 ? 9 : 16;
-      this.timer = null;
-      this.depthClasses = ['garnish-depth-distant', 'garnish-depth-middle', 'garnish-depth-near'];
-
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (!prefersReduced && this.container) {
-        this.start();
-      }
-    }
-
-    start() {
-      // Initial staggered launch
-      for (let i = 0; i < 6; i++) {
-        setTimeout(() => this.spawn(), i * 650);
-      }
-      this.loop();
-    }
-
-    loop() {
-      const nextDelay = 1400 + Math.random() * 2400;
-      this.timer = setTimeout(() => {
-        if (this.activeCount < this.maxParticles) {
-          this.spawn();
-        }
-        this.loop();
-      }, nextDelay);
-    }
-
-    spawn() {
-      if (!this.container) return;
-
-      const garnish = document.createElement('div');
-      garnish.className = 'floating-garnish';
-
-      const typeId = GARNISH_IDS[Math.floor(Math.random() * GARNISH_IDS.length)];
-      const depthIndex = Math.floor(Math.random() * this.depthClasses.length);
-      const depthClass = this.depthClasses[depthIndex];
-      garnish.classList.add(depthClass);
-
-      // Depth parameters
-      let baseSize = 28;
-      let duration = 22;
-      let targetOpacity = 0.35;
-
-      if (depthIndex === 0) { // Distant
-        baseSize = 20 + Math.random() * 8;
-        duration = 24 + Math.random() * 12;
-        targetOpacity = 0.18 + Math.random() * 0.1;
-      } else if (depthIndex === 1) { // Middle
-        baseSize = 30 + Math.random() * 10;
-        duration = 18 + Math.random() * 8;
-        targetOpacity = 0.32 + Math.random() * 0.14;
-      } else { // Near
-        baseSize = 40 + Math.random() * 14;
-        duration = 14 + Math.random() * 6;
-        targetOpacity = 0.45 + Math.random() * 0.15;
-      }
-
-      const leftPercent = 3 + Math.random() * 92;
-      const driftX = (Math.random() - 0.5) * 80;
-      const startRot = Math.random() * 360;
-      const endRot = startRot + (Math.random() > 0.5 ? 90 : -90) + (Math.random() * 60 - 30);
-
-      garnish.style.left = `${leftPercent}%`;
-      garnish.style.width = `${baseSize}px`;
-      garnish.style.height = `${baseSize}px`;
-      garnish.style.setProperty('--drift-x', `${driftX}px`);
-      garnish.style.setProperty('--start-rot', `${startRot}deg`);
-      garnish.style.setProperty('--end-rot', `${endRot}deg`);
-      garnish.style.setProperty('--target-opacity', targetOpacity);
-      garnish.style.animationDuration = `${duration}s`;
-
-      garnish.innerHTML = `<svg viewBox="0 0 48 48"><use href="#${typeId}"></use></svg>`;
-
-      garnish.addEventListener('animationend', () => {
-        if (garnish.parentNode) {
-          garnish.parentNode.removeChild(garnish);
-        }
-        this.activeCount--;
-      });
-
-      this.container.appendChild(garnish);
-      this.activeCount++;
-    }
-  }
-
-  // --- RESTRAINED CRYSTAL & BRASS AUDIO FEEDBACK ---
+  // --- AUDIO SYNTHESIZER: CRYSTAL, BRASS & HARMONIC RESONANCE ---
   class SoundManager {
     constructor(enabled = true) {
       this.enabled = enabled;
@@ -136,7 +247,7 @@
       }
     }
 
-    tone(freq, type = 'sine', duration = 0.1, gainVal = 0.08) {
+    playTone(freq, type = 'sine', duration = 0.12, gainVal = 0.08, rampDown = true) {
       if (!this.enabled) return;
       this.init();
       if (!this.ctx) return;
@@ -146,47 +257,54 @@
         osc.type = type;
         osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
         gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+        if (rampDown) {
+          gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+        }
         osc.connect(gain);
         gain.connect(this.ctx.destination);
         osc.start();
         osc.stop(this.ctx.currentTime + duration);
       } catch (e) {
-        // Audio failures handled silently
+        // Safe failover
       }
     }
 
-    // Polished cocktail glass / brass button tap
     tap() {
-      this.tone(640, 'triangle', 0.04, 0.04);
+      // Warm tactile cocktail chit tap
+      this.playTone(480, 'triangle', 0.05, 0.05);
     }
 
-    // High crystalline two-tone chime for correct answers
     correct() {
-      this.tone(659.25, 'sine', 0.12, 0.07); // E5
-      setTimeout(() => this.tone(987.77, 'sine', 0.22, 0.08), 85); // B5
+      // Resonant crystal champagne clink
+      this.playTone(587.33, 'sine', 0.18, 0.12); // D5
+      setTimeout(() => {
+        this.playTone(880.00, 'sine', 0.28, 0.10); // A5 harmonic
+      }, 70);
     }
 
-    // Soft muted velvet timbre for incorrect answers
     incorrect() {
-      this.tone(196.00, 'triangle', 0.18, 0.06);
+      // Damped muted brass note
+      this.playTone(220.00, 'sawtooth', 0.18, 0.06);
     }
 
-    // Elegant multi-tiered reserve celebration chime
     complete() {
-      [587.33, 739.99, 880.00, 1174.66].forEach((f, i) => {
-        setTimeout(() => this.tone(f, 'sine', 0.28, 0.07), i * 110);
+      // Ascending lounge chords
+      const chord = [523.25, 659.25, 783.99, 1046.50]; // C5 - E5 - G5 - C6
+      chord.forEach((note, idx) => {
+        setTimeout(() => this.playTone(note, 'sine', 0.35, 0.10), idx * 80);
       });
     }
   }
 
-  // --- DEFENSIVE LOCAL STORAGE SYSTEM ---
+  // --- DEFENSIVE STORAGE & SCHEMA MANAGER ---
   const Storage = {
     load() {
       const fallback = {
         version: CONFIG.storageVersion,
         sound: true,
+        backgroundAnimation: true,
         streak: 0,
+        bestStreak: 0,
         lastCompletedDate: null,
         history: {},
         inProgress: null
@@ -197,10 +315,13 @@
         if (!raw) return fallback;
         const parsed = JSON.parse(raw);
         if (typeof parsed !== 'object' || parsed === null) return fallback;
+
         return {
-          version: parsed.version || CONFIG.storageVersion,
+          version: CONFIG.storageVersion,
           sound: typeof parsed.sound === 'boolean' ? parsed.sound : true,
+          backgroundAnimation: typeof parsed.backgroundAnimation === 'boolean' ? parsed.backgroundAnimation : true,
           streak: typeof parsed.streak === 'number' ? parsed.streak : 0,
+          bestStreak: typeof parsed.bestStreak === 'number' ? parsed.bestStreak : (parsed.streak || 0),
           lastCompletedDate: parsed.lastCompletedDate || null,
           history: parsed.history && typeof parsed.history === 'object' ? parsed.history : {},
           inProgress: parsed.inProgress && typeof parsed.inProgress === 'object' ? parsed.inProgress : null
@@ -213,12 +334,12 @@
       try {
         localStorage.setItem(CONFIG.storageKey, JSON.stringify(state));
       } catch (e) {
-        // Defensive failure handling
+        // Defensive
       }
     }
   };
 
-  // --- ROBUST RFC 4180 CSV PARSER ---
+  // --- RFC 4180 ROBUST CSV PARSER ---
   function parseCsv(text) {
     const rows = [];
     let row = [];
@@ -226,27 +347,27 @@
     let inQuotes = false;
 
     for (let i = 0; i < text.length; i++) {
-      const c = text[i];
+      const char = text[i];
       const next = text[i + 1];
 
-      if (c === '"') {
+      if (char === '"') {
         if (inQuotes && next === '"') {
           field += '"';
           i++;
         } else {
           inQuotes = !inQuotes;
         }
-      } else if (c === ',' && !inQuotes) {
+      } else if (char === ',' && !inQuotes) {
         row.push(field.trim());
         field = '';
-      } else if ((c === '\n' || (c === '\r' && next === '\n')) && !inQuotes) {
-        if (c === '\r') i++;
+      } else if ((char === '\n' || (char === '\r' && next === '\n')) && !inQuotes) {
+        if (char === '\r') i++;
         row.push(field.trim());
         rows.push(row);
         row = [];
         field = '';
       } else {
-        field += c;
+        field += char;
       }
     }
     if (field || row.length > 0) {
@@ -254,39 +375,70 @@
       rows.push(row);
     }
 
-    if (rows.length < 2) throw new Error('Data format invalid or missing.');
+    if (rows.length < 2) throw new Error('Data file missing or invalid.');
     const headers = rows[0].map(h => h.toLowerCase());
     const records = [];
 
-    for (let i = 1; i < rows.length; i++) {
-      if (rows[i].length === 1 && rows[i][0] === '') continue;
-      const obj = {};
+    for (let r = 1; r < rows.length; r++) {
+      if (rows[r].length === 1 && rows[r][0] === '') continue;
+      const item = {};
       headers.forEach((h, idx) => {
-        obj[h] = rows[i][idx] !== undefined ? rows[i][idx] : '';
+        item[h] = rows[r][idx] !== undefined ? rows[r][idx] : '';
       });
-      records.push(obj);
+      records.push(item);
     }
     return records;
   }
 
-  // --- DATE RESOLUTION ---
-  async function getTodayDateString() {
-    try {
-      const res = await fetch(window.location.href.split('#')[0].split('?')[0] + '?_t=' + Date.now(), {
-        method: 'HEAD',
-        cache: 'no-store'
-      });
-      const header = res.headers.get('Date');
-      if (header) {
-        const d = new Date(header);
-        if (!isNaN(d.getTime())) return d.toISOString().split('T')[0];
+  // --- UK RELEASE CLOCK (EUROPE/LONDON) ---
+  class ReleaseClock {
+    constructor() {
+      this.serverOffsetMs = 0;
+      this.isSynchronized = false;
+    }
+
+    async sync() {
+      try {
+        const url = window.location.href.split('#')[0].split('?')[0] + '?_t=' + Date.now();
+        const start = performance.now();
+        const res = await fetch(url, { method: 'HEAD', cache: 'no-store' });
+        const latency = (performance.now() - start) / 2;
+        const dateHeader = res.headers.get('Date');
+
+        if (dateHeader) {
+          const serverTime = new Date(dateHeader).getTime() + latency;
+          if (!isNaN(serverTime)) {
+            this.serverOffsetMs = serverTime - Date.now();
+            this.isSynchronized = true;
+          }
+        }
+      } catch (e) {
+        this.isSynchronized = false;
       }
-    } catch (e) {}
-    return new Date().toISOString().split('T')[0];
+    }
+
+    getNow() {
+      return new Date(Date.now() + this.serverOffsetMs);
+    }
+
+    getTodayUkDateString() {
+      const now = this.getNow();
+      try {
+        const dtf = new Intl.DateTimeFormat('en-CA', {
+          timeZone: CONFIG.releaseTimeZone,
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit'
+        });
+        return dtf.format(now);
+      } catch (e) {
+        return now.toISOString().split('T')[0];
+      }
+    }
   }
 
-  function resolveAnswerIndex(val) {
-    const clean = String(val).trim().toUpperCase();
+  function resolveAnswerIndex(letter) {
+    const clean = String(letter).trim().toUpperCase();
     if (clean === 'A' || clean === '0') return 0;
     if (clean === 'B' || clean === '1') return 1;
     if (clean === 'C' || clean === '2') return 2;
@@ -294,13 +446,161 @@
     return 0;
   }
 
-  // --- APPLICATION CONTROLLER ---
-  class UniversalQuiz {
+  // --- UPWARD FLOATING GARNISH FLIGHT ENGINE ---
+  class GarnishFlightEngine {
+    constructor(container, enabled = true) {
+      this.container = container;
+      this.enabled = enabled;
+      this.garnishes = [];
+      this.animFrame = null;
+      this.lastTime = 0;
+      this.isRunning = false;
+    }
+
+    init() {
+      if (!this.container) return;
+      this.container.innerHTML = '';
+      this.garnishes = [];
+
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) {
+        this.enabled = false;
+      }
+
+      // Populate targeted 6-9 active garnishes
+      for (let i = 0; i < CONFIG.garnishPopulation; i++) {
+        const item = this.createGarnish(i, true);
+        this.container.appendChild(item.el);
+        this.garnishes.push(item);
+      }
+
+      // Handle visibility changes to preserve battery/performance
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          this.stop();
+        } else if (this.enabled) {
+          this.start();
+        }
+      });
+
+      if (this.enabled) {
+        this.start();
+      }
+    }
+
+    createGarnish(index, initialScatter = false) {
+      const el = document.createElement('div');
+      el.className = 'garnish-item';
+
+      const depthPlane = index % 3; // 0 = back, 1 = mid, 2 = fore
+      el.classList.add(depthPlane === 0 ? 'depth-back' : depthPlane === 1 ? 'depth-mid' : 'depth-fore');
+
+      // Pick one of the 12 SVG botanical icons
+      const svgIndex = (index * 3 + Math.floor(Math.random() * 3)) % GARNISH_SVGS.length;
+      el.innerHTML = `
+        <div class="garnish-svg-wrapper">
+          <div class="garnish-glow-bloom"></div>
+          <div class="garnish-svg-art">${GARNISH_SVGS[svgIndex]}</div>
+        </div>
+      `;
+
+      // Visual mass & scale per depth plane
+      const baseScale = depthPlane === 0 ? 0.72 : depthPlane === 1 ? 0.95 : 1.25;
+      const sizePx = depthPlane === 0 ? 38 : depthPlane === 1 ? 52 : 68;
+      el.style.width = `${sizePx}px`;
+      el.style.height = `${sizePx}px`;
+
+      // Upward velocity: background items rise calmly, foreground move slightly swifter
+      const upwardSpeed = depthPlane === 0 ? (12 + Math.random() * 6) : depthPlane === 1 ? (18 + Math.random() * 8) : (24 + Math.random() * 10);
+
+      // Horizontal wave parameters
+      const waveAmplitude = 1.2 + Math.random() * 2.5; // percent
+      const waveFreq = 0.6 + Math.random() * 0.8;
+      const waveOffset = Math.random() * Math.PI * 2;
+
+      // Gentle rotation matching shape
+      const rotSpeed = (Math.random() - 0.5) * 16; // deg/sec
+
+      const startY = initialScatter ? (Math.random() * 115) : (105 + Math.random() * 10);
+      const startX = 4 + Math.random() * 90;
+
+      return {
+        el,
+        x: startX,
+        y: startY,
+        upwardSpeed,
+        waveAmplitude,
+        waveFreq,
+        waveOffset,
+        rotation: Math.random() * 360,
+        rotSpeed,
+        scale: baseScale,
+        depthPlane
+      };
+    }
+
+    start() {
+      if (this.isRunning) return;
+      this.isRunning = true;
+      this.lastTime = performance.now();
+
+      const step = (now) => {
+        if (!this.isRunning) return;
+        const dt = Math.min((now - this.lastTime) / 1000, 0.1);
+        this.lastTime = now;
+
+        this.garnishes.forEach((g) => {
+          // Continuous upward travel
+          g.y -= (g.upwardSpeed * dt) * 0.45;
+          // Calm individual rotation
+          g.rotation += g.rotSpeed * dt;
+
+          // Exits above viewport, calmly respawns below
+          if (g.y < -15) {
+            g.y = 105 + Math.random() * 8;
+            g.x = 4 + Math.random() * 90;
+          }
+
+          // Gentle sine drift horizontally
+          const driftX = Math.sin(now * 0.001 * g.waveFreq + g.waveOffset) * g.waveAmplitude;
+          const currentX = g.x + driftX;
+
+          g.el.style.transform = `translate3d(${currentX}vw, ${g.y}vh, 0) rotate(${g.rotation}deg) scale(${g.scale})`;
+        });
+
+        this.animFrame = requestAnimationFrame(step);
+      };
+
+      this.animFrame = requestAnimationFrame(step);
+    }
+
+    stop() {
+      this.isRunning = false;
+      if (this.animFrame) {
+        cancelAnimationFrame(this.animFrame);
+        this.animFrame = null;
+      }
+    }
+
+    setEnabled(val) {
+      this.enabled = val;
+      if (this.enabled) {
+        this.start();
+      } else {
+        this.stop();
+      }
+    }
+  }
+
+  // --- DAILY QUIZ CORE APPLICATION ORCHESTRATOR ---
+  class DailyQuizApp {
     constructor() {
       this.state = Storage.load();
       this.sound = new SoundManager(this.state.sound);
+      this.clock = new ReleaseClock();
       this.roundsByDate = {};
-      this.currentDate = null;
+      this.todayUkDate = null;
+      this.currentActiveDate = null;
       this.vaultDates = [];
 
       this.activeRound = null;
@@ -309,66 +609,110 @@
       this.isReview = false;
       this.selectedAnswer = null;
 
+      this.activeDrawer = null;
+
       this.cacheDom();
+      this.atmosphere = new GarnishFlightEngine(this.dom.floatingIconsContainer, this.state.backgroundAnimation);
+      this.atmosphere.init();
+
       this.bindEvents();
-      this.updateSoundButton();
-      this.garnishEngine = new AmbientGarnishManager('garnishContainer');
+      this.updateTogglesUI();
       this.init();
     }
 
     cacheDom() {
       this.dom = {
         appHeaderTitle: document.getElementById('appHeaderTitle'),
+        headerHomeBtn: document.getElementById('headerHomeBtn'),
         headerBackBtn: document.getElementById('headerBackBtn'),
-        soundToggleBtn: document.getElementById('soundToggleBtn'),
+        quickSoundBtn: document.getElementById('quickSoundBtn'),
+        quickSoundIcon: document.getElementById('quickSoundIcon'),
+        floatingIconsContainer: document.getElementById('floatingIconsContainer'),
+
+        // Views
         statusView: document.getElementById('statusView'),
         statusTitle: document.getElementById('statusTitle'),
         statusMessage: document.getElementById('statusMessage'),
         statusRetryBtn: document.getElementById('statusRetryBtn'),
+
         menuView: document.getElementById('menuView'),
-        menuTodayDate: document.getElementById('menuTodayDate'),
-        menuTodayStatus: document.getElementById('menuTodayStatus'),
-        menuStreakCount: document.getElementById('menuStreakCount'),
         playTodayBtn: document.getElementById('playTodayBtn'),
-        vaultCountBadge: document.getElementById('vaultCountBadge'),
+        playTodayTitle: document.getElementById('playTodayTitle'),
+        menuTodayBadge: document.getElementById('menuTodayBadge'),
+        menuReleaseDate: document.getElementById('menuReleaseDate'),
         openVaultBtn: document.getElementById('openVaultBtn'),
-        homeBtn: document.getElementById('homeBtn'),
+        vaultCountBadge: document.getElementById('vaultCountBadge'),
+        openSettingsBtn: document.getElementById('openSettingsBtn'),
+        openHowToPlayBtn: document.getElementById('openHowToPlayBtn'),
+
+        // Utility Row
+        statsUtilityBtn: document.getElementById('statsUtilityBtn'),
+        shareUtilityBtn: document.getElementById('shareUtilityBtn'),
+        plusUtilityBtn: document.getElementById('plusUtilityBtn'),
+
+        // Game View
         gameView: document.getElementById('gameView'),
-        gameModeLabel: document.getElementById('gameModeLabel'),
+        gameModeBadge: document.getElementById('gameModeBadge'),
         stepperTrack: document.getElementById('stepperTrack'),
+        questionCounterLabel: document.getElementById('questionCounterLabel'),
         questionText: document.getElementById('questionText'),
         optionsContainer: document.getElementById('optionsContainer'),
         explanationPanel: document.getElementById('explanationPanel'),
         answerIndicator: document.getElementById('answerIndicator'),
         explanationText: document.getElementById('explanationText'),
         nextQuestionBtn: document.getElementById('nextQuestionBtn'),
+
+        // Results View
         resultsView: document.getElementById('resultsView'),
+        resultsHeadline: document.getElementById('resultsHeadline'),
         scoreValue: document.getElementById('scoreValue'),
         scoreTotal: document.getElementById('scoreTotal'),
         resultsBreakdown: document.getElementById('resultsBreakdown'),
+        resultsStreakValue: document.getElementById('resultsStreakValue'),
+        resultsAccuracyValue: document.getElementById('resultsAccuracyValue'),
         shareScoreBtn: document.getElementById('shareScoreBtn'),
         reviewQuizBtn: document.getElementById('reviewQuizBtn'),
         resultsVaultBtn: document.getElementById('resultsVaultBtn'),
         resultsMenuBtn: document.getElementById('resultsMenuBtn'),
+
+        // Vault View
         vaultView: document.getElementById('vaultView'),
         vaultList: document.getElementById('vaultList'),
         vaultEmptyMsg: document.getElementById('vaultEmptyMsg'),
+        vaultTotalBadge: document.getElementById('vaultTotalBadge'),
+
+        // Drawers & Backdrop
+        panelBackdrop: document.getElementById('panelBackdrop'),
+        howToPlayDrawer: document.getElementById('howToPlayDrawer'),
+        closeHowToBtn: document.getElementById('closeHowToBtn'),
+
+        settingsDrawer: document.getElementById('settingsDrawer'),
+        closeSettingsBtn: document.getElementById('closeSettingsBtn'),
+        toggleAnimationBtn: document.getElementById('toggleAnimationBtn'),
+        toggleSoundBtn: document.getElementById('toggleSoundBtn'),
+        resetDataBtn: document.getElementById('resetDataBtn'),
+
+        statsDrawer: document.getElementById('statsDrawer'),
+        closeStatsBtn: document.getElementById('closeStatsBtn'),
+        statPlayed: document.getElementById('statPlayed'),
+        statAccuracy: document.getElementById('statAccuracy'),
+        statCurrentStreak: document.getElementById('statCurrentStreak'),
+        statBestStreak: document.getElementById('statBestStreak'),
+        scoreDistributionChart: document.getElementById('scoreDistributionChart'),
+
         toastMessage: document.getElementById('toastMessage')
       };
     }
 
     bindEvents() {
-      this.dom.soundToggleBtn.addEventListener('click', () => {
-        this.sound.enabled = !this.sound.enabled;
-        this.state.sound = this.sound.enabled;
-        Storage.save(this.state);
-        this.updateSoundButton();
-        this.sound.tap();
-      });
-
+      // Header Navigation
       this.dom.headerBackBtn.addEventListener('click', () => {
         this.sound.tap();
         this.showView('menuView');
+      });
+
+      this.dom.quickSoundBtn.addEventListener('click', () => {
+        this.toggleSound();
       });
 
       this.dom.statusRetryBtn.addEventListener('click', () => {
@@ -376,9 +720,10 @@
         this.init();
       });
 
+      // Primary Menu Actions
       this.dom.playTodayBtn.addEventListener('click', () => {
         this.sound.tap();
-        this.startRound(this.currentDate);
+        this.startRound(this.currentActiveDate);
       });
 
       this.dom.openVaultBtn.addEventListener('click', () => {
@@ -386,41 +731,153 @@
         this.renderVault();
       });
 
-      this.dom.homeBtn.addEventListener('click', () => {
+      this.dom.openSettingsBtn.addEventListener('click', () => {
         this.sound.tap();
-        window.location.href = CONFIG.homeUrl;
+        this.openDrawer(this.dom.settingsDrawer);
       });
 
+      this.dom.openHowToPlayBtn.addEventListener('click', () => {
+        this.sound.tap();
+        this.openDrawer(this.dom.howToPlayDrawer);
+      });
+
+      // Utility Row
+      this.dom.statsUtilityBtn.addEventListener('click', () => {
+        this.sound.tap();
+        this.renderStats();
+        this.openDrawer(this.dom.statsDrawer);
+      });
+
+      this.dom.shareUtilityBtn.addEventListener('click', () => {
+        this.sound.tap();
+        this.shareGameLink();
+      });
+
+      this.dom.plusUtilityBtn.addEventListener('click', () => {
+        this.sound.tap();
+        window.location.href = CONFIG.plusUrl;
+      });
+
+      // Drawer Close Triggers
+      this.dom.closeHowToBtn.addEventListener('click', () => this.closeActiveDrawer());
+      this.dom.closeSettingsBtn.addEventListener('click', () => this.closeActiveDrawer());
+      this.dom.closeStatsBtn.addEventListener('click', () => this.closeActiveDrawer());
+      this.dom.panelBackdrop.addEventListener('click', () => this.closeActiveDrawer());
+
+      // Settings Toggles
+      this.dom.toggleAnimationBtn.addEventListener('click', () => {
+        this.state.backgroundAnimation = !this.state.backgroundAnimation;
+        Storage.save(this.state);
+        this.atmosphere.setEnabled(this.state.backgroundAnimation);
+        this.updateTogglesUI();
+        this.sound.tap();
+      });
+
+      this.dom.toggleSoundBtn.addEventListener('click', () => {
+        this.toggleSound();
+      });
+
+      this.dom.resetDataBtn.addEventListener('click', () => {
+        if (window.confirm('Reset all Daily Quiz streaks and history on this device?')) {
+          localStorage.removeItem(CONFIG.storageKey);
+          this.state = Storage.load();
+          this.sound.enabled = this.state.sound;
+          this.atmosphere.setEnabled(this.state.backgroundAnimation);
+          this.updateTogglesUI();
+          this.renderMenu();
+          this.closeActiveDrawer();
+          this.showToast('Progress reset.');
+        }
+      });
+
+      // Next Question Handler
       this.dom.nextQuestionBtn.addEventListener('click', () => {
         this.sound.tap();
         this.handleNextQuestion();
       });
 
-      this.dom.shareScoreBtn.addEventListener('click', () => this.shareResults());
-
+      // Results Actions
+      this.dom.shareScoreBtn.addEventListener('click', () => this.shareScoreResult());
       this.dom.reviewQuizBtn.addEventListener('click', () => {
         this.sound.tap();
         this.startReview();
       });
-
       this.dom.resultsVaultBtn.addEventListener('click', () => {
         this.sound.tap();
         this.renderVault();
       });
-
       this.dom.resultsMenuBtn.addEventListener('click', () => {
         this.sound.tap();
         this.showView('menuView');
       });
+
+      // Escape key closes modal drawer
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && this.activeDrawer) {
+          this.closeActiveDrawer();
+        }
+      });
     }
 
-    updateSoundButton() {
-      const display = this.dom.soundToggleBtn.querySelector('.sound-icon-display');
-      if (display) {
-        display.textContent = this.sound.enabled ? '🔊' : '🔇';
-      } else {
-        this.dom.soundToggleBtn.textContent = this.sound.enabled ? '🔊' : '🔇';
+    toggleSound() {
+      this.sound.enabled = !this.sound.enabled;
+      this.state.sound = this.sound.enabled;
+      Storage.save(this.state);
+      this.updateTogglesUI();
+      if (this.sound.enabled) this.sound.tap();
+    }
+
+    updateTogglesUI() {
+      this.dom.quickSoundIcon.innerHTML = this.sound.enabled
+        ? `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>`
+        : `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>`;
+
+      this.dom.toggleSoundBtn.setAttribute('aria-checked', String(this.sound.enabled));
+      this.dom.toggleSoundBtn.querySelector('.toggle-state').textContent = this.sound.enabled ? 'ON' : 'OFF';
+
+      this.dom.toggleAnimationBtn.setAttribute('aria-checked', String(this.state.backgroundAnimation));
+      this.dom.toggleAnimationBtn.querySelector('.toggle-state').textContent = this.state.backgroundAnimation ? 'ON' : 'OFF';
+    }
+
+    // --- RIGHT-SIDE CONTEXTUAL DRAWER HANDLING ---
+    openDrawer(drawerEl) {
+      if (this.activeDrawer && this.activeDrawer !== drawerEl) {
+        this.activeDrawer.classList.remove('open');
+        this.activeDrawer.hidden = true;
       }
+      this.activeDrawer = drawerEl;
+      this.dom.panelBackdrop.classList.remove('hidden');
+
+      drawerEl.hidden = false;
+      void drawerEl.offsetWidth; // Force layout flush for smooth right-to-left glide
+
+      this.dom.panelBackdrop.classList.add('visible');
+      drawerEl.classList.add('open');
+
+      const closeBtn = drawerEl.querySelector('.drawer-close-btn');
+      if (closeBtn) closeBtn.focus();
+    }
+
+    closeActiveDrawer() {
+      if (!this.activeDrawer) return;
+      this.sound.tap();
+      const target = this.activeDrawer;
+      this.activeDrawer = null;
+
+      target.classList.remove('open');
+      this.dom.panelBackdrop.classList.remove('visible');
+
+      setTimeout(() => {
+        target.hidden = true;
+        this.dom.panelBackdrop.classList.add('hidden');
+      }, 400);
     }
 
     showView(viewName) {
@@ -430,46 +887,54 @@
 
       if (viewName === 'menuView') {
         this.dom.appHeaderTitle.textContent = 'Daily Quiz';
+        this.dom.headerHomeBtn.classList.remove('hidden');
         this.dom.headerBackBtn.classList.add('hidden');
         this.renderMenu();
       } else if (viewName === 'gameView') {
         this.dom.appHeaderTitle.textContent = this.activeRound
-          ? (this.activeRound.date === this.currentDate ? 'Daily Tasting' : `Reserve: ${this.activeRound.date}`)
-          : 'Quiz';
+          ? (this.activeRound.date === this.currentActiveDate ? 'Daily Quiz' : `Vault: ${this.activeRound.date}`)
+          : 'Daily Quiz';
+        this.dom.headerHomeBtn.classList.add('hidden');
         this.dom.headerBackBtn.classList.remove('hidden');
       } else if (viewName === 'vaultView') {
         this.dom.appHeaderTitle.textContent = 'The Vault';
+        this.dom.headerHomeBtn.classList.add('hidden');
+        this.dom.headerBackBtn.classList.remove('hidden');
+      } else if (viewName === 'resultsView') {
+        this.dom.appHeaderTitle.textContent = 'Summary';
+        this.dom.headerHomeBtn.classList.add('hidden');
         this.dom.headerBackBtn.classList.remove('hidden');
       } else {
         this.dom.appHeaderTitle.textContent = 'Daily Quiz';
-        this.dom.headerBackBtn.classList.remove('hidden');
+        this.dom.headerHomeBtn.classList.remove('hidden');
+        this.dom.headerBackBtn.classList.add('hidden');
       }
       window.scrollTo(0, 0);
     }
 
+    // --- CSV & TIME INITIALIZATION ---
     async init() {
-      this.dom.statusTitle.textContent = 'Preparing Vintage';
-      this.dom.statusMessage.textContent = 'Decanting puzzle data...';
+      this.dom.statusTitle.textContent = 'Synchronizing';
+      this.dom.statusMessage.textContent = 'Loading authoritative release schedule and puzzles...';
       this.dom.statusRetryBtn.classList.add('hidden');
       this.showView('statusView');
-      this.dom.headerBackBtn.classList.add('hidden');
 
       try {
-        const [csvRes, todayStr] = await Promise.all([
+        const [csvRes] = await Promise.all([
           fetch(CONFIG.csvPath, { cache: 'no-store' }),
-          getTodayDateString()
+          this.clock.sync()
         ]);
 
-        if (!csvRes.ok) throw new Error('Could not load puzzles.csv.');
-        const csvText = await csvRes.text();
-        const records = parseCsv(csvText);
+        if (!csvRes.ok) throw new Error('Could not retrieve puzzles.csv.');
+        const csvRaw = await csvRes.text();
+        const records = parseCsv(csvRaw);
 
         this.roundsByDate = {};
         records.forEach(row => {
           if (!row.date) return;
           if (!this.roundsByDate[row.date]) this.roundsByDate[row.date] = [];
           this.roundsByDate[row.date].push({
-            question: row.question || 'Question text missing.',
+            question: row.question || 'Question content not found.',
             options: [
               row.option_a || 'Option A',
               row.option_b || 'Option B',
@@ -482,18 +947,21 @@
         });
 
         const allDates = Object.keys(this.roundsByDate).sort();
-        if (allDates.length === 0) throw new Error('No puzzle records found.');
+        if (allDates.length === 0) throw new Error('No valid quiz entries found in database.');
 
-        if (this.roundsByDate[todayStr]) {
-          this.currentDate = todayStr;
-          this.vaultDates = allDates.filter(d => d < todayStr);
+        // UK Midnight Release boundary
+        this.todayUkDate = this.clock.getTodayUkDateString();
+        const releasedDates = allDates.filter(d => d <= this.todayUkDate);
+
+        if (this.roundsByDate[this.todayUkDate]) {
+          this.currentActiveDate = this.todayUkDate;
+          this.vaultDates = releasedDates.filter(d => d < this.todayUkDate);
         } else {
-          const available = allDates.filter(d => d <= todayStr);
-          if (available.length > 0) {
-            this.currentDate = available[available.length - 1];
-            this.vaultDates = available.slice(0, -1);
+          if (releasedDates.length > 0) {
+            this.currentActiveDate = releasedDates[releasedDates.length - 1];
+            this.vaultDates = releasedDates.slice(0, -1);
           } else {
-            this.currentDate = allDates[0];
+            this.currentActiveDate = allDates[0];
             this.vaultDates = [];
           }
         }
@@ -502,44 +970,43 @@
         this.showView('menuView');
 
       } catch (err) {
-        this.dom.statusTitle.textContent = 'Notice';
-        this.dom.statusMessage.textContent = err.message || 'Unable to load puzzle at this time.';
+        this.dom.statusTitle.textContent = 'Connection Notice';
+        this.dom.statusMessage.textContent = err.message || 'Unable to initialize puzzle data at this time.';
         this.dom.statusRetryBtn.classList.remove('hidden');
         this.showView('statusView');
       }
     }
 
     renderMenu() {
-      this.dom.menuStreakCount.textContent = this.state.streak || 0;
-      this.dom.vaultCountBadge.textContent = this.vaultDates.length;
+      this.dom.vaultCountBadge.textContent = `${this.vaultDates.length} Past`;
 
-      if (!this.currentDate) {
-        this.dom.menuTodayDate.textContent = 'Unavailable';
-        this.dom.menuTodayStatus.textContent = 'Unavailable';
+      if (!this.currentActiveDate) {
+        this.dom.playTodayTitle.textContent = 'No Quiz Available';
+        this.dom.menuReleaseDate.textContent = 'Check back later';
         this.dom.playTodayBtn.disabled = true;
         return;
       }
 
-      this.dom.menuTodayDate.textContent = `Date: ${this.currentDate}`;
       this.dom.playTodayBtn.disabled = false;
+      this.dom.menuReleaseDate.textContent = `Release: ${this.currentActiveDate} • 5 Questions`;
 
-      const historyItem = this.state.history[this.currentDate];
-      const inProgressItem = this.state.inProgress && this.state.inProgress.date === this.currentDate;
+      const hist = this.state.history[this.currentActiveDate];
+      const inProg = this.state.inProgress && this.state.inProgress.date === this.currentActiveDate;
 
-      if (historyItem && historyItem.completed) {
-        this.dom.menuTodayStatus.textContent = `Completed (${historyItem.score}/${historyItem.answers.length})`;
-        this.dom.menuTodayStatus.className = 'badge completed';
-        this.dom.playTodayBtn.textContent = 'View Results';
-      } else if (inProgressItem) {
-        const currentCount = inProgressItem.answers ? inProgressItem.answers.length : 0;
-        const totalCount = this.roundsByDate[this.currentDate].length;
-        this.dom.menuTodayStatus.textContent = `In Progress (${currentCount}/${totalCount})`;
-        this.dom.menuTodayStatus.className = 'badge';
-        this.dom.playTodayBtn.textContent = 'Resume';
+      if (hist && hist.completed) {
+        this.dom.playTodayTitle.textContent = 'View Today\'s Results';
+        this.dom.menuTodayBadge.textContent = `Completed (${hist.score}/${hist.answers.length})`;
+        this.dom.menuTodayBadge.className = 'badge completed';
+      } else if (inProg) {
+        const count = inProg.answers ? inProg.answers.length : 0;
+        const total = this.roundsByDate[this.currentActiveDate].length;
+        this.dom.playTodayTitle.textContent = 'Resume Daily Quiz';
+        this.dom.menuTodayBadge.textContent = `In Progress (${count}/${total})`;
+        this.dom.menuTodayBadge.className = 'badge';
       } else {
-        this.dom.menuTodayStatus.textContent = 'Not Started';
-        this.dom.menuTodayStatus.className = 'badge';
-        this.dom.playTodayBtn.textContent = 'Play';
+        this.dom.playTodayTitle.textContent = 'Play Daily Quiz';
+        this.dom.menuTodayBadge.textContent = 'Ready';
+        this.dom.menuTodayBadge.className = 'badge';
       }
     }
 
@@ -551,14 +1018,14 @@
       this.isReview = false;
       this.selectedAnswer = null;
 
-      const savedHistory = this.state.history[dateStr];
-      if (savedHistory && savedHistory.completed) {
-        this.sessionAnswers = savedHistory.answers;
-        this.showResults(savedHistory.score);
+      const hist = this.state.history[dateStr];
+      if (hist && hist.completed) {
+        this.sessionAnswers = hist.answers;
+        this.showResults(hist.score);
         return;
       }
 
-      const isCurrent = (dateStr === this.currentDate);
+      const isCurrent = (dateStr === this.currentActiveDate);
       if (isCurrent && this.state.inProgress && this.state.inProgress.date === dateStr) {
         this.currentIndex = this.state.inProgress.currentIndex || 0;
         this.sessionAnswers = this.state.inProgress.answers || [];
@@ -567,33 +1034,40 @@
         this.sessionAnswers = [];
       }
 
-      this.dom.gameModeLabel.textContent = isCurrent ? `Today (${dateStr})` : `Reserve (${dateStr})`;
+      this.dom.gameModeBadge.textContent = isCurrent ? `Daily Release • ${dateStr}` : `Vault Archive • ${dateStr}`;
       this.showView('gameView');
       this.renderQuestion();
     }
 
     renderQuestion() {
       const q = this.activeRound.questions[this.currentIndex];
+      const total = this.activeRound.questions.length;
       this.selectedAnswer = null;
 
+      this.dom.questionCounterLabel.textContent = `Question ${this.currentIndex + 1} of ${total}`;
       this.dom.questionText.textContent = q.question;
       this.dom.explanationPanel.classList.add('hidden');
       this.dom.optionsContainer.innerHTML = '';
       this.updateStepper();
 
       const labels = ['A', 'B', 'C', 'D'];
-      q.options.forEach((text, idx) => {
+      q.options.forEach((optText, idx) => {
         const btn = document.createElement('button');
         btn.className = 'option-btn';
+        btn.type = 'button';
         btn.setAttribute('role', 'radio');
         btn.setAttribute('aria-checked', 'false');
-        btn.innerHTML = `<span class="option-key">${labels[idx]}</span><span>${text}</span>`;
-        btn.addEventListener('click', () => this.selectOption(idx));
+        btn.innerHTML = `<span class="option-key">${labels[idx]}</span><span>${optText}</span>`;
+
+        btn.addEventListener('click', () => {
+          this.selectOption(idx);
+        });
+
         this.dom.optionsContainer.appendChild(btn);
       });
 
-      const isLast = (this.currentIndex === this.activeRound.questions.length - 1);
-      this.dom.nextQuestionBtn.textContent = isLast ? 'Complete Tasting' : 'Next Question';
+      const isLast = (this.currentIndex === total - 1);
+      this.dom.nextQuestionBtn.textContent = isLast ? 'Complete Quiz' : 'Next Question';
     }
 
     updateStepper() {
@@ -607,8 +1081,7 @@
         if (idx === this.currentIndex) {
           pip.classList.add('current');
         } else if (idx < this.sessionAnswers.length) {
-          const correct = this.sessionAnswers[idx].isCorrect;
-          pip.classList.add(correct ? 'correct' : 'incorrect');
+          pip.classList.add(this.sessionAnswers[idx].isCorrect ? 'correct' : 'incorrect');
         }
         this.dom.stepperTrack.appendChild(pip);
       });
@@ -625,11 +1098,13 @@
       if (isCorrect) {
         this.sound.correct();
         this.dom.answerIndicator.textContent = '✓ Correct';
-        this.dom.answerIndicator.className = 'answer-badge correct';
+        this.dom.answerIndicator.className = 'badge completed';
       } else {
         this.sound.incorrect();
         this.dom.answerIndicator.textContent = '✕ Incorrect';
-        this.dom.answerIndicator.className = 'answer-badge incorrect';
+        this.dom.answerIndicator.className = 'badge';
+        this.dom.answerIndicator.style.borderColor = 'rgba(220, 70, 60, 0.7)';
+        this.dom.answerIndicator.style.color = 'var(--color-incorrect-text)';
       }
 
       const buttons = this.dom.optionsContainer.querySelectorAll('.option-btn');
@@ -645,13 +1120,13 @@
         }
       });
 
-      this.dom.explanationText.textContent = q.explanation || 'No further explanation provided.';
+      this.dom.explanationText.textContent = q.explanation || 'Verified reference answer.';
       this.dom.explanationPanel.classList.remove('hidden');
       this.updateStepper();
 
-      if (this.activeRound.date === this.currentDate) {
+      if (this.activeRound.date === this.currentActiveDate) {
         this.state.inProgress = {
-          date: this.currentDate,
+          date: this.currentActiveDate,
           currentIndex: this.currentIndex,
           answers: this.sessionAnswers
         };
@@ -674,7 +1149,7 @@
 
       if (this.currentIndex < this.activeRound.questions.length - 1) {
         this.currentIndex++;
-        if (this.activeRound.date === this.currentDate && this.state.inProgress) {
+        if (this.activeRound.date === this.currentActiveDate && this.state.inProgress) {
           this.state.inProgress.currentIndex = this.currentIndex;
           Storage.save(this.state);
         }
@@ -686,12 +1161,12 @@
 
     finishRound() {
       const score = this.sessionAnswers.filter(a => a.isCorrect).length;
-      const isCurrent = (this.activeRound.date === this.currentDate);
+      const isCurrent = (this.activeRound.date === this.currentActiveDate);
 
       if (isCurrent) {
         if (this.state.lastCompletedDate) {
           const last = new Date(this.state.lastCompletedDate);
-          const curr = new Date(this.currentDate);
+          const curr = new Date(this.currentActiveDate);
           const diffDays = Math.round((curr - last) / (1000 * 60 * 60 * 24));
           if (diffDays === 1) {
             this.state.streak = (this.state.streak || 0) + 1;
@@ -701,7 +1176,11 @@
         } else {
           this.state.streak = 1;
         }
-        this.state.lastCompletedDate = this.currentDate;
+
+        if (this.state.streak > (this.state.bestStreak || 0)) {
+          this.state.bestStreak = this.state.streak;
+        }
+        this.state.lastCompletedDate = this.currentActiveDate;
         this.state.inProgress = null;
       }
 
@@ -722,6 +1201,10 @@
       this.dom.scoreValue.textContent = score;
       this.dom.scoreTotal.textContent = `/ ${total}`;
 
+      this.dom.resultsStreakValue.textContent = this.state.streak || 0;
+      const accuracy = total > 0 ? Math.round((score / total) * 100) : 0;
+      this.dom.resultsAccuracyValue.textContent = `${accuracy}%`;
+
       this.dom.resultsBreakdown.innerHTML = '';
       this.sessionAnswers.forEach((ans, idx) => {
         const pip = document.createElement('div');
@@ -741,14 +1224,16 @@
 
     renderReviewQuestion() {
       const q = this.activeRound.questions[this.currentIndex];
+      const total = this.activeRound.questions.length;
       const ans = this.sessionAnswers[this.currentIndex] || { chosen: -1, isCorrect: false };
       this.updateStepper();
 
+      this.dom.questionCounterLabel.textContent = `Reviewing ${this.currentIndex + 1} of ${total}`;
       this.dom.questionText.textContent = q.question;
       this.dom.optionsContainer.innerHTML = '';
       const labels = ['A', 'B', 'C', 'D'];
 
-      q.options.forEach((text, idx) => {
+      q.options.forEach((optText, idx) => {
         const btn = document.createElement('button');
         btn.className = 'option-btn';
         btn.disabled = true;
@@ -757,28 +1242,31 @@
         } else if (idx === ans.chosen && !ans.isCorrect) {
           btn.classList.add('incorrect');
         }
-        btn.innerHTML = `<span class="option-key">${labels[idx]}</span><span>${text}</span>`;
+        btn.innerHTML = `<span class="option-key">${labels[idx]}</span><span>${optText}</span>`;
         this.dom.optionsContainer.appendChild(btn);
       });
 
       if (ans.isCorrect) {
         this.dom.answerIndicator.textContent = '✓ Correct';
-        this.dom.answerIndicator.className = 'answer-badge correct';
+        this.dom.answerIndicator.className = 'badge completed';
       } else {
         this.dom.answerIndicator.textContent = '✕ Incorrect';
-        this.dom.answerIndicator.className = 'answer-badge incorrect';
+        this.dom.answerIndicator.className = 'badge';
+        this.dom.answerIndicator.style.borderColor = 'rgba(220, 70, 60, 0.7)';
+        this.dom.answerIndicator.style.color = 'var(--color-incorrect-text)';
       }
 
-      this.dom.explanationText.textContent = q.explanation || 'No further explanation provided.';
+      this.dom.explanationText.textContent = q.explanation || 'Verified reference answer.';
       this.dom.explanationPanel.classList.remove('hidden');
 
-      const isLast = (this.currentIndex === this.activeRound.questions.length - 1);
-      this.dom.nextQuestionBtn.textContent = isLast ? 'Return to Results' : 'Next Question';
+      const isLast = (this.currentIndex === total - 1);
+      this.dom.nextQuestionBtn.textContent = isLast ? 'Return to Summary' : 'Next Question';
     }
 
     renderVault() {
       this.showView('vaultView');
       this.dom.vaultList.innerHTML = '';
+      this.dom.vaultTotalBadge.textContent = `${this.vaultDates.length} Puzzles`;
 
       if (this.vaultDates.length === 0) {
         this.dom.vaultEmptyMsg.classList.remove('hidden');
@@ -787,59 +1275,117 @@
       this.dom.vaultEmptyMsg.classList.add('hidden');
 
       this.vaultDates.forEach(dateStr => {
-        const item = document.createElement('div');
-        item.className = 'vault-item';
-        item.setAttribute('role', 'listitem');
-        item.tabIndex = 0;
+        const row = document.createElement('button');
+        row.className = 'vault-row';
+        row.type = 'button';
 
         const hist = this.state.history[dateStr];
         const isDone = hist && hist.completed;
 
-        item.innerHTML = `
-          <span class="vault-date">${dateStr}</span>
+        row.innerHTML = `
+          <span class="vault-row-date">${dateStr}</span>
           <span class="badge ${isDone ? 'completed' : ''}">
             ${isDone ? `Score: ${hist.score}/${hist.answers.length}` : 'Play'}
           </span>
         `;
 
-        const playAction = () => {
+        row.addEventListener('click', () => {
           this.sound.tap();
           this.startRound(dateStr);
-        };
-
-        item.addEventListener('click', playAction);
-        item.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            playAction();
-          }
         });
 
-        this.dom.vaultList.appendChild(item);
+        this.dom.vaultList.appendChild(row);
       });
     }
 
-    shareResults() {
-      const score = this.sessionAnswers.filter(a => a.isCorrect).length;
-      const total = this.sessionAnswers.length;
-      const icons = this.sessionAnswers.map(a => a.isCorrect ? '🥃' : '▫️').join('');
-      const text = `Daily Quiz • ${this.activeRound.date}\nTasting Score: ${score}/${total}\n${icons}`;
+    renderStats() {
+      const completedEntries = Object.values(this.state.history).filter(h => h.completed);
+      const playedCount = completedEntries.length;
 
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text)
-          .then(() => this.showToast('Copied to lounge clipboard!'))
-          .catch(() => this.showToast('Unable to copy.'));
+      let totalQuestions = 0;
+      let totalCorrect = 0;
+      const scoreDist = [0, 0, 0, 0, 0, 0];
+
+      completedEntries.forEach(item => {
+        const score = item.score || 0;
+        if (score >= 0 && score <= 5) scoreDist[score]++;
+        totalCorrect += score;
+        totalQuestions += (item.answers ? item.answers.length : 5);
+      });
+
+      const accuracy = totalQuestions > 0 ? Math.round((totalCorrect / totalQuestions) * 100) : 0;
+
+      this.dom.statPlayed.textContent = playedCount;
+      this.dom.statAccuracy.textContent = `${accuracy}%`;
+      this.dom.statCurrentStreak.textContent = this.state.streak || 0;
+      this.dom.statBestStreak.textContent = this.state.bestStreak || (this.state.streak || 0);
+
+      this.dom.scoreDistributionChart.innerHTML = '';
+      const maxDist = Math.max(...scoreDist, 1);
+
+      for (let s = 5; s >= 0; s--) {
+        const count = scoreDist[s];
+        const pct = Math.max(Math.round((count / maxDist) * 100), 10);
+        const row = document.createElement('div');
+        row.className = 'dist-bar-row';
+        row.innerHTML = `
+          <span class="dist-bar-num">${s}</span>
+          <div class="dist-bar-track">
+            <div class="dist-bar-fill" style="width: ${count > 0 ? pct : 0}%;">${count}</div>
+          </div>
+        `;
+        this.dom.scoreDistributionChart.appendChild(row);
+      }
+    }
+
+    shareGameLink() {
+      const shareData = {
+        title: 'Daily Quiz',
+        text: 'Test your general knowledge with today\'s Daily Quiz in the Nocturne Lounge!',
+        url: window.location.href
+      };
+
+      if (navigator.share) {
+        navigator.share(shareData).catch(() => {});
+      } else if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(window.location.href)
+          .then(() => this.showToast('Link copied to clipboard!'))
+          .catch(() => this.showToast('Unable to copy link.'));
       } else {
         this.showToast('Sharing not supported on this browser.');
       }
     }
 
-    showToast(msg) {
-      this.dom.toastMessage.textContent = msg;
+    shareScoreResult() {
+      const score = this.sessionAnswers.filter(a => a.isCorrect).length;
+      const total = this.sessionAnswers.length;
+      const pips = this.sessionAnswers.map(a => a.isCorrect ? '🟩' : '⬛').join('');
+      const text = `Daily Quiz • ${this.activeRound.date}\nScore: ${score}/${total}\n${pips}\n${window.location.href}`;
+
+      if (navigator.share) {
+        navigator.share({ title: 'Daily Quiz Result', text }).catch(() => {});
+      } else if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text)
+          .then(() => this.showToast('Result copied to clipboard!'))
+          .catch(() => this.showToast('Unable to copy result.'));
+      } else {
+        this.showToast('Sharing not supported on this browser.');
+      }
+    }
+
+    showToast(message) {
+      this.dom.toastMessage.textContent = message;
       this.dom.toastMessage.classList.add('visible');
-      setTimeout(() => this.dom.toastMessage.classList.remove('visible'), 2400);
+      setTimeout(() => {
+        this.dom.toastMessage.classList.remove('visible');
+      }, 2300);
     }
   }
 
-  document.addEventListener('DOMContentLoaded', () => new UniversalQuiz());
+  // Self-bootstrapping
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => new DailyQuizApp());
+  } else {
+    new DailyQuizApp();
+  }
 })();
